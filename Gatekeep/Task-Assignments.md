@@ -71,64 +71,58 @@ Active development roles and assignments.
 
 ---
 
-## Task 3: Plugin Development
+## Task 3: Plugin Foundation Research
 
 **Status**: OPEN
 **Assigned**: —
 **Support**: —
 
 ### Scope
-- Real-time combat system (not turn-based)
-- Monster AI with obedience/autonomy
-- Breeding system mechanics
-- Custom UI for stance commands
+- Research existing MZ plugins for real-time combat
+- Evaluate VisuStella vs. custom development
+- Test basic plugin structure and MZ architecture
+- Identify what's possible vs. what needs custom code
 
 ### Deliverables
-- [ ] Real-time battle engine plugin
-- [ ] Monster AI behavior system
-- [ ] Obedience calculation (INT + Temperament)
-- [ ] Command input handling (D-Pad stances, L1/R1 moves)
-- [ ] Breeding eligibility and inheritance logic
-- [ ] Growth/decay stat system
-- [ ] 5-party member support (MZ default is 4)
+- [ ] Plugin ecosystem evaluation (what exists, costs, licenses)
+- [ ] VisuStella feasibility report (can it do real-time?)
+- [ ] Sample plugin test (basic MZ plugin structure)
+- [ ] Technical requirements doc for combat/AI/breeding
+- [ ] Build vs. buy decision for each system
+- [ ] Create `Standards/Plugins.md` with architecture notes
 
 ### Skills Needed
-- JavaScript (MZ plugin format)
-- RPG Maker MZ plugin architecture
-- VisuStella compatibility (if using their base)
-- Game AI patterns
-
-### Notes
-May use VisuStella ATB/CTB as base, or build custom from scratch.
+- JavaScript basics
+- RPG Maker MZ plugin research
+- Technical evaluation
 
 ---
 
-## Task 4: Database Population
+## Task 4: Database Structure Planning
 
 **Status**: OPEN
 **Assigned**: —
 **Support**: —
 
 ### Scope
-- Define all monsters, moves, items in MZ database
-- Balance stats, damage formulas, costs
-- Configure birthmarks and their modifiers
-- Set up species traits and available moves
+- Research MZ database structure and limitations
+- Define data schema for monsters, moves, items
+- Plan stat ranges and formula foundations
+- Create spreadsheet templates for future entry
 
 ### Deliverables
-- [ ] 100+ monster entries with stats
-- [ ] 4 species definitions with base stats/traits
-- [ ] 100+ birthmark configurations
-- [ ] 100+ move definitions (4 categories)
-- [ ] Item database (battle items, food, materials)
-- [ ] Damage/healing formulas balanced
-- [ ] Arena bracket configurations
+- [ ] MZ database capabilities doc (fields, limits, custom data)
+- [ ] Stat range definitions (min/max for each stat)
+- [ ] Base formula templates (damage, growth, inheritance)
+- [ ] Spreadsheet template for monster entries
+- [ ] Spreadsheet template for move entries
+- [ ] ID allocation plan (see `ID-Register.md`)
+- [ ] Create `Standards/Database.md` with schema specs
 
 ### Skills Needed
-- RPG Maker MZ database editor
-- Game balance understanding
-- Spreadsheet work for planning
-- Attention to ID conventions (see `ID-Register.md`)
+- RPG Maker MZ database familiarity
+- Spreadsheet organization
+- Basic game math understanding
 
 ---
 
