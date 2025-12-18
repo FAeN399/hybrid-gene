@@ -28,15 +28,27 @@ A monster-raising game where creatures have opinions. Unlike turn-based competit
 
 ---
 
+## Project Structure
+
+```
+├── Hybrid-Gene/     # RPG Maker MZ game files
+└── Gatekeep/        # Documentation & coordination
+    ├── Standards/   # Asset specs (tilesets, sprites, plugins, database)
+    ├── docs/        # GDD, Tech Spec, Demi.md
+    ├── answers/     # Design questionnaire responses
+    └── *.html       # Interactive tools (task board, task request)
+```
+
 ## Documentation
 
 | Document | Description |
 |----------|-------------|
-| [GDD](docs/HybridGene-GDD.md) | Game Design Document |
-| [Technical Spec](docs/HybridGene-TechSpec.md) | Implementation details, data structures, systems |
-| [Demi](docs/HybridGene-Demi.md) | Living document — the soul of the project |
+| [GDD](Gatekeep/docs/HybridGene-GDD.md) | Game Design Document |
+| [Technical Spec](Gatekeep/docs/HybridGene-TechSpec.md) | Implementation details, data structures, systems |
+| [Demi](Gatekeep/docs/HybridGene-Demi.md) | Living document — the soul of the project |
+| [Task Board](Gatekeep/task-board.html) | Claim and track development tasks |
 
-HTML versions available in `/docs/` for visual presentation.
+HTML versions available in `Gatekeep/docs/` for visual presentation.
 
 ---
 
