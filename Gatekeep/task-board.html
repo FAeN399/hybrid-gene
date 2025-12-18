@@ -204,47 +204,16 @@
         }
 
         textarea {
-            min-height: 150px;
+            min-height: 120px;
             resize: vertical;
+        }
+
+        textarea.small {
+            min-height: 80px;
         }
 
         select {
             cursor: pointer;
-        }
-
-        /* Checkboxes */
-        .checkbox-group {
-            background: var(--bg-input);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 1rem;
-        }
-
-        .checkbox-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 0.75rem;
-            padding: 0.5rem 0;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .checkbox-item:last-child {
-            border-bottom: none;
-        }
-
-        .checkbox-item input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            margin-top: 2px;
-            accent-color: var(--accent-teal);
-            cursor: pointer;
-        }
-
-        .checkbox-item label {
-            margin-bottom: 0;
-            color: var(--text-primary);
-            cursor: pointer;
-            flex: 1;
         }
 
         /* Two Column Layout */
@@ -258,6 +227,77 @@
             .form-row {
                 grid-template-columns: 1fr;
             }
+        }
+
+        /* Deliverables Input */
+        .deliverables-section {
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .deliverable-input-row {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .deliverable-input-row input {
+            flex: 1;
+        }
+
+        .add-btn, .remove-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .add-btn:hover {
+            border-color: var(--accent-teal);
+            color: var(--accent-teal);
+        }
+
+        .remove-btn:hover {
+            border-color: #ff4444;
+            color: #ff4444;
+        }
+
+        .deliverable-list {
+            margin-top: 1rem;
+        }
+
+        .deliverable-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .deliverable-item:last-child {
+            border-bottom: none;
+        }
+
+        .deliverable-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--accent-teal);
+            cursor: pointer;
+        }
+
+        .deliverable-item span {
+            flex: 1;
+        }
+
+        .deliverable-item .remove-btn {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.8rem;
         }
 
         /* Submit Button */
@@ -329,29 +369,10 @@
             color: var(--accent-teal);
         }
 
-        /* Scope Info */
-        .scope-info {
-            background: var(--bg-input);
-            border-left: 3px solid var(--accent-teal);
-            padding: 1rem;
-            margin-bottom: 2rem;
-            border-radius: 0 8px 8px 0;
-        }
-
-        .scope-info h4 {
-            font-family: 'Orbitron', monospace;
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
-            color: var(--accent-teal);
-        }
-
-        .scope-info ul {
-            margin-left: 1.25rem;
+        .hint {
+            font-size: 0.85rem;
             color: var(--text-secondary);
-        }
-
-        .scope-info li {
-            margin: 0.25rem 0;
+            margin-top: 0.25rem;
         }
     </style>
 </head>
@@ -386,29 +407,18 @@
             </div>
         </div>
 
-        <!-- Task 1: Tileset Implementation Planning -->
+        <!-- Task 1 -->
         <div class="task-section" id="task1">
             <div class="task-header">
                 <h2>Task 1: Tileset Implementation Planning</h2>
                 <button class="back-btn" onclick="showNav()">Back to Tasks</button>
             </div>
 
-            <div class="scope-info">
-                <h4>Scope</h4>
-                <ul>
-                    <li>Research tileset workflow for RPG Maker MZ</li>
-                    <li>Evaluate asset sources (custom art vs. asset packs vs. RTP)</li>
-                    <li>Define pipeline from concept to in-engine</li>
-                    <li>Test auto-tile format with sample tiles</li>
-                    <li>Document process for future asset creation</li>
-                </ul>
-            </div>
-
             <form id="form1" onsubmit="generateOutput(1, event)">
                 <div class="form-row">
                     <div class="form-group">
                         <label for="name1">Your Name</label>
-                        <input type="text" id="name1" placeholder="Enter your name to claim this task" required>
+                        <input type="text" id="name1" placeholder="Enter your name" required>
                     </div>
                     <div class="form-group">
                         <label for="role1">Role</label>
@@ -423,13 +433,13 @@
                     <div class="form-group">
                         <label for="status-select1">Status</label>
                         <select id="status-select1">
-                            <option value="ASSIGNED">ASSIGNED - Starting work</option>
-                            <option value="ACTIVE">ACTIVE - In progress</option>
-                            <option value="PAUSED">PAUSED - Temporarily stopped</option>
+                            <option value="ASSIGNED">ASSIGNED</option>
+                            <option value="ACTIVE">ACTIVE</option>
+                            <option value="PAUSED">PAUSED</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="timeline1">Estimated Completion</label>
+                        <label for="timeline1">Timeline</label>
                         <select id="timeline1">
                             <option value="1 week">1 week</option>
                             <option value="2 weeks">2 weeks</option>
@@ -441,42 +451,24 @@
 
                 <div class="form-group">
                     <label for="plan1">Your Plan</label>
-                    <textarea id="plan1" placeholder="Describe your approach, tools you'll use, and how you plan to tackle each deliverable..."></textarea>
+                    <textarea id="plan1" placeholder="What's your approach? What will you do?"></textarea>
                 </div>
 
                 <div class="form-group">
                     <label>Deliverables</label>
-                    <div class="checkbox-group">
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="d1-1">
-                            <label for="d1-1">Workflow document (how tiles go from idea to MZ)</label>
+                    <p class="hint">Add what you plan to deliver</p>
+                    <div class="deliverables-section">
+                        <div class="deliverable-input-row">
+                            <input type="text" id="newDeliverable1" placeholder="Add a deliverable...">
+                            <button type="button" class="add-btn" onclick="addDeliverable(1)">+ Add</button>
                         </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="d1-2">
-                            <label for="d1-2">Asset source decision (create, buy, or mix)</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="d1-3">
-                            <label for="d1-3">Sample tileset test (1 region proof-of-concept)</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="d1-4">
-                            <label for="d1-4">Tool recommendations (Aseprite, Photoshop, etc.)</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="d1-5">
-                            <label for="d1-5">Template files for each tileset type (A1-E)</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="d1-6">
-                            <label for="d1-6">Update Standards/Tilesets.md with finalized process</label>
-                        </div>
+                        <div class="deliverable-list" id="deliverableList1"></div>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="notes1">Additional Notes</label>
-                    <textarea id="notes1" placeholder="Any blockers, questions, or dependencies..."></textarea>
+                    <label for="notes1">Notes</label>
+                    <textarea id="notes1" class="small" placeholder="Blockers, questions, dependencies..."></textarea>
                 </div>
 
                 <button type="submit" class="submit-btn">Generate Assignment</button>
@@ -489,29 +481,18 @@
             </div>
         </div>
 
-        <!-- Task 2: Sprite Implementation Planning -->
+        <!-- Task 2 -->
         <div class="task-section" id="task2">
             <div class="task-header">
                 <h2>Task 2: Sprite Implementation Planning</h2>
                 <button class="back-btn" onclick="showNav()">Back to Tasks</button>
             </div>
 
-            <div class="scope-info">
-                <h4>Scope</h4>
-                <ul>
-                    <li>Research sprite workflow for RPG Maker MZ</li>
-                    <li>Define art style direction (pixel art vs. hand-drawn)</li>
-                    <li>Evaluate asset sources (custom vs. commissions vs. generators)</li>
-                    <li>Test sprite sheet format with sample character</li>
-                    <li>Document animation frame requirements</li>
-                </ul>
-            </div>
-
             <form id="form2" onsubmit="generateOutput(2, event)">
                 <div class="form-row">
                     <div class="form-group">
                         <label for="name2">Your Name</label>
-                        <input type="text" id="name2" placeholder="Enter your name to claim this task" required>
+                        <input type="text" id="name2" placeholder="Enter your name" required>
                     </div>
                     <div class="form-group">
                         <label for="role2">Role</label>
@@ -526,13 +507,13 @@
                     <div class="form-group">
                         <label for="status-select2">Status</label>
                         <select id="status-select2">
-                            <option value="ASSIGNED">ASSIGNED - Starting work</option>
-                            <option value="ACTIVE">ACTIVE - In progress</option>
-                            <option value="PAUSED">PAUSED - Temporarily stopped</option>
+                            <option value="ASSIGNED">ASSIGNED</option>
+                            <option value="ACTIVE">ACTIVE</option>
+                            <option value="PAUSED">PAUSED</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="timeline2">Estimated Completion</label>
+                        <label for="timeline2">Timeline</label>
                         <select id="timeline2">
                             <option value="1 week">1 week</option>
                             <option value="2 weeks">2 weeks</option>
@@ -544,46 +525,24 @@
 
                 <div class="form-group">
                     <label for="plan2">Your Plan</label>
-                    <textarea id="plan2" placeholder="Describe your approach, tools you'll use, and how you plan to tackle each deliverable..."></textarea>
+                    <textarea id="plan2" placeholder="What's your approach? What will you do?"></textarea>
                 </div>
 
                 <div class="form-group">
                     <label>Deliverables</label>
-                    <div class="checkbox-group">
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="d2-1">
-                            <label for="d2-1">Art style decision document</label>
+                    <p class="hint">Add what you plan to deliver</p>
+                    <div class="deliverables-section">
+                        <div class="deliverable-input-row">
+                            <input type="text" id="newDeliverable2" placeholder="Add a deliverable...">
+                            <button type="button" class="add-btn" onclick="addDeliverable(2)">+ Add</button>
                         </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="d2-2">
-                            <label for="d2-2">Asset source strategy (create, commission, or mix)</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="d2-3">
-                            <label for="d2-3">Sample sprite test (1 monster proof-of-concept)</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="d2-4">
-                            <label for="d2-4">MZ sprite sheet format guide (dimensions, frames)</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="d2-5">
-                            <label for="d2-5">Animation requirements per creature type</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="d2-6">
-                            <label for="d2-6">Tool recommendations for sprite creation</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="d2-7">
-                            <label for="d2-7">Create Standards/Sprites.md with finalized specs</label>
-                        </div>
+                        <div class="deliverable-list" id="deliverableList2"></div>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="notes2">Additional Notes</label>
-                    <textarea id="notes2" placeholder="Any blockers, questions, or dependencies..."></textarea>
+                    <label for="notes2">Notes</label>
+                    <textarea id="notes2" class="small" placeholder="Blockers, questions, dependencies..."></textarea>
                 </div>
 
                 <button type="submit" class="submit-btn">Generate Assignment</button>
@@ -596,28 +555,18 @@
             </div>
         </div>
 
-        <!-- Task 3: Plugin Foundation Research -->
+        <!-- Task 3 -->
         <div class="task-section" id="task3">
             <div class="task-header">
                 <h2>Task 3: Plugin Foundation Research</h2>
                 <button class="back-btn" onclick="showNav()">Back to Tasks</button>
             </div>
 
-            <div class="scope-info">
-                <h4>Scope</h4>
-                <ul>
-                    <li>Research existing MZ plugins for real-time combat</li>
-                    <li>Evaluate VisuStella vs. custom development</li>
-                    <li>Test basic plugin structure and MZ architecture</li>
-                    <li>Identify what's possible vs. what needs custom code</li>
-                </ul>
-            </div>
-
             <form id="form3" onsubmit="generateOutput(3, event)">
                 <div class="form-row">
                     <div class="form-group">
                         <label for="name3">Your Name</label>
-                        <input type="text" id="name3" placeholder="Enter your name to claim this task" required>
+                        <input type="text" id="name3" placeholder="Enter your name" required>
                     </div>
                     <div class="form-group">
                         <label for="role3">Role</label>
@@ -632,13 +581,13 @@
                     <div class="form-group">
                         <label for="status-select3">Status</label>
                         <select id="status-select3">
-                            <option value="ASSIGNED">ASSIGNED - Starting work</option>
-                            <option value="ACTIVE">ACTIVE - In progress</option>
-                            <option value="PAUSED">PAUSED - Temporarily stopped</option>
+                            <option value="ASSIGNED">ASSIGNED</option>
+                            <option value="ACTIVE">ACTIVE</option>
+                            <option value="PAUSED">PAUSED</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="timeline3">Estimated Completion</label>
+                        <label for="timeline3">Timeline</label>
                         <select id="timeline3">
                             <option value="1 week">1 week</option>
                             <option value="2 weeks">2 weeks</option>
@@ -650,42 +599,24 @@
 
                 <div class="form-group">
                     <label for="plan3">Your Plan</label>
-                    <textarea id="plan3" placeholder="Describe your approach, what plugins you'll evaluate, and how you'll test feasibility..."></textarea>
+                    <textarea id="plan3" placeholder="What's your approach? What will you do?"></textarea>
                 </div>
 
                 <div class="form-group">
                     <label>Deliverables</label>
-                    <div class="checkbox-group">
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="d3-1">
-                            <label for="d3-1">Plugin ecosystem evaluation (what exists, costs, licenses)</label>
+                    <p class="hint">Add what you plan to deliver</p>
+                    <div class="deliverables-section">
+                        <div class="deliverable-input-row">
+                            <input type="text" id="newDeliverable3" placeholder="Add a deliverable...">
+                            <button type="button" class="add-btn" onclick="addDeliverable(3)">+ Add</button>
                         </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="d3-2">
-                            <label for="d3-2">VisuStella feasibility report (can it do real-time?)</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="d3-3">
-                            <label for="d3-3">Sample plugin test (basic MZ plugin structure)</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="d3-4">
-                            <label for="d3-4">Technical requirements doc for combat/AI/breeding</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="d3-5">
-                            <label for="d3-5">Build vs. buy decision for each system</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="d3-6">
-                            <label for="d3-6">Create Standards/Plugins.md with architecture notes</label>
-                        </div>
+                        <div class="deliverable-list" id="deliverableList3"></div>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="notes3">Additional Notes</label>
-                    <textarea id="notes3" placeholder="Any blockers, questions, or dependencies..."></textarea>
+                    <label for="notes3">Notes</label>
+                    <textarea id="notes3" class="small" placeholder="Blockers, questions, dependencies..."></textarea>
                 </div>
 
                 <button type="submit" class="submit-btn">Generate Assignment</button>
@@ -698,28 +629,18 @@
             </div>
         </div>
 
-        <!-- Task 4: Database Structure Planning -->
+        <!-- Task 4 -->
         <div class="task-section" id="task4">
             <div class="task-header">
                 <h2>Task 4: Database Structure Planning</h2>
                 <button class="back-btn" onclick="showNav()">Back to Tasks</button>
             </div>
 
-            <div class="scope-info">
-                <h4>Scope</h4>
-                <ul>
-                    <li>Research MZ database structure and limitations</li>
-                    <li>Define data schema for monsters, moves, items</li>
-                    <li>Plan stat ranges and formula foundations</li>
-                    <li>Create spreadsheet templates for future entry</li>
-                </ul>
-            </div>
-
             <form id="form4" onsubmit="generateOutput(4, event)">
                 <div class="form-row">
                     <div class="form-group">
                         <label for="name4">Your Name</label>
-                        <input type="text" id="name4" placeholder="Enter your name to claim this task" required>
+                        <input type="text" id="name4" placeholder="Enter your name" required>
                     </div>
                     <div class="form-group">
                         <label for="role4">Role</label>
@@ -734,13 +655,13 @@
                     <div class="form-group">
                         <label for="status-select4">Status</label>
                         <select id="status-select4">
-                            <option value="ASSIGNED">ASSIGNED - Starting work</option>
-                            <option value="ACTIVE">ACTIVE - In progress</option>
-                            <option value="PAUSED">PAUSED - Temporarily stopped</option>
+                            <option value="ASSIGNED">ASSIGNED</option>
+                            <option value="ACTIVE">ACTIVE</option>
+                            <option value="PAUSED">PAUSED</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="timeline4">Estimated Completion</label>
+                        <label for="timeline4">Timeline</label>
                         <select id="timeline4">
                             <option value="1 week">1 week</option>
                             <option value="2 weeks">2 weeks</option>
@@ -752,46 +673,24 @@
 
                 <div class="form-group">
                     <label for="plan4">Your Plan</label>
-                    <textarea id="plan4" placeholder="Describe your approach, what you'll research, and how you'll structure the templates..."></textarea>
+                    <textarea id="plan4" placeholder="What's your approach? What will you do?"></textarea>
                 </div>
 
                 <div class="form-group">
                     <label>Deliverables</label>
-                    <div class="checkbox-group">
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="d4-1">
-                            <label for="d4-1">MZ database capabilities doc (fields, limits, custom data)</label>
+                    <p class="hint">Add what you plan to deliver</p>
+                    <div class="deliverables-section">
+                        <div class="deliverable-input-row">
+                            <input type="text" id="newDeliverable4" placeholder="Add a deliverable...">
+                            <button type="button" class="add-btn" onclick="addDeliverable(4)">+ Add</button>
                         </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="d4-2">
-                            <label for="d4-2">Stat range definitions (min/max for each stat)</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="d4-3">
-                            <label for="d4-3">Base formula templates (damage, growth, inheritance)</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="d4-4">
-                            <label for="d4-4">Spreadsheet template for monster entries</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="d4-5">
-                            <label for="d4-5">Spreadsheet template for move entries</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="d4-6">
-                            <label for="d4-6">ID allocation plan (see ID-Register.md)</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="d4-7">
-                            <label for="d4-7">Create Standards/Database.md with schema specs</label>
-                        </div>
+                        <div class="deliverable-list" id="deliverableList4"></div>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="notes4">Additional Notes</label>
-                    <textarea id="notes4" placeholder="Any blockers, questions, or dependencies..."></textarea>
+                    <label for="notes4">Notes</label>
+                    <textarea id="notes4" class="small" placeholder="Blockers, questions, dependencies..."></textarea>
                 </div>
 
                 <button type="submit" class="submit-btn">Generate Assignment</button>
@@ -813,41 +712,12 @@
             4: 'Database Structure Planning'
         };
 
+        // Store deliverables per task
         const deliverables = {
-            1: [
-                'Workflow document (how tiles go from idea to MZ)',
-                'Asset source decision (create, buy, or mix)',
-                'Sample tileset test (1 region proof-of-concept)',
-                'Tool recommendations (Aseprite, Photoshop, etc.)',
-                'Template files for each tileset type (A1-E)',
-                'Update Standards/Tilesets.md with finalized process'
-            ],
-            2: [
-                'Art style decision document',
-                'Asset source strategy (create, commission, or mix)',
-                'Sample sprite test (1 monster proof-of-concept)',
-                'MZ sprite sheet format guide (dimensions, frames)',
-                'Animation requirements per creature type',
-                'Tool recommendations for sprite creation',
-                'Create Standards/Sprites.md with finalized specs'
-            ],
-            3: [
-                'Plugin ecosystem evaluation (what exists, costs, licenses)',
-                'VisuStella feasibility report (can it do real-time?)',
-                'Sample plugin test (basic MZ plugin structure)',
-                'Technical requirements doc for combat/AI/breeding',
-                'Build vs. buy decision for each system',
-                'Create Standards/Plugins.md with architecture notes'
-            ],
-            4: [
-                'MZ database capabilities doc (fields, limits, custom data)',
-                'Stat range definitions (min/max for each stat)',
-                'Base formula templates (damage, growth, inheritance)',
-                'Spreadsheet template for monster entries',
-                'Spreadsheet template for move entries',
-                'ID allocation plan (see ID-Register.md)',
-                'Create Standards/Database.md with schema specs'
-            ]
+            1: [],
+            2: [],
+            3: [],
+            4: []
         };
 
         function showTask(taskNum) {
@@ -861,6 +731,52 @@
             document.getElementById('taskNav').style.display = 'grid';
         }
 
+        function addDeliverable(taskNum) {
+            const input = document.getElementById('newDeliverable' + taskNum);
+            const text = input.value.trim();
+            if (!text) return;
+
+            deliverables[taskNum].push({ text, done: false });
+            input.value = '';
+            renderDeliverables(taskNum);
+        }
+
+        function removeDeliverable(taskNum, index) {
+            deliverables[taskNum].splice(index, 1);
+            renderDeliverables(taskNum);
+        }
+
+        function toggleDeliverable(taskNum, index) {
+            deliverables[taskNum][index].done = !deliverables[taskNum][index].done;
+        }
+
+        function renderDeliverables(taskNum) {
+            const list = document.getElementById('deliverableList' + taskNum);
+            list.innerHTML = '';
+
+            deliverables[taskNum].forEach((d, i) => {
+                const item = document.createElement('div');
+                item.className = 'deliverable-item';
+                item.innerHTML = `
+                    <input type="checkbox" ${d.done ? 'checked' : ''} onchange="toggleDeliverable(${taskNum}, ${i})">
+                    <span>${d.text}</span>
+                    <button type="button" class="remove-btn" onclick="removeDeliverable(${taskNum}, ${i})">x</button>
+                `;
+                list.appendChild(item);
+            });
+        }
+
+        // Allow Enter key to add deliverable
+        document.querySelectorAll('[id^="newDeliverable"]').forEach(input => {
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    const taskNum = input.id.replace('newDeliverable', '');
+                    addDeliverable(parseInt(taskNum));
+                }
+            });
+        });
+
         function generateOutput(taskNum, event) {
             event.preventDefault();
 
@@ -871,35 +787,26 @@
             const plan = document.getElementById('plan' + taskNum).value;
             const notes = document.getElementById('notes' + taskNum).value;
 
-            // Get checked deliverables
-            const checkedDeliverables = [];
-            const uncheckedDeliverables = [];
-            deliverables[taskNum].forEach((d, i) => {
-                const checkbox = document.getElementById(`d${taskNum}-${i + 1}`);
-                if (checkbox.checked) {
-                    checkedDeliverables.push(d);
-                } else {
-                    uncheckedDeliverables.push(d);
-                }
-            });
-
             // Generate markdown
             let markdown = `## Task ${taskNum}: ${taskTitles[taskNum]}\n\n`;
             markdown += `**Status**: ${status}\n`;
             markdown += `**Assigned**: ${name}${role === 'Support' ? ' (Support)' : ''}\n`;
             markdown += `**Timeline**: ${timeline}\n\n`;
-            markdown += `### Plan\n${plan || '(No plan provided)'}\n\n`;
-            markdown += `### Deliverables\n`;
 
-            checkedDeliverables.forEach(d => {
-                markdown += `- [x] ${d}\n`;
-            });
-            uncheckedDeliverables.forEach(d => {
-                markdown += `- [ ] ${d}\n`;
-            });
+            if (plan) {
+                markdown += `### Plan\n${plan}\n\n`;
+            }
+
+            if (deliverables[taskNum].length > 0) {
+                markdown += `### Deliverables\n`;
+                deliverables[taskNum].forEach(d => {
+                    markdown += `- [${d.done ? 'x' : ' '}] ${d.text}\n`;
+                });
+                markdown += '\n';
+            }
 
             if (notes) {
-                markdown += `\n### Notes\n${notes}\n`;
+                markdown += `### Notes\n${notes}\n`;
             }
 
             markdown += `\n---\n*Claimed: ${new Date().toLocaleDateString()}*`;
