@@ -1,0 +1,125 @@
+MONSTER BATTLER - DESIGN ANSWERS
+================================
+
+## Monsters - Core Design
+
+**How many monsters does the player have at once?**
+2, and player can switch between which one you're giving orders to by holding buttons, probably R1 and L1. Holding L1+L2 brings up additional options for Monster 1, and R1+R2 brings up additional options for Monster 2.
+
+**How are monsters acquired?**
+Start with 1, can subdue them in the wild, and breeding/fusing monsters of the same species.
+
+**What makes each monster unique?**
+Species, generation, and birthmarks. Birthmarks are random each time a monster is born and will affect things like temperament and stat growth. There will be 4 species, Insect, Mammal, Reptilian, and Avian. There will be 3 main generations with a secret 4th for crossbreeding certain 3rd gen monsters from different species.
+
+**Do monsters have lifespans/death?**
+TBD, maybe injuries and potential death through combat?
+
+**Other thoughts on monsters?**
+None.
+
+## Breeding & Combining
+
+**What's the breeding mechanic?**
+Either fusion or breeding but with a looooong cooldown before they can breed again.
+
+**What carries over to offspring?**
+The stats of the new monster will depend on the parents using a formula to determine the outcome. If there are any moves that the parents know and the child can learn, it will keep them.
+
+**Are there evolution tiers?**
+There will be 4 distinct species that each have 4 starter monster types. The starters of each species can all breed with each other to make 2nd gen monsters. Those 2nd then monsters can then breed with each other (only 2nd gen of the same species) to make a 3rd gen, resulting in 25 total monster types for each species type. There will also be secret special inter-species breeding to produce very powerful 4th generation monsters.
+
+**How rare/difficult is breeding?**
+Probably once the monster reaches a certain age it will be eligible for breeding/fusing.
+
+**Other thoughts on breeding?**
+None.
+
+## Combat - The Heart of It
+
+**How autonomous are monsters in battle?**
+Depends on the monsters intelligence and temperament. Lower int monsters don't listen to commands as well because they aren't able to, and lower temperament monsters don't listen due to lack of proper training. Treating your monsters right increases temperament.
+
+**What orders can the player give?**
+Player can use the D-pad to order the monsters to be aggressive (all out attack), defensive (more careful timing), supportive (assist the other friendly monster), or passive (avoid monsters completely) and can order them to do tactics such as pincer attack, attack separate monsters, attack the same monster, and maybe a special combo attack by holding L1+L2/R1+R2 for monster 1 and monster 2 respectively. Player can also order the monsters to use attacks using A B X and Y face buttons, each monster will have 8 different attacks equip-able which the player can order by holding L1 or R1, or holding L1+L2/R1+R2. Player can also use items during battle by holding L2 or R2.
+
+**How do monsters get smarter?**
+Doing certain things in battle raises different stats. Attacking more raises strength, using abilities raises intelligence, moving around a lot raises agility, getting hit raises endurance.
+
+**What's the battle pacing?**
+100% Real time.
+
+**1v1 or multi-monster battles?**
+1v1, 1v2, and 2v2 for both arena battles (different divisions) and field battles.
+
+**Other thoughts on combat?**
+The stats affect different things, such as Str raises HP and Power, Intelligence raises Special Power and ability to listen to orders, Agi raises movement speed and reaction time to orders, End raises HP and Energy Replenishment rate. Probably other things as well, this needs to be fleshed out more.
+
+## World & Exploration
+
+**How big is the world?**
+Takes place on an island with 4 different cities, you start in one and can't access the next until you place high enough in the starting town arena etc. Each of the 3 sections will have maybe ~20 screens worth of explorable wilderness along with some enterable areas such as caves and other structures. Each area will have a different theme based on one of the species.
+
+**What's in the wilderness?**
+There will be wild monsters to fight and potentially subdue and tame. To tame you have to weaken it then tranquilize it and carry it back to your base. You can only carry 1 at a time, and if you die on the way back you lose it. Rarer monsters will be more difficult to return with. You can find usable items like heals and power-ups, and food ingredients which can be used to make food items to enhance monster growth rates. Caves and other structures to explore with rare items/ingredients and high level/generation boss monsters in them. They may or may not be capture-able.
+
+**Day/night or seasons?**
+TBD, if any it probably won't affect spawns or behaviors.
+
+**Is there a story/goal?**
+Becoming the champion of all the arenas is the goal but will be able to continue to play afterwards. Perhaps multiplayer functionality to fight your friends or strangers.
+
+**Other thoughts on the world?**
+Each of the 4 sections of the world focuses on a specific species, and you start in the insect one so getting the other species 1st gen monsters will be more difficult but still possible. Perhaps you can choose to start with any 1st gen, but can only capture insects nearby your base, but will be able to find all the 1st gen from all species somewhere at least in the insect area. Perhaps have a buildable or expandable base that can increase monster comfort/happiness and enhance growth among other things. Have people move in for easy access to shops etc.
+
+## Arena & Progression
+
+**What's the arena structure?**
+There will be tournament brackets that determine your rank in any specific arena, and a ladder to determine your place total. Each arena will have ranks D-S for bracket tournaments. Achieving a certain rank on the ladder opens the path to the next area. So you can get to Rank B in the first arena and move on to the second arena, get Rank B there and move to the third. Or you can get rank S in the first arena and go straight to the third area. Exact values TBD.
+
+**What do you win from arena?**
+Money of course, items and ingredients or foods, access to new areas.
+
+**Are there weight classes/tiers?**
+Nope. Let people have fun if they want to bring their godlike 4th gen to the First Arena's D rank battle.
+
+**NPC rivals or challengers?**
+No but should be able to meet the other people who's names are on the ranked ladder.
+
+**Other thoughts on arena?**
+None.
+
+## Player's Role
+
+**What does the player do outside battle?**
+You can explore with your monster(s) and find interesting areas with good loot and fun fights, you can cook different foods that will enhance your monster's growth rates for a while, and maybe there will be an item crafting system to make usable items for battles.
+
+**How do items work in battle?**
+Player can use items on either monster during battle for heals and buffs. Maybe there will be damaging or de-buffing items to use on enemy monsters.
+
+**Player avatar style?**
+Player has a sprite similar to the monsters and can walk around with the monsters following along.
+
+**Any crafting/farming?**
+Food will be in the game and probably crafting. Shops as well, potentially able to have a shop npc move into the player's base.
+
+**Other thoughts on player role?**
+None.
+
+## Scope Check
+
+**How many monster species to start?**
+There are 4 species with 4 types of starting monsters in each species. 3 generations total for each where each generation can only breed with others of the same generation will result in 100 total monsters, and there will be at least 6 more unique 4th gen monsters from interbreeding species.
+
+**Roughly how long should a playthrough be?**
+40-60 hours to become the grand champion.
+
+**What's the MUST-HAVE for v1?**
+Monster breeding, monster battling in the arena. Monsters need to be able to control themselves and choose things to do without user commands. Attacks need to be able to connect and do damage.
+
+**What can be cut if needed?**
+Crafting, Food creating. Base building.
+
+**Any other ideas or inspirations?**
+None.
+

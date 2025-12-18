@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hybrid Gene - Technical Specification</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0a0f;
+            --bg-card: #12121a;
+            --bg-card-hover: #1a1a25;
+            --bg-code: #0d1117;
+            --accent-primary: #ff6b35;
+            --accent-secondary: #4ecdc4;
+            --accent-tertiary: #a855f7;
+            --text-primary: #e8e8e8;
+            --text-secondary: #a0a0a0;
+            --border-color: #2a2a3a;
+            --code-keyword: #ff7b72;
+            --code-string: #a5d6ff;
+            --code-type: #79c0ff;
+            --code-comment: #8b949e;
+            --code-number: #ffa657;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, rgba(168,85,247,0.1) 0%, rgba(78,205,196,0.1) 100%);
+            border-bottom: 2px solid var(--accent-tertiary);
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            background: linear-gradient(135deg, var(--accent-tertiary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.6rem;
+            color: var(--accent-tertiary);
+            margin: 50px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        h2::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--accent-secondary);
+            transform: rotate(45deg);
+        }
+
+        h3 {
+            color: var(--accent-secondary);
+            font-size: 1.2rem;
+            margin: 30px 0 15px;
+            font-weight: 600;
+        }
+
+        h4 {
+            color: var(--accent-primary);
+            font-size: 1rem;
+            margin: 20px 0 10px;
+        }
+
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+
+        pre {
+            background: var(--bg-code);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+
+        code {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+        }
+
+        .code-inline {
+            background: var(--bg-card-hover);
+            color: var(--accent-secondary);
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        /* Syntax highlighting */
+        .keyword { color: var(--code-keyword); }
+        .type { color: var(--code-type); }
+        .string { color: var(--code-string); }
+        .comment { color: var(--code-comment); font-style: italic; }
+        .number { color: var(--code-number); }
+        .property { color: #c9d1d9; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: var(--bg-card);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background: rgba(168,85,247,0.1);
+            color: var(--accent-tertiary);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+
+        td {
+            color: var(--text-secondary);
+        }
+
+        ul {
+            color: var(--text-secondary);
+            padding-left: 0;
+            list-style: none;
+        }
+
+        li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        li::before {
+            content: '>';
+            position: absolute;
+            left: 0;
+            color: var(--accent-tertiary);
+            font-weight: bold;
+        }
+
+        .diagram {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 20px 0;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            overflow-x: auto;
+            white-space: pre;
+            color: var(--text-secondary);
+        }
+
+        .formula-box {
+            background: var(--bg-card);
+            border-left: 3px solid var(--accent-secondary);
+            padding: 15px 20px;
+            margin: 15px 0;
+            font-family: 'Fira Code', monospace;
+            color: var(--text-primary);
+        }
+
+        .system-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .system-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .system-box h4 {
+            margin: 0 0 10px 0;
+            font-size: 0.9rem;
+        }
+
+        .system-box p {
+            font-size: 0.85rem;
+            margin: 0;
+        }
+
+        .config-table {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+        }
+
+        .config-table td:first-child {
+            color: var(--accent-secondary);
+        }
+
+        .config-table td:last-child {
+            color: var(--code-number);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 60px;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; letter-spacing: 2px; }
+            h2 { font-size: 1.3rem; }
+            .container { padding: 15px; }
+            header { padding: 40px 15px; }
+            pre { font-size: 0.75rem; padding: 15px; }
+            .system-grid { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Hybrid Gene</h1>
+        <p class="subtitle">Technical Specification</p>
+    </header>
+
+    <div class="container">
+
+        <h2>1. Architecture Overview</h2>
+
+        <div class="diagram">
++------------------------------------------------------------------+
+|                         GAME MANAGER                             |
+|   +----------+  +----------+  +----------+  +----------+         |
+|   |  State   |  |  Scene   |  |  Save    |  |  Audio   |         |
+|   | Machine  |  | Manager  |  | System   |  | Manager  |         |
++------+---------------+---------------+---------------+-----------+
+       |               |               |               |
+       v               v               v               v
++------------------------------------------------------------------+
+|                          CORE SYSTEMS                            |
+|  +-----------+ +-----------+ +-----------+ +-----------+         |
+|  |  Combat   | | Breeding  | |  Monster  | |   World   |         |
+|  |  Engine   | |  System   | |    AI     | |  Manager  |         |
++------+---------------+---------------+---------------+-----------+
+       |               |               |               |
+       v               v               v               v
++------------------------------------------------------------------+
+|                         DATA LAYER                               |
+|  +-----------+ +-----------+ +-----------+ +-----------+         |
+|  | Monster   | |  Species  | |   Move    | |   Item    |         |
+|  |   Data    | |   Data    | |   Data    | |   Data    |         |
++------------------------------------------------------------------+
+        </div>
+
+        <h3>Game Loop (60 FPS Target)</h3>
+        <pre><span class="keyword">while</span> (running) {
+    deltaTime = calculateDeltaTime()
+
+    <span class="comment">// Input</span>
+    inputManager.poll()
+
+    <span class="comment">// Update</span>
+    <span class="keyword">if</span> (gameState == BATTLE) {
+        combatEngine.update(deltaTime)
+        monsterAI.update(deltaTime)
+    }
+    worldManager.update(deltaTime)
+
+    <span class="comment">// Render</span>
+    renderer.draw()
+
+    <span class="comment">// Audio</span>
+    audioManager.update()
+}</pre>
+
+        <h2>2. Data Structures</h2>
+
+        <h3>2.1 Monster</h3>
+        <pre><span class="keyword">interface</span> <span class="type">Monster</span> {
+    <span class="comment">// Identity</span>
+    id: <span class="type">string</span>
+    name: <span class="type">string</span>
+    speciesId: <span class="type">string</span>
+    generation: <span class="number">1</span> | <span class="number">2</span> | <span class="number">3</span> | <span class="number">4</span>
+
+    <span class="comment">// Birthmark (immutable)</span>
+    birthmark: {
+        id: <span class="type">string</span>
+        name: <span class="type">string</span>
+        personality: <span class="type">string</span>
+        coreAI: <span class="string">"aggressive"</span> | <span class="string">"defensive"</span> | <span class="string">"supportive"</span> | <span class="string">"evasive"</span>
+        statModifiers: {
+            str: <span class="type">number</span>  <span class="comment">// -0.20 to +0.20</span>
+            int: <span class="type">number</span>
+            agi: <span class="type">number</span>
+            end: <span class="type">number</span>
+        }
+    }
+
+    <span class="comment">// Core Stats</span>
+    stats: { str, int, agi, end: <span class="type">number</span> }
+
+    <span class="comment">// Derived Stats (calculated)</span>
+    derivedStats: {
+        hp, maxHp, energy, maxEnergy,
+        energyRegen, moveSpeed, obedience: <span class="type">number</span>
+    }
+
+    <span class="comment">// Combat</span>
+    moves: {
+        basic: [<span class="type">Move</span>, <span class="type">Move</span>, <span class="type">Move</span>, <span class="type">Move</span>]
+        special: [<span class="type">Move</span>, <span class="type">Move</span>, <span class="type">Move</span>, <span class="type">Move</span>]
+    }
+
+    temperament: <span class="type">number</span>  <span class="comment">// 0-100</span>
+    parents: [<span class="type">string</span>, <span class="type">string</span>] | <span class="keyword">null</span>
+    state: <span class="type">MonsterState</span>
+}</pre>
+
+        <h3>2.2 Species</h3>
+        <pre><span class="keyword">interface</span> <span class="type">Species</span> {
+    id: <span class="type">string</span>
+    name: <span class="type">string</span>
+    type: <span class="string">"insect"</span> | <span class="string">"mammal"</span> | <span class="string">"reptilian"</span> | <span class="string">"avian"</span>
+
+    baseStats: { str, int, agi, end: <span class="type">number</span> }
+    aggressionLevel: <span class="string">"low"</span> | <span class="string">"medium"</span> | <span class="string">"high"</span>
+    traits: <span class="type">Trait</span>[]
+    availableMoves: <span class="type">string</span>[]
+}</pre>
+
+        <h3>2.3 Move</h3>
+        <pre><span class="keyword">interface</span> <span class="type">Move</span> {
+    id: <span class="type">string</span>
+    name: <span class="type">string</span>
+    category: <span class="string">"physical"</span> | <span class="string">"magic"</span> | <span class="string">"buff"</span> | <span class="string">"debuff"</span> | <span class="string">"heal"</span> | <span class="string">"aoe"</span>
+    tier: <span class="string">"basic"</span> | <span class="string">"special"</span>
+
+    energyCost: <span class="type">number</span>
+    cooldown: <span class="type">number</span>  <span class="comment">// Seconds</span>
+
+    baseDamage: <span class="type">number</span>
+    scalingStat: <span class="string">"str"</span> | <span class="string">"int"</span> | <span class="keyword">null</span>
+    scalingRatio: <span class="type">number</span>
+
+    range: <span class="type">number</span>
+    aoeRadius: <span class="type">number</span>
+    targetType: <span class="string">"enemy"</span> | <span class="string">"ally"</span> | <span class="string">"self"</span>
+}</pre>
+
+        <h2>3. Core Systems</h2>
+
+        <h3>3.1 Combat Engine</h3>
+        <pre><span class="keyword">class</span> <span class="type">CombatEngine</span> {
+    <span class="keyword">private</span> battleDuration: <span class="type">number</span>
+
+    updateEnergy(monster: <span class="type">Monster</span>, dt: <span class="type">number</span>): <span class="type">void</span> {
+        <span class="comment">// Energy regen slows as battle continues</span>
+        <span class="keyword">const</span> decayFactor = <span class="number">1</span> / (<span class="number">1</span> + <span class="keyword">this</span>.battleDuration / <span class="number">60</span>)
+        <span class="keyword">const</span> regenRate = monster.derivedStats.energyRegen * decayFactor
+
+        monster.currentEnergy = Math.min(
+            monster.derivedStats.maxEnergy,
+            monster.currentEnergy + regenRate * dt
+        )
+    }
+
+    calculateDamage(attacker: <span class="type">Monster</span>, target: <span class="type">Monster</span>, move: <span class="type">Move</span>): <span class="type">number</span> {
+        <span class="keyword">let</span> damage = move.baseDamage
+
+        <span class="comment">// Stat scaling</span>
+        <span class="keyword">if</span> (move.scalingStat) {
+            damage += attacker.stats[move.scalingStat] * move.scalingRatio
+        }
+
+        <span class="comment">// Defense</span>
+        damage = Math.max(<span class="number">1</span>, damage - target.stats.end * <span class="number">0.5</span>)
+
+        <span class="comment">// Variance (90-110%)</span>
+        damage *= <span class="number">0.9</span> + Math.random() * <span class="number">0.2</span>
+
+        <span class="keyword">return</span> Math.floor(damage)
+    }
+}</pre>
+
+        <h3>3.2 Monster AI System</h3>
+        <pre><span class="keyword">class</span> <span class="type">MonsterAI</span> {
+    processCommand(monster: <span class="type">Monster</span>, command: <span class="type">Command</span>): <span class="type">boolean</span> {
+        <span class="keyword">const</span> obedience = <span class="keyword">this</span>.calculateObedience(monster)
+        <span class="keyword">const</span> roll = Math.random() * <span class="number">100</span>
+
+        <span class="keyword">if</span> (roll < obedience) {
+            <span class="keyword">this</span>.executeCommand(monster, command)
+            <span class="keyword">this</span>.showFeedback(monster, <span class="string">"accepted"</span>)  <span class="comment">// Green flash</span>
+            <span class="keyword">return true</span>
+        } <span class="keyword">else</span> {
+            <span class="keyword">this</span>.executeCoreAI(monster)
+            <span class="keyword">this</span>.showFeedback(monster, <span class="string">"ignored"</span>)   <span class="comment">// Red flash</span>
+            <span class="keyword">return false</span>
+        }
+    }
+
+    <span class="keyword">private</span> calculateObedience(monster: <span class="type">Monster</span>): <span class="type">number</span> {
+        <span class="keyword">const</span> BASE = <span class="number">20</span>
+        <span class="keyword">const</span> INT_WEIGHT = <span class="number">0.4</span>
+        <span class="keyword">const</span> TEMP_WEIGHT = <span class="number">0.6</span>
+
+        <span class="keyword">return</span> BASE +
+               (monster.stats.int * INT_WEIGHT) +
+               (monster.temperament * TEMP_WEIGHT)
+    }
+}</pre>
+
+        <h3>3.3 Breeding System</h3>
+        <pre><span class="keyword">class</span> <span class="type">BreedingSystem</span> {
+    calculateInheritedStats(p1: <span class="type">Monster</span>, p2: <span class="type">Monster</span>): <span class="type">Stats</span> {
+        <span class="keyword">const</span> inherit = (stat: <span class="type">keyof Stats</span>): <span class="type">number</span> => {
+            <span class="keyword">const</span> average = (p1.stats[stat] + p2.stats[stat]) / <span class="number">2</span>
+            <span class="keyword">const</span> variance = <span class="number">0.8</span> + Math.random() * <span class="number">0.4</span>
+            <span class="keyword">return</span> Math.floor(average * variance)
+        }
+
+        <span class="keyword">return</span> {
+            str: inherit(<span class="string">"str"</span>),
+            int: inherit(<span class="string">"int"</span>),
+            agi: inherit(<span class="string">"agi"</span>),
+            end: inherit(<span class="string">"end"</span>)
+        }
+    }
+}</pre>
+
+        <h3>3.4 Growth System</h3>
+        <pre><span class="keyword">class</span> <span class="type">GrowthSystem</span> {
+    <span class="keyword">static</span> DECAY_THRESHOLDS = {
+        <span class="number">1</span>: <span class="number">50</span>,   <span class="comment">// G1</span>
+        <span class="number">2</span>: <span class="number">75</span>,   <span class="comment">// G2</span>
+        <span class="number">3</span>: <span class="number">100</span>,  <span class="comment">// G3</span>
+        <span class="number">4</span>: <span class="number">150</span>   <span class="comment">// G4</span>
+    }
+
+    applyStatGain(monster: <span class="type">Monster</span>, stat: <span class="type">keyof Stats</span>, baseGain: <span class="type">number</span>): <span class="type">void</span> {
+        <span class="keyword">const</span> threshold = GrowthSystem.DECAY_THRESHOLDS[monster.generation]
+        <span class="keyword">const</span> currentStat = monster.stats[stat]
+
+        <span class="comment">// Decay multiplier</span>
+        <span class="keyword">const</span> decay = <span class="number">1</span> / (<span class="number">1</span> + currentStat / threshold)
+
+        <span class="comment">// Birthmark modifier</span>
+        <span class="keyword">const</span> birthmarkMod = <span class="number">1</span> + monster.birthmark.statModifiers[stat]
+
+        <span class="comment">// Final gain</span>
+        monster.stats[stat] += baseGain * decay * birthmarkMod
+    }
+}</pre>
+
+        <h3>3.5 Capture System</h3>
+        <pre><span class="keyword">class</span> <span class="type">CaptureSystem</span> {
+    attemptTranquilize(target: <span class="type">Monster</span>): <span class="type">TranqResult</span> {
+        <span class="keyword">const</span> hpPercent = (target.currentHp / target.derivedStats.maxHp) * <span class="number">100</span>
+
+        <span class="keyword">if</span> (hpPercent > <span class="number">25</span>) {
+            <span class="keyword">return</span> { success: <span class="keyword">false</span>, reason: <span class="string">"HP too high"</span> }
+        }
+
+        <span class="comment">// 50% at 25% HP, 100% at 5% HP</span>
+        <span class="keyword">const</span> successChance = Math.min(<span class="number">1</span>, (<span class="number">25</span> - hpPercent) / <span class="number">20</span> + <span class="number">0.5</span>)
+
+        <span class="keyword">if</span> (Math.random() < successChance) {
+            target.state = <span class="string">"carried"</span>
+            <span class="keyword">return</span> { success: <span class="keyword">true</span> }
+        }
+        <span class="keyword">return</span> { success: <span class="keyword">false</span>, reason: <span class="string">"Failed"</span> }
+    }
+}</pre>
+
+        <h2>4. Input System</h2>
+
+        <h3>Controller Mapping</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Input</th>
+                    <th>Action</th>
+                    <th>Cooldown</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>D-Pad</td><td>Stance changes</td><td>Instant</td></tr>
+                <tr><td>L1 / R1</td><td>Select monster, hold for moves</td><td>-</td></tr>
+                <tr><td>A/B/X/Y + L1/R1</td><td>Execute move</td><td>0.5s</td></tr>
+                <tr><td>L2 / R2</td><td>Use item</td><td>-</td></tr>
+                <tr><td>L1+L2 / R1+R2</td><td>Special moves access</td><td>-</td></tr>
+            </tbody>
+        </table>
+
+        <h2>5. State Management</h2>
+
+        <h3>Game States</h3>
+        <div class="system-grid">
+            <div class="system-box">
+                <h4>MAIN_MENU</h4>
+                <p>Title screen, load game</p>
+            </div>
+            <div class="system-box">
+                <h4>OVERWORLD</h4>
+                <p>Exploration, encounters</p>
+            </div>
+            <div class="system-box">
+                <h4>BATTLE</h4>
+                <p>Real-time combat</p>
+            </div>
+            <div class="system-box">
+                <h4>ARENA</h4>
+                <p>Tournament mode</p>
+            </div>
+            <div class="system-box">
+                <h4>BREEDING</h4>
+                <p>Monster fusion UI</p>
+            </div>
+            <div class="system-box">
+                <h4>BASE</h4>
+                <p>Home management</p>
+            </div>
+        </div>
+
+        <h3>Monster States</h3>
+        <pre><span class="keyword">enum</span> <span class="type">MonsterState</span> {
+    IDLE = <span class="string">"idle"</span>,
+    MOVING = <span class="string">"moving"</span>,
+    ATTACKING = <span class="string">"attacking"</span>,
+    USING_ABILITY = <span class="string">"using_ability"</span>,
+    STAGGERED = <span class="string">"staggered"</span>,
+    KO = <span class="string">"ko"</span>,
+    CARRIED = <span class="string">"carried"</span>
+}</pre>
+
+        <h2>6. Performance Limits</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>System</th>
+                    <th>Limit</th>
+                    <th>Reason</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Battle entities</td><td>4 max (2v2)</td><td>AI + collision complexity</td></tr>
+                <tr><td>Particles per entity</td><td>50</td><td>Visual clarity + FPS</td></tr>
+                <tr><td>Pathfinding nodes</td><td>1000/map</td><td>Memory + CPU</td></tr>
+                <tr><td>Status effects/monster</td><td>5</td><td>UI space + balance</td></tr>
+                <tr><td>AI update interval</td><td>100ms</td><td>CPU throttling</td></tr>
+            </tbody>
+        </table>
+
+        <h2>7. Configuration Constants</h2>
+
+        <h3>Balance Config</h3>
+        <table class="config-table">
+            <thead>
+                <tr>
+                    <th>Constant</th>
+                    <th>Value</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>BASE_STR_GAIN</td><td>0.1</td><td>Per attack action</td></tr>
+                <tr><td>BASE_INT_GAIN</td><td>0.1</td><td>Per ability use</td></tr>
+                <tr><td>BASE_AGI_GAIN</td><td>0.05</td><td>Per movement unit</td></tr>
+                <tr><td>BASE_END_GAIN</td><td>0.08</td><td>Per damage taken</td></tr>
+                <tr><td>COMMAND_COOLDOWN</td><td>0.5</td><td>Seconds between commands</td></tr>
+                <tr><td>STAGGER_DURATION</td><td>0.3</td><td>Hit interrupt time</td></tr>
+                <tr><td>ENERGY_DECAY_RATE</td><td>60</td><td>Seconds to halve regen</td></tr>
+                <tr><td>TRANQ_MIN_HP</td><td>25</td><td>% HP to tranq</td></tr>
+                <tr><td>TRANQ_WAKE_CHANCE</td><td>0.1</td><td>Per battle turn</td></tr>
+                <tr><td>CARRY_SPEED_MOD</td><td>0.5</td><td>Movement multiplier</td></tr>
+                <tr><td>BREEDING_COOLDOWN</td><td>3600</td><td>Seconds</td></tr>
+                <tr><td>BASE_OBEDIENCE</td><td>20</td><td>Before INT/TEMP</td></tr>
+                <tr><td>INT_OBEDIENCE_WEIGHT</td><td>0.4</td><td>INT multiplier</td></tr>
+                <tr><td>TEMP_OBEDIENCE_WEIGHT</td><td>0.6</td><td>Temperament multiplier</td></tr>
+                <tr><td>WILD_START_TEMP</td><td>20</td><td>Captured monsters</td></tr>
+                <tr><td>BRED_START_TEMP</td><td>50</td><td>Bred monsters</td></tr>
+            </tbody>
+        </table>
+
+        <h3>Generation Config</h3>
+        <table class="config-table">
+            <thead>
+                <tr>
+                    <th>Gen</th>
+                    <th>Decay Threshold</th>
+                    <th>Max Monsters</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>G1</td><td>50</td><td>16</td></tr>
+                <tr><td>G2</td><td>75</td><td>Variable</td></tr>
+                <tr><td>G3</td><td>100</td><td>~100</td></tr>
+                <tr><td>G4</td><td>150</td><td>6+</td></tr>
+            </tbody>
+        </table>
+
+        <footer>
+            <p>Hybrid Gene - Technical Specification</p>
+            <p style="margin-top: 10px; font-size: 0.9rem;">Implementation Reference Document</p>
+        </footer>
+    </div>
+</body>
+</html>

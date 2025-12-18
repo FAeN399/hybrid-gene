@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monster Battler - Breed. Battle. Become Champion.</title>
+    <meta name="description" content="A monster breeding and battling game with fast-paced real-time combat. Breed unique creatures, master tactical commands, and rise through the arena ranks.">
+    <style>
+        :root {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-tertiary: #21262d;
+            --border-color: #30363d;
+            --text-primary: #e6edf3;
+            --text-secondary: #8b949e;
+            --text-muted: #6e7681;
+            --accent-blue: #58a6ff;
+            --accent-purple: #a371f7;
+            --accent-orange: #f0883e;
+            --accent-green: #3fb950;
+            --accent-red: #f85149;
+            --accent-yellow: #d29922;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--bg-primary);
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px 20px;
+            position: relative;
+            background:
+                radial-gradient(ellipse at 20% 80%, rgba(163, 113, 247, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(240, 136, 62, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(88, 166, 255, 0.08) 0%, transparent 70%),
+                var(--bg-primary);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+        }
+
+        .logo-text {
+            font-size: clamp(3rem, 10vw, 5rem);
+            font-weight: 800;
+            letter-spacing: -2px;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #fff 0%, #a371f7 50%, #f0883e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 80px rgba(163, 113, 247, 0.5);
+        }
+
+        .tagline {
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
+
+        .tagline strong {
+            color: var(--accent-orange);
+            font-weight: 600;
+        }
+
+        /* Pillars */
+        .pillars {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 50px;
+        }
+
+        .pillar {
+            padding: 12px 28px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pillar-breeding {
+            background: linear-gradient(135deg, var(--accent-purple), #8b5cf6);
+            color: #fff;
+        }
+
+        .pillar-combat {
+            background: linear-gradient(135deg, var(--accent-orange), #ea580c);
+            color: #fff;
+        }
+
+        .pillar-arena {
+            background: linear-gradient(135deg, var(--accent-green), #22c55e);
+            color: #000;
+        }
+
+        /* CTA Buttons */
+        .cta-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 60px;
+        }
+
+        .btn {
+            padding: 16px 32px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-orange), #ea580c);
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(240, 136, 62, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(240, 136, 62, 0.5);
+        }
+
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 2px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent-purple);
+            background: var(--bg-secondary);
+        }
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        /* Features Section */
+        .features {
+            padding: 100px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 60px;
+            color: var(--text-primary);
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 35px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-purple);
+            box-shadow: 0 10px 40px rgba(163, 113, 247, 0.15);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        .icon-purple { background: linear-gradient(135deg, rgba(163, 113, 247, 0.2), rgba(139, 92, 246, 0.2)); }
+        .icon-orange { background: linear-gradient(135deg, rgba(240, 136, 62, 0.2), rgba(234, 88, 12, 0.2)); }
+        .icon-green { background: linear-gradient(135deg, rgba(63, 185, 80, 0.2), rgba(34, 197, 94, 0.2)); }
+        .icon-blue { background: linear-gradient(135deg, rgba(88, 166, 255, 0.2), rgba(59, 130, 246, 0.2)); }
+
+        /* Stats Section */
+        .stats {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            padding: 60px 20px;
+        }
+
+        .stats-grid {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            text-align: center;
+        }
+
+        .stat-item h4 {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-orange), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-item p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-top: 5px;
+        }
+
+        /* Pages Section */
+        .pages {
+            padding: 100px 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .page-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .page-link {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 25px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .page-link:hover {
+            border-color: var(--accent-blue);
+            transform: translateX(5px);
+        }
+
+        .page-link-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .page-link-content h4 {
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+        }
+
+        .page-link-content p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .link-framework .page-link-icon { background: rgba(45, 212, 191, 0.2); }
+        .link-project .page-link-icon { background: rgba(88, 166, 255, 0.2); }
+        .link-technical .page-link-icon { background: rgba(210, 153, 34, 0.2); }
+        .link-blueprint .page-link-icon { background: rgba(240, 136, 62, 0.2); }
+        .link-team .page-link-icon { background: rgba(63, 185, 80, 0.2); }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border-color);
+        }
+
+        footer a {
+            color: var(--accent-blue);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Status Badge */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent-green);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Mobile */
+        @media (max-width: 600px) {
+            .hero {
+                padding: 60px 20px;
+            }
+
+            .pillars {
+                gap: 10px;
+            }
+
+            .pillar {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+
+            .cta-group {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 280px;
+                justify-content: center;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stat-item h4 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="status-badge">
+                <span class="status-dot"></span>
+                In Development
+            </div>
+
+            <h1 class="logo-text">MONSTER BATTLER</h1>
+            <p class="tagline">Breed. Battle. <strong>Become Champion.</strong></p>
+
+            <div class="pillars">
+                <span class="pillar pillar-breeding">Genetic Breeding</span>
+                <span class="pillar pillar-combat">Real-Time Combat</span>
+                <span class="pillar pillar-arena">Arena Rankings</span>
+            </div>
+
+            <div class="cta-group">
+                <a href="blueprint.html" class="btn btn-primary">
+                    View Game Design
+                </a>
+                <a href="team.html" class="btn btn-secondary">
+                    Join the Team
+                </a>
+            </div>
+        </div>
+
+        <div class="scroll-indicator">
+            Scroll to explore
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <h2 class="section-title">Core Features</h2>
+
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-icon icon-purple">&#x1F9EC;</div>
+                <h3>Deep Breeding System</h3>
+                <p>4 species with 4 generations each. Breed monsters of the same species to unlock new forms. Certain Gen 3 combos unlock secret Gen 4 cross-species hybrids.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon icon-orange">&#x26A1;</div>
+                <h3>Fast-Paced Combat</h3>
+                <p>100% real-time battles inspired by Digimon World. Command your monsters with tactical stances, direct attacks, and precisely-timed abilities.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon icon-green">&#x1F3C6;</div>
+                <h3>Arena Progression</h3>
+                <p>Rise through D to S rank across 4 themed arenas. Tournament brackets determine your rank. Become the grand champion of them all.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon icon-blue">&#x1F5FA;</div>
+                <h3>World Exploration</h3>
+                <p>Island with 4 cities and wilderness zones. Track, weaken, and capture wild monsters. Carry them back to your base—if you survive.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <h4>100+</h4>
+                <p>Unique Monsters</p>
+            </div>
+            <div class="stat-item">
+                <h4>4</h4>
+                <p>Species Types</p>
+            </div>
+            <div class="stat-item">
+                <h4>40-60h</h4>
+                <p>To Grand Champion</p>
+            </div>
+            <div class="stat-item">
+                <h4>2v2</h4>
+                <p>Battle Formats</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pages Section -->
+    <section class="pages">
+        <h2 class="section-title">Project Hub</h2>
+
+        <div class="page-links">
+            <a href="questionnaires/" class="page-link link-framework">
+                <div class="page-link-icon">&#x1F4DD;</div>
+                <div class="page-link-content">
+                    <h4>Questionnaires</h4>
+                    <p>Help define the game's direction</p>
+                </div>
+            </a>
+
+            <a href="blueprint.html" class="page-link link-blueprint">
+                <div class="page-link-icon">&#x1F4D6;</div>
+                <div class="page-link-content">
+                    <h4>Game Blueprint</h4>
+                    <p>Full game design document</p>
+                </div>
+            </a>
+
+            <a href="team.html" class="page-link link-team">
+                <div class="page-link-icon">&#x1F91D;</div>
+                <div class="page-link-content">
+                    <h4>Join the Team</h4>
+                    <p>Sign up to contribute</p>
+                </div>
+            </a>
+
+            <a href="dev-team.html" class="page-link link-project">
+                <div class="page-link-icon">&#x1F465;</div>
+                <div class="page-link-content">
+                    <h4>Dev Team</h4>
+                    <p>Meet the contributors</p>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>Monster Battler &bull; Pre-Production</p>
+        <p style="margin-top: 10px;">
+            <a href="blueprint.html">Read the GDD</a> &bull;
+            <a href="team.html">Join Us</a>
+        </p>
+    </footer>
+</body>
+</html>

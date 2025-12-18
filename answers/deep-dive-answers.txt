@@ -1,0 +1,75 @@
+MONSTER BATTLER - DEEP DIVE ANSWERS
+=====================================
+
+## MOVES & ABILITIES
+
+Move slots: 8. Changeable in the main menu screen. 4 weaker basic attacks that cost low energy and have low cooldown, and 4 stronger special attacks that cost a lot more energy and have a higher cooldown.
+Categories: Physical, Special/Magic, Buffs, Debuffs, Healing, AoE/Multi-hit
+Cooldowns/Costs: Monsters have energy that slowly replenishes over time during battle, and replenishes slower and slower as the battle goes on. Max energy dependent on strength, replenish rate dependent on endurance.
+Learning moves: New moves are learned from inheriting from parents, reaching stat thresholds, and your monster seeing another monster use an ability it can learn. Chance of learning from other monsters is dependent on intelligence.
+Combo moves: No, combos will be reliant on the monster's ability to listen to the player, and the player's ability to time the attacks right, there will be no single button press combo attacks.
+
+## MONSTER AI & BEHAVIOR
+
+Low-INT behavior: There will be a hidden stat that determines the percent chance a monster will obey commands. The stat will be based on a formula involving intelligence and temperament. Each monster will have a Core AI archetype based on what the monster's birthmark is. When commands are ignored, it will instead choose something to do based on its Core AI.
+High-INT behavior: There will be a hidden stat that determines the percent chance a monster will obey commands. The stat will be based on a formula involving intelligence and temperament. Each monster will have a Core AI archetype based on what the monster's birthmark is. When commands are ignored, it will instead choose something to do based on its Core AI.
+Temperament effects: There will be a hidden stat that determines the percent chance a monster will obey commands. The stat will be based on a formula involving intelligence and temperament. Each monster will have a Core AI archetype based on what the monster's birthmark is. When commands are ignored, it will instead choose something to do based on its Core AI.
+Personalities: The birthmark will determine the personality.
+Disobedience: Depends on how well they can obey commands. If low int/temp, and their Core AI tells them to run, they will probably run.
+
+## COMBAT MECHANICS
+
+Damage types: To be determined, but it won't be very rock paper scissorsy if it is added.
+Status effects: Poison/DoT, Stun/Freeze, Slow, Blind/Accuracy, Burn
+Stagger/knockback: When struck, monsters take a damage animation and are interrupted for a brief moment.
+Targeting: Player can command which to attack, but otherwise the monsters AI will determine which to attack.
+Battle end: When either your monsters or enemy monsters reach 0 HP, or the player runs to another screen through a screen transition.
+KO handling: Stays down until revived, and the battle continues 1v2.
+
+## STATS & GROWTH
+
+All stats: Just Str, Int, Agi, and End. There will be formulas for things like HP, Energy, Energy Replenishment, Movement Speed etc that use various amounts of different stats to determine them.
+Level system: Stats grow from actions in battle.
+Stat caps: Stat growth modifiers slowly go down as the stats increase, and lower generation monsters modifiers drop faster and sooner than higher generation monsters, so while they can still grow, it will be difficult to match the strength of higher generations.
+Birthmark effects: Birthmarks will be anywhere from +20% stat growth to -20% stat growth.
+Breeding formula: There will be a formula that uses the parents stats to determine the starting stats of the baby. The starting stats of a monster determine how quickly its growth rates start to drop. Theoretically you can keep breeding a Gen 1 monster with another of the same type to produce another Gen 1 of the same type and eventually match the stats of Gen 3's and 4's.
+
+## SPECIES & GENERATIONS
+
+Insect species: Lower intelligence, higher agility in general, typically medium in aggressiveness. Flying types have a 50% chance to dodge short range attacks, but take 20% extra damage from long range attacks.
+Mammal species: High intelligence, fairly strong. Medium aggressiveness.
+Reptilian species: High endurance, fairly strong, not terribly intelligent. Generally aggressive. Flying types have a 50% chance to dodge short range attacks, but take 20% extra damage from long range attacks.
+Avian species: High agility, fairly high Intelligence, lower endurance. Not very aggressive. Flying types have a 50% chance to dodge short range attacks, but take 20% extra damage from long range attacks.
+Generation visuals: Gen 1 are normal creatures in real life, Gen 2 are visually mixtures of those creatures with more exotic features, and Gen 3 can be anything, such as entirely new creature ideas, mythological creatures etc.
+4th gen ideas: Powerful deity type creatures such as Quetzalcoatl, which will be an Avian/Reptile mix. Others are to be determined.
+
+## CAPTURE & TAMING
+
+Tranq mechanics: When the monster is below 25% hp, you can tranquilize them with a success rate starting at 50% while the monster is at 25% hp, all the way to 100% success if the monster is at 5% or less HP. If the battle continues after you tranq the monster, it has a chance of waking back up during the battle.
+Capture success: When the monster is below 25% hp, you can tranquilize them with a success rate starting at 50% while the monster is at 25% hp, all the way to 100% success if the monster is at 5% or less HP. If the battle continues after you tranq the monster, it has a chance of waking back up during the battle.
+Carry risk: Player movement speed halved and can't use items in battle.
+Wild temperament: Yes, wild monsters start with low temperament because you just beat them up and took them from their home.
+Legendaries: Perhaps each of the 4 themed areas can have a very difficult "secret" battle that's hard to get to or find, with the battle consisting of a Gen 4 and Gen 3 monster. The Gen 4 won't be captureable but the Gen 3 monster it is with will be a hint at how to create that Gen 4. You'll have to breed that Gen 3 monster with another unknown Gen 3.
+
+## UI & GAME FEEL
+
+Battle UI: HP Bars, Energy/MP, Status Icons, Command Menu, Move Cooldowns
+Camera: Top down but maybe 2.5D with a slight bit of depth.
+Command navigation: Outside of battle you can open a menu which pauses the game and you can change things around like which skills your monsters use and which items you have on your battle radials. In battle, that menu is locked and you can only use the shoulder buttons to give commands to your monsters or use items. You can also use the shoulder buttons outside of battles to change your monsters stance (aggressive, defensive etc)
+Command feedback: When you successfully issue a command (there will be cooldowns for issuing commands per monster) the command you issued will flash either Green for a successful command or Red for an ignored command.
+Impact feel: There will be sounds when monsters attack, get hit, the attacks themselves have sounds such as fire, and getting hit causes the target to shake for a brief moment.
+
+## ECONOMY & REWARDS
+
+Currency name: To be determined but probably gold.
+Purchasables: Battle Items, Food/Growth, Base Upgrades, Cosmetics
+Arena payouts: Low ranks will not pay terribly much, but higher ranks will pay out quite a lot.
+Wild drops: Monsters will be able to drop items and ingredients.
+Anti-grind: Can be rewarded monsters from the arena as well. Would be nice to have a minigame to play, perhaps something to do with cards and you can play with the other people on the ranking board, but that's quite low on the list of things to implement.
+
+## FINAL THOUGHTS
+
+Must feel right: The monsters need to feel intelligent and alive and combat need to be very fluid and smooth.
+On the fence: Crafting would be a neat distraction from normal game loop but difficult to think of items to add that are worth crafting and wouldn't make the player extremely overpowered. Permanent death is another question. Players can always save and reload if they want however, and adding permanent death could be fun for some players who want to play nuzlocke style.
+Reference games: Digimon World 1, Link to the Past (Combat is real time and fluid like I want this to be)
+Other thoughts: No.

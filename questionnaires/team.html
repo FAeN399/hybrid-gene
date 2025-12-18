@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monster Battler - Team Signup</title>
+    <style>
+        :root {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-tertiary: #21262d;
+            --border-color: #30363d;
+            --text-primary: #e6edf3;
+            --text-secondary: #8b949e;
+            --text-muted: #6e7681;
+            --accent-blue: #58a6ff;
+            --accent-purple: #a371f7;
+            --accent-orange: #f0883e;
+            --accent-green: #3fb950;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--bg-primary);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 40px 20px;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        /* Form Section */
+        .form-section {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            color: var(--accent-blue);
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        /* Form Fields */
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--text-primary);
+            font-weight: 500;
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+        }
+
+        .form-group input[type="text"],
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: inherit;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            transition: border-color 0.2s;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-purple);
+        }
+
+        .form-group textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .inline-fields {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        @media (max-width: 500px) {
+            .inline-fields {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Role Selection */
+        .role-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 10px;
+        }
+
+        .role-option {
+            position: relative;
+        }
+
+        .role-option input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .role-option label {
+            display: block;
+            padding: 12px 10px;
+            background: var(--bg-tertiary);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .role-option input:checked + label {
+            background: rgba(163, 113, 247, 0.15);
+            border-color: var(--accent-purple);
+            color: var(--accent-purple);
+        }
+
+        .role-option label:hover {
+            border-color: var(--text-muted);
+        }
+
+        /* Time */
+        .time-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .time-option input {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .time-option label {
+            display: block;
+            padding: 8px 16px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .time-option input:checked + label {
+            background: rgba(63, 185, 80, 0.15);
+            border-color: var(--accent-green);
+            color: var(--accent-green);
+        }
+
+        /* Export Section */
+        .export-section {
+            border-color: var(--accent-green);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            flex: 1;
+            min-width: 120px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: var(--accent-green);
+            color: #000;
+        }
+
+        .btn-primary:hover {
+            opacity: 0.9;
+        }
+
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--text-muted);
+        }
+
+        /* Preview */
+        .preview-box {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 12px;
+            margin-top: 15px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            white-space: pre-wrap;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--accent-green);
+            color: #000;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 25px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .footer a {
+            color: var(--accent-blue);
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Site Navigation -->
+        <nav style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-bottom:20px;">
+            <a href="index.html" style="color:#8b949e;text-decoration:none;padding:8px 16px;background:#161b22;border:1px solid #30363d;border-radius:6px;">Home</a>
+            <a href="questionnaires/" style="color:#8b949e;text-decoration:none;padding:8px 16px;background:#161b22;border:1px solid #30363d;border-radius:6px;">Questionnaires</a>
+            <a href="blueprint.html" style="color:#8b949e;text-decoration:none;padding:8px 16px;background:#161b22;border:1px solid #30363d;border-radius:6px;">Blueprint</a>
+            <a href="team.html" style="color:#3fb950;text-decoration:none;padding:8px 16px;background:#161b22;border:1px solid #3fb950;border-radius:6px;font-weight:600;">Team</a>
+        </nav>
+
+        <!-- Header -->
+        <header class="header">
+            <h1>Who's In?</h1>
+            <p>Fill this out so I know what you want to work on</p>
+        </header>
+
+        <!-- Basic Info -->
+        <section class="form-section">
+            <h2 class="section-title">You</h2>
+
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" id="name" placeholder="What should I call you?">
+            </div>
+
+            <div class="inline-fields">
+                <div class="form-group">
+                    <label>Discord</label>
+                    <input type="text" id="discord" placeholder="username">
+                </div>
+                <div class="form-group">
+                    <label>Other contact</label>
+                    <input type="text" id="other" placeholder="email, phone, etc">
+                </div>
+            </div>
+        </section>
+
+        <!-- What do you want to do -->
+        <section class="form-section">
+            <h2 class="section-title">What do you want to work on?</h2>
+
+            <div class="form-group">
+                <div class="role-grid">
+                    <div class="role-option">
+                        <input type="checkbox" id="role-design">
+                        <label for="role-design">Game Design</label>
+                    </div>
+                    <div class="role-option">
+                        <input type="checkbox" id="role-programming">
+                        <label for="role-programming">Programming</label>
+                    </div>
+                    <div class="role-option">
+                        <input type="checkbox" id="role-art">
+                        <label for="role-art">Art / Sprites</label>
+                    </div>
+                    <div class="role-option">
+                        <input type="checkbox" id="role-music">
+                        <label for="role-music">Music / SFX</label>
+                    </div>
+                    <div class="role-option">
+                        <input type="checkbox" id="role-writing">
+                        <label for="role-writing">Writing</label>
+                    </div>
+                    <div class="role-option">
+                        <input type="checkbox" id="role-testing">
+                        <label for="role-testing">Testing</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Specifics</label>
+                <textarea id="specifics" placeholder="What exactly interests you? Any particular systems, art style, etc..."></textarea>
+            </div>
+        </section>
+
+        <!-- Time -->
+        <section class="form-section">
+            <h2 class="section-title">How much time can you put in weekly?</h2>
+
+            <div class="form-group">
+                <div class="time-options">
+                    <div class="time-option">
+                        <input type="radio" id="time-1" name="time" value="A few hours">
+                        <label for="time-1">A few hours</label>
+                    </div>
+                    <div class="time-option">
+                        <input type="radio" id="time-2" name="time" value="5-10 hours">
+                        <label for="time-2">5-10 hours</label>
+                    </div>
+                    <div class="time-option">
+                        <input type="radio" id="time-3" name="time" value="10+ hours">
+                        <label for="time-3">10+ hours</label>
+                    </div>
+                    <div class="time-option">
+                        <input type="radio" id="time-4" name="time" value="Whenever">
+                        <label for="time-4">Whenever</label>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Anything else -->
+        <section class="form-section">
+            <h2 class="section-title">Anything else?</h2>
+
+            <div class="form-group">
+                <textarea id="notes" placeholder="Skills, ideas, questions, whatever..."></textarea>
+            </div>
+        </section>
+
+        <!-- Export -->
+        <section class="form-section export-section">
+            <div class="btn-group">
+                <button class="btn btn-primary" onclick="copyToClipboard()">Copy & Send to Me</button>
+                <button class="btn btn-secondary" onclick="clearForm()">Clear</button>
+            </div>
+
+            <div class="preview-box" id="preview">Your info will appear here...</div>
+        </section>
+
+        <footer class="footer">
+            <a href="blueprint.html">Check out the game design doc</a>
+        </footer>
+    </div>
+
+    <div class="toast" id="toast">Copied!</div>
+
+    <script>
+        function generateText() {
+            const name = document.getElementById('name').value || '(no name)';
+            const discord = document.getElementById('discord').value || '-';
+            const other = document.getElementById('other').value || '-';
+            const specifics = document.getElementById('specifics').value || '-';
+            const notes = document.getElementById('notes').value || '-';
+
+            const roles = [];
+            if (document.getElementById('role-design').checked) roles.push('Game Design');
+            if (document.getElementById('role-programming').checked) roles.push('Programming');
+            if (document.getElementById('role-art').checked) roles.push('Art/Sprites');
+            if (document.getElementById('role-music').checked) roles.push('Music/SFX');
+            if (document.getElementById('role-writing').checked) roles.push('Writing');
+            if (document.getElementById('role-testing').checked) roles.push('Testing');
+
+            const timeEl = document.querySelector('input[name="time"]:checked');
+            const time = timeEl ? timeEl.value : 'Not specified';
+
+            return `MONSTER BATTLER - TEAM SIGNUP
+==============================
+Name: ${name}
+Discord: ${discord}
+Other: ${other}
+
+Wants to work on: ${roles.length ? roles.join(', ') : 'Not selected'}
+Specifics: ${specifics}
+Time available: ${time}
+
+Notes: ${notes}`;
+        }
+
+        function copyToClipboard() {
+            const text = generateText();
+            document.getElementById('preview').textContent = text;
+
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('Copied!');
+            }).catch(() => {
+                const ta = document.createElement('textarea');
+                ta.value = text;
+                document.body.appendChild(ta);
+                ta.select();
+                document.execCommand('copy');
+                document.body.removeChild(ta);
+                showToast('Copied!');
+            });
+        }
+
+        function clearForm() {
+            document.getElementById('name').value = '';
+            document.getElementById('discord').value = '';
+            document.getElementById('other').value = '';
+            document.getElementById('specifics').value = '';
+            document.getElementById('notes').value = '';
+            document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+            document.querySelectorAll('input[type="radio"]').forEach(rb => rb.checked = false);
+            document.getElementById('preview').textContent = 'Your info will appear here...';
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+    </script>
+</body>
+</html>

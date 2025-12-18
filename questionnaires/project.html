@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Monster Battler - Project Information</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      color: #E4E4E7;
+      background: #09090B;
+      padding: 24px 16px;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    h1 {
+      font-size: 28px;
+      font-weight: 700;
+      color: #FAFAFA;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      font-size: 16px;
+      color: #A1A1AA;
+      font-style: italic;
+    }
+
+    .intro {
+      background: #18181B;
+      border: 1px solid #27272A;
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 32px;
+      color: #A1A1AA;
+    }
+
+    section {
+      background: #18181B;
+      border: 1px solid #27272A;
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    h2 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #2DD4BF;
+      margin-bottom: 24px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #2DD4BF30;
+    }
+
+    .form-group {
+      margin-bottom: 24px;
+    }
+
+    .form-group:last-child {
+      margin-bottom: 0;
+    }
+
+    label {
+      display: block;
+      font-weight: 500;
+      font-size: 15px;
+      color: #FAFAFA;
+      margin-bottom: 6px;
+    }
+
+    .hint {
+      font-size: 14px;
+      color: #71717A;
+      margin-bottom: 8px;
+      font-weight: 400;
+    }
+
+    input[type="text"], textarea {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid #3F3F46;
+      border-radius: 6px;
+      font-size: 16px;
+      font-family: inherit;
+      background: #27272A;
+      color: #FAFAFA;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    input[type="text"]::placeholder, textarea::placeholder {
+      color: #52525B;
+    }
+
+    input[type="text"]:focus, textarea:focus {
+      border-color: #2DD4BF;
+      outline: none;
+      box-shadow: 0 0 0 3px #2DD4BF30;
+    }
+
+    .inline-fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 16px;
+      margin-top: 32px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      padding: 14px 28px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary {
+      background: #14B8A6;
+      color: #042F2E;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    }
+
+    .btn-primary:hover {
+      background: #2DD4BF;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(45,212,191,0.3);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    .btn-secondary {
+      background: #27272A;
+      color: #A1A1AA;
+      border: 1px solid #3F3F46;
+    }
+
+    .btn-secondary:hover {
+      background: #3F3F46;
+      color: #FAFAFA;
+    }
+
+    @media (max-width: 480px) {
+      h1 { font-size: 24px; }
+      section { padding: 20px; }
+      .actions { flex-direction: column; }
+      button { width: 100%; }
+      .inline-fields { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <nav style="max-width:720px;margin:0 auto 24px;display:flex;gap:12px;flex-wrap:wrap;justify-content:center;">
+    <a href="../index.html" style="color:#A1A1AA;text-decoration:none;padding:8px 16px;background:#18181B;border:1px solid #27272A;border-radius:6px;">Home</a>
+    <a href="./" style="color:#2DD4BF;text-decoration:none;padding:8px 16px;background:#18181B;border:1px solid #2DD4BF;border-radius:6px;">Questionnaires</a>
+    <a href="../blueprint.html" style="color:#A1A1AA;text-decoration:none;padding:8px 16px;background:#18181B;border:1px solid #27272A;border-radius:6px;">Blueprint</a>
+    <a href="../team.html" style="color:#A1A1AA;text-decoration:none;padding:8px 16px;background:#18181B;border:1px solid #27272A;border-radius:6px;">Team</a>
+  </nav>
+  <div class="container">
+    <header>
+      <h1>Project Information</h1>
+      <p class="subtitle">Game Identity & Team Details</p>
+    </header>
+
+    <div class="intro">
+      <p>Official project metadata, team info, and administrative details for documentation and marketing.</p>
+    </div>
+
+    <form id="projectForm">
+
+      <!-- GAME IDENTITY -->
+      <section>
+        <h2>Game Identity</h2>
+
+        <div class="form-group">
+          <label for="gameTitle">Game Title</label>
+          <p class="hint">The official name of the game</p>
+          <input type="text" id="gameTitle" name="gameTitle" placeholder="Monster Battler (working title)">
+        </div>
+
+        <div class="form-group">
+          <label for="tagline">Tagline / Elevator Pitch</label>
+          <p class="hint">One sentence that sells the game</p>
+          <input type="text" id="tagline" name="tagline" placeholder="e.g. 'Breed, battle, become champion.'">
+        </div>
+
+        <div class="form-group">
+          <label for="genre">Genre Classification</label>
+          <p class="hint">How would this be categorized on a storefront?</p>
+          <input type="text" id="genre" name="genre" placeholder="e.g. Monster Taming RPG, Action Strategy">
+        </div>
+
+        <div class="form-group">
+          <label for="comparisons">Comparison Titles</label>
+          <p class="hint">"It's like X meets Y" - for pitching and marketing</p>
+          <textarea id="comparisons" name="comparisons" placeholder="e.g. Digimon World meets Link to the Past"></textarea>
+        </div>
+      </section>
+
+      <!-- TEAM INFO -->
+      <section>
+        <h2>Team Information</h2>
+
+        <div class="form-group">
+          <label for="studioName">Studio / Team Name</label>
+          <p class="hint">The name that appears in credits and storefronts</p>
+          <input type="text" id="studioName" name="studioName">
+        </div>
+
+        <div class="form-group">
+          <label for="teamMembers">Team Members & Roles</label>
+          <p class="hint">Who's working on what? (Name - Role)</p>
+          <textarea id="teamMembers" name="teamMembers" placeholder="e.g.&#10;John Doe - Lead Developer&#10;Jane Smith - Art Director"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="contactEmail">Contact Email</label>
+          <p class="hint">For press, business inquiries</p>
+          <input type="text" id="contactEmail" name="contactEmail" placeholder="contact@studio.com">
+        </div>
+      </section>
+
+      <!-- PROJECT STATUS -->
+      <section>
+        <h2>Project Status</h2>
+
+        <div class="inline-fields">
+          <div class="form-group">
+            <label for="devPhase">Current Phase</label>
+            <input type="text" id="devPhase" name="devPhase" placeholder="e.g. Concept, Pre-prod, Alpha">
+          </div>
+          <div class="form-group">
+            <label for="startDate">Project Start Date</label>
+            <input type="text" id="startDate" name="startDate" placeholder="e.g. December 2024">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="targetRelease">Target Release Window</label>
+          <p class="hint">Rough estimate, even if uncertain</p>
+          <input type="text" id="targetRelease" name="targetRelease" placeholder="e.g. 2026, TBD, When it's ready">
+        </div>
+
+        <div class="form-group">
+          <label for="versionScheme">Version Numbering</label>
+          <p class="hint">How will builds be versioned?</p>
+          <input type="text" id="versionScheme" name="versionScheme" placeholder="e.g. Semantic (1.0.0), Date-based (2024.12.01)">
+        </div>
+      </section>
+
+      <!-- LEGAL -->
+      <section>
+        <h2>Legal & Business</h2>
+
+        <div class="form-group">
+          <label for="copyright">Copyright Holder</label>
+          <p class="hint">Who owns the IP?</p>
+          <input type="text" id="copyright" name="copyright" placeholder="e.g. © 2024 Studio Name">
+        </div>
+
+        <div class="form-group">
+          <label for="contentRating">Target Content Rating</label>
+          <p class="hint">ESRB/PEGI target</p>
+          <input type="text" id="contentRating" name="contentRating" placeholder="e.g. E10+, Teen, Everyone">
+        </div>
+
+        <div class="form-group">
+          <label for="licensing">Licensing Notes</label>
+          <p class="hint">Any third-party assets, engines, or IP considerations?</p>
+          <textarea id="licensing" name="licensing" placeholder="e.g. Using RPG Maker MZ (commercial license), Original IP"></textarea>
+        </div>
+      </section>
+
+      <!-- TECHNICAL -->
+      <section>
+        <h2>Technical Specifications</h2>
+
+        <div class="form-group">
+          <label for="engine">Engine / Framework</label>
+          <input type="text" id="engine" name="engine" placeholder="e.g. RPG Maker MZ, Godot 4, Unity">
+        </div>
+
+        <div class="form-group">
+          <label for="platforms">Target Platforms</label>
+          <p class="hint">Primary and secondary platforms</p>
+          <textarea id="platforms" name="platforms" placeholder="e.g.&#10;Primary: Windows PC&#10;Secondary: Mac, Linux&#10;Future: Switch, Steam Deck"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="minSpecs">Minimum Specs (if known)</label>
+          <textarea id="minSpecs" name="minSpecs" placeholder="e.g. OS, RAM, GPU requirements"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="resolution">Target Resolution / Aspect Ratio</label>
+          <input type="text" id="resolution" name="resolution" placeholder="e.g. 1920x1080, 16:9, Pixel-perfect 640x480">
+        </div>
+      </section>
+
+      <!-- BRANDING -->
+      <section>
+        <h2>Branding & Art Direction</h2>
+
+        <div class="form-group">
+          <label for="artStyle">Art Style Reference</label>
+          <p class="hint">Visual direction in a few words</p>
+          <input type="text" id="artStyle" name="artStyle" placeholder="e.g. SNES-era pixel art, Link to the Past style">
+        </div>
+
+        <div class="form-group">
+          <label for="colorPalette">Primary Color Palette</label>
+          <p class="hint">Brand colors for UI, marketing, etc.</p>
+          <textarea id="colorPalette" name="colorPalette" placeholder="e.g.&#10;Primary: Teal #2DD4BF&#10;Background: Dark #09090B&#10;Accent: Gold #F59E0B"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="fonts">Typography / Fonts</label>
+          <input type="text" id="fonts" name="fonts" placeholder="e.g. Press Start 2P for titles, system font for UI">
+        </div>
+
+        <div class="form-group">
+          <label for="logoStatus">Logo Status</label>
+          <input type="text" id="logoStatus" name="logoStatus" placeholder="e.g. Not started, Placeholder, Final">
+        </div>
+      </section>
+
+      <!-- DISTRIBUTION -->
+      <section>
+        <h2>Distribution & Monetization</h2>
+
+        <div class="form-group">
+          <label for="storefronts">Planned Storefronts</label>
+          <textarea id="storefronts" name="storefronts" placeholder="e.g.&#10;Steam (primary)&#10;itch.io (demo/devlog)&#10;GOG (maybe later)"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="pricingModel">Pricing Model</label>
+          <p class="hint">Paid, free, freemium, early access strategy</p>
+          <textarea id="pricingModel" name="pricingModel" placeholder="e.g. Paid $14.99, Early Access at $9.99"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="demoPlans">Demo Plans</label>
+          <input type="text" id="demoPlans" name="demoPlans" placeholder="e.g. Yes - first arena, No, Festival demo only">
+        </div>
+      </section>
+
+      <!-- COMMUNITY -->
+      <section>
+        <h2>Community & Marketing</h2>
+
+        <div class="form-group">
+          <label for="website">Website / Devlog</label>
+          <input type="text" id="website" name="website" placeholder="https://...">
+        </div>
+
+        <div class="form-group">
+          <label for="socials">Social Media Handles</label>
+          <textarea id="socials" name="socials" placeholder="e.g.&#10;Twitter: @handle&#10;Discord: discord.gg/...&#10;YouTube: channel name"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="pressKit">Press Kit Status</label>
+          <input type="text" id="pressKit" name="pressKit" placeholder="e.g. Not started, In progress, Available at URL">
+        </div>
+
+        <div class="form-group">
+          <label for="otherNotes">Other Notes</label>
+          <textarea id="otherNotes" name="otherNotes"></textarea>
+        </div>
+      </section>
+
+      <div class="actions">
+        <button type="button" class="btn-primary" onclick="exportAnswers()">Export Answers</button>
+        <button type="button" class="btn-secondary" onclick="clearForm()">Clear All</button>
+      </div>
+
+    </form>
+  </div>
+
+  <script>
+    function exportAnswers() {
+      const form = document.getElementById('projectForm');
+      let output = "MONSTER BATTLER - PROJECT INFORMATION\n";
+      output += "======================================\n\n";
+
+      const sections = form.querySelectorAll('section');
+      sections.forEach(section => {
+        const title = section.querySelector('h2').textContent;
+        output += `## ${title}\n\n`;
+
+        const groups = section.querySelectorAll('.form-group');
+        groups.forEach(group => {
+          const label = group.querySelector('label').textContent;
+          const input = group.querySelector('textarea') || group.querySelector('input');
+          if (input && input.value.trim()) {
+            output += `**${label}**\n${input.value.trim()}\n\n`;
+          }
+        });
+      });
+
+      const blob = new Blob([output], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'monster_battler_project_info.txt';
+      a.click();
+      URL.revokeObjectURL(url);
+
+      alert('Answers exported to monster_battler_project_info.txt');
+    }
+
+    function clearForm() {
+      if (confirm('Clear all answers?')) {
+        document.getElementById('projectForm').reset();
+      }
+    }
+  </script>
+</body>
+</html>

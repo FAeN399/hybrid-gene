@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Monster Battler - Framework Questions</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      color: #E4E4E7;
+      background: #09090B;
+      padding: 24px 16px;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    h1 {
+      font-size: 28px;
+      font-weight: 700;
+      color: #FAFAFA;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      font-size: 16px;
+      color: #A1A1AA;
+      font-style: italic;
+    }
+
+    .intro {
+      background: #18181B;
+      border: 1px solid #27272A;
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 32px;
+      color: #A1A1AA;
+    }
+
+    section {
+      background: #18181B;
+      border: 1px solid #27272A;
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    h2 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #2DD4BF;
+      margin-bottom: 24px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #2DD4BF30;
+    }
+
+    .form-group {
+      margin-bottom: 24px;
+    }
+
+    .form-group:last-child {
+      margin-bottom: 0;
+    }
+
+    label {
+      display: block;
+      font-weight: 500;
+      font-size: 15px;
+      color: #FAFAFA;
+      margin-bottom: 6px;
+    }
+
+    .hint {
+      font-size: 14px;
+      color: #71717A;
+      margin-bottom: 8px;
+      font-weight: 400;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid #3F3F46;
+      border-radius: 6px;
+      font-size: 16px;
+      font-family: inherit;
+      background: #27272A;
+      color: #FAFAFA;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    textarea::placeholder {
+      color: #52525B;
+    }
+
+    textarea:focus {
+      border-color: #2DD4BF;
+      outline: none;
+      box-shadow: 0 0 0 3px #2DD4BF30;
+    }
+
+    .actions {
+      display: flex;
+      gap: 16px;
+      margin-top: 32px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      padding: 14px 28px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary {
+      background: #14B8A6;
+      color: #042F2E;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    }
+
+    .btn-primary:hover {
+      background: #2DD4BF;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(45,212,191,0.3);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    .btn-secondary {
+      background: #27272A;
+      color: #A1A1AA;
+      border: 1px solid #3F3F46;
+    }
+
+    .btn-secondary:hover {
+      background: #3F3F46;
+      color: #FAFAFA;
+    }
+
+    @media (max-width: 480px) {
+      h1 { font-size: 24px; }
+      section { padding: 20px; }
+      .actions { flex-direction: column; }
+      button { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <nav style="max-width:720px;margin:0 auto 24px;display:flex;gap:12px;flex-wrap:wrap;justify-content:center;">
+      <a href="../index.html" style="color:#A1A1AA;text-decoration:none;padding:8px 16px;background:#18181B;border:1px solid #27272A;border-radius:6px;">Home</a>
+      <a href="./" style="color:#2DD4BF;text-decoration:none;padding:8px 16px;background:#18181B;border:1px solid #2DD4BF;border-radius:6px;">Questionnaires</a>
+      <a href="../blueprint.html" style="color:#A1A1AA;text-decoration:none;padding:8px 16px;background:#18181B;border:1px solid #27272A;border-radius:6px;">Blueprint</a>
+      <a href="../team.html" style="color:#A1A1AA;text-decoration:none;padding:8px 16px;background:#18181B;border:1px solid #27272A;border-radius:6px;">Team</a>
+    </nav>
+    <div class="container">
+    <header>
+      <h1>Monster Battler - Framework</h1>
+      <p class="subtitle">Follow-up Questions v2</p>
+    </header>
+
+    <div class="intro">
+      <p>Big-picture questions to solidify the foundation before diving into specifics.</p>
+    </div>
+
+    <form id="designForm">
+
+      <section>
+        <h2>Core Fantasy</h2>
+
+        <div class="form-group">
+          <label for="playerFantasy">What's the player fantasy?</label>
+          <p class="hint">Monster trainer? Beast tamer? Arena champion? Breeder/geneticist? Explorer?</p>
+          <textarea id="playerFantasy" name="playerFantasy"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="uniqueHook">What makes this different from Pokemon/Digimon/Monster Rancher?</label>
+          <p class="hint">The one thing you'd put on the back of the box.</p>
+          <textarea id="uniqueHook" name="uniqueHook"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="coreMoment">What's the "hell yeah" moment you want players to experience?</label>
+          <p class="hint">First arena win? Breeding a powerful hybrid? Perfectly-timed combo?</p>
+          <textarea id="coreMoment" name="coreMoment"></textarea>
+        </div>
+      </section>
+
+      <section>
+        <h2>Combat Feel</h2>
+
+        <div class="form-group">
+          <label for="combatReference">What existing game's combat feels closest to what you want?</label>
+          <p class="hint">Digimon World? Monster Hunter? An action RPG? RTS micro?</p>
+          <textarea id="combatReference" name="combatReference"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="playerRole">During a fight, is the player a coach, a commander, or a participant?</label>
+          <p class="hint">Shouting from the sidelines? Giving tactical orders? In the thick of it using items?</p>
+          <textarea id="playerRole" name="playerRole"></textarea>
+        </div>
+      </section>
+
+      <section>
+        <h2>Monster Relationship</h2>
+
+        <div class="form-group">
+          <label for="monsterBond">Are monsters partners or tools?</label>
+          <p class="hint">Emotional bonds that matter? Or more like units in a strategy game?</p>
+          <textarea id="monsterBond" name="monsterBond"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="monsterTurnover">How often should players retire/replace monsters?</label>
+          <p class="hint">Keep the same team forever? Constant breeding for better ones? Mix?</p>
+          <textarea id="monsterTurnover" name="monsterTurnover"></textarea>
+        </div>
+      </section>
+
+      <section>
+        <h2>Progression</h2>
+
+        <div class="form-group">
+          <label for="powerSource">Where does power come from?</label>
+          <p class="hint">Time invested? Smart breeding choices? Player skill? Finding rare monsters?</p>
+          <textarea id="powerSource" name="powerSource"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="progressionFeel">Should progression feel like a grind, a puzzle, or a journey?</label>
+          <p class="hint">Steady effort rewarded? Figuring out optimal strategies? Story-driven milestones?</p>
+          <textarea id="progressionFeel" name="progressionFeel"></textarea>
+        </div>
+      </section>
+
+      <section>
+        <h2>Priorities</h2>
+
+        <div class="form-group">
+          <label for="mvpFeatures">If you could only ship 3 features, what are they?</label>
+          <p class="hint">Combat? Breeding? Arena? Exploration? Base building?</p>
+          <textarea id="mvpFeatures" name="mvpFeatures"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="cutFirst">What gets cut first if scope becomes a problem?</label>
+          <p class="hint">Which systems are "nice to have" vs essential?</p>
+          <textarea id="cutFirst" name="cutFirst"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="otherThoughts">Anything else on your mind about the framework?</label>
+          <textarea id="otherThoughts" name="otherThoughts"></textarea>
+        </div>
+      </section>
+
+      <div class="actions">
+        <button type="button" class="btn-primary" onclick="exportAnswers()">Export Answers</button>
+        <button type="button" class="btn-secondary" onclick="clearForm()">Clear All</button>
+      </div>
+
+    </form>
+  </div>
+
+  <script>
+    function exportAnswers() {
+      const form = document.getElementById('designForm');
+      let output = "MONSTER BATTLER - FRAMEWORK ANSWERS\n";
+      output += "====================================\n\n";
+
+      const sections = form.querySelectorAll('section');
+      sections.forEach(section => {
+        const title = section.querySelector('h2').textContent;
+        output += `## ${title}\n\n`;
+
+        const groups = section.querySelectorAll('.form-group');
+        groups.forEach(group => {
+          const label = group.querySelector('label').textContent;
+          const textarea = group.querySelector('textarea');
+          if (textarea && textarea.value.trim()) {
+            output += `**${label}**\n${textarea.value.trim()}\n\n`;
+          }
+        });
+      });
+
+      const blob = new Blob([output], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'monster_battler_framework.txt';
+      a.click();
+      URL.revokeObjectURL(url);
+
+      alert('Answers exported to monster_battler_framework.txt');
+    }
+
+    function clearForm() {
+      if (confirm('Clear all answers?')) {
+        document.getElementById('designForm').reset();
+      }
+    }
+  </script>
+</body>
+</html>

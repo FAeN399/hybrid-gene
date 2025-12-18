@@ -1,0 +1,49 @@
+MONSTER BATTLER - FRAMEWORK ANSWERS
+====================================
+
+## Core Fantasy
+
+**What's the player fantasy?**
+Monster breeding and training and battling.
+
+**What makes this different from Pokemon/Digimon/Monster Rancher?**
+Fast paced action packed battles.
+
+**What's the "hell yeah" moment you want players to experience?**
+Finding a cool combination of breeding, using awesome abilities, and using fun tactics and timing with your monsters.
+
+## Combat Feel
+
+**What existing game's combat feels closest to what you want?**
+Digimon World 1, but faster paced.
+
+**During a fight, is the player a coach, a commander, or a participant?**
+Commander and coach.
+
+## Monster Relationship
+
+**Are monsters partners or tools?**
+Partners, temperament will be altered by relationship.
+
+**How often should players retire/replace monsters?**
+There will be quite a few monsters the player will want, perhaps starting with a fence that can hold 6 and then you can upgrade your base to hold more, maybe 20 max.
+
+## Progression
+
+**Where does power come from?**
+Battling increases power, as well as parents passing stronger stats and abilities to offspring.
+
+**Should progression feel like a grind, a puzzle, or a journey?**
+The progression is a mix of grind and journey.
+
+## Priorities
+
+**If you could only ship 3 features, what are they?**
+Breeding, Combat, Arena.
+
+**What gets cut first if scope becomes a problem?**
+Base building and item crafting.
+
+**Anything else on your mind about the framework?**
+Nope.
+

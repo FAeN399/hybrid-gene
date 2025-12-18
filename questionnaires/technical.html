@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monster Battler - Technical Follow-up</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            color: #E4E4E7;
+            background: #09090B;
+            padding: 24px 16px;
+        }
+
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #FAFAFA;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            color: #A1A1AA;
+            font-style: italic;
+        }
+
+        .intro {
+            background: #18181B;
+            border: 1px solid #27272A;
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 32px;
+            color: #A1A1AA;
+        }
+
+        section {
+            background: #18181B;
+            border: 1px solid #27272A;
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        h2 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2DD4BF;
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #2DD4BF30;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        label {
+            display: block;
+            font-weight: 500;
+            font-size: 15px;
+            color: #FAFAFA;
+            margin-bottom: 6px;
+        }
+
+        .hint {
+            font-size: 14px;
+            color: #71717A;
+            margin-bottom: 8px;
+            font-weight: 400;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #3F3F46;
+            border-radius: 6px;
+            font-size: 16px;
+            font-family: inherit;
+            background: #27272A;
+            color: #FAFAFA;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        textarea::placeholder {
+            color: #52525B;
+        }
+
+        textarea:focus {
+            border-color: #2DD4BF;
+            outline: none;
+            box-shadow: 0 0 0 3px #2DD4BF30;
+        }
+
+        .actions {
+            display: flex;
+            gap: 16px;
+            margin-top: 32px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background: #14B8A6;
+            color: #042F2E;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: #2DD4BF;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(45, 212, 191, 0.3);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: #27272A;
+            color: #A1A1AA;
+            border: 1px solid #3F3F46;
+        }
+
+        .btn-secondary:hover {
+            background: #3F3F46;
+            color: #FAFAFA;
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 24px;
+            }
+
+            section {
+                padding: 20px;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav style="max-width:720px;margin:0 auto 24px;display:flex;gap:12px;flex-wrap:wrap;justify-content:center;">
+      <a href="../index.html" style="color:#A1A1AA;text-decoration:none;padding:8px 16px;background:#18181B;border:1px solid #27272A;border-radius:6px;">Home</a>
+      <a href="./" style="color:#2DD4BF;text-decoration:none;padding:8px 16px;background:#18181B;border:1px solid #2DD4BF;border-radius:6px;">Questionnaires</a>
+      <a href="../blueprint.html" style="color:#A1A1AA;text-decoration:none;padding:8px 16px;background:#18181B;border:1px solid #27272A;border-radius:6px;">Blueprint</a>
+      <a href="../team.html" style="color:#A1A1AA;text-decoration:none;padding:8px 16px;background:#18181B;border:1px solid #27272A;border-radius:6px;">Team</a>
+    </nav>
+    <div class="container">
+        <header>
+            <h1>Monster Battler - Technical Specs</h1>
+            <p class="subtitle">Clarifying the Technical Direction</p>
+        </header>
+
+        <div class="intro">
+            <p>Please fill out these details to help solidify the technical roadmap and engine choices.</p>
+        </div>
+
+        <form id="techForm">
+
+            <section>
+                <h2>1. Technical Foundation</h2>
+
+                <div class="form-group">
+                    <label for="engineChoice">Engine Confirmation</label>
+                    <p class="hint">Are we strictly committed to RPG Maker (MZ/MV), or is this a concept for a custom
+                        engine (Godot/Unity)? Real-time combat is complex in RPG Maker.</p>
+                    <textarea id="engineChoice" name="engineChoice"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="targetPlatform">Target Platform</label>
+                    <p class="hint">Is the primary target PC with Controller support, or are we also looking at
+                        Console/Mobile?</p>
+                    <textarea id="targetPlatform" name="targetPlatform"></textarea>
+                </div>
+            </section>
+
+            <section>
+                <h2>2. Combat System Details</h2>
+
+                <div class="form-group">
+                    <label for="aiLogic">AI Logic & Autonomy</label>
+                    <p class="hint">Should we implement a Behavior Tree/State Machine? How complex should the
+                        "Intelligence" stat influence be?</p>
+                    <textarea id="aiLogic" name="aiLogic"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="controlScheme">Control Scheme</label>
+                    <p class="hint">How do L1+L2 combos translate to Keyboard/Mouse? Is the player character physically
+                        present/hittable on the battlefield?</p>
+                    <textarea id="controlScheme" name="controlScheme"></textarea>
+                </div>
+            </section>
+
+            <section>
+                <h2>3. Breeding & Genetics</h2>
+
+                <div class="form-group">
+                    <label for="inheritanceFormula">Inheritance Formula</label>
+                    <p class="hint">Do you have a specific formula in mind, or should we design one?</p>
+                    <textarea id="inheritanceFormula" name="inheritanceFormula"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="visuals">Visuals & Birthmarks</label>
+                    <p class="hint">Does "Birthmarks" imply dynamic sprite generation/overlays, or just stat variations?
+                    </p>
+                    <textarea id="visuals" name="visuals"></textarea>
+                </div>
+            </section>
+
+            <section>
+                <h2>4. World & Scope</h2>
+
+                <div class="form-group">
+                    <label for="mapStructure">Map Structure</label>
+                    <p class="hint">Is "20 screens of wilderness" a seamless open world or distinct map loads?</p>
+                    <textarea id="mapStructure" name="mapStructure"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="multiplayer">Multiplayer</label>
+                    <p class="hint">Given the priorities, should we treat Multiplayer as strictly out-of-scope for V1?
+                    </p>
+                    <textarea id="multiplayer" name="multiplayer"></textarea>
+                </div>
+            </section>
+
+            <section>
+                <h2>5. Data & Priorities</h2>
+
+                <div class="form-group">
+                    <label for="monsterDatabase">Monster Database</label>
+                    <p class="hint">JSON/External format for easy editing, or hardcoded in engine? (100+ variants)</p>
+                    <textarea id="monsterDatabase" name="monsterDatabase"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="nextSteps">Next Steps Priority</label>
+                    <p class="hint">What should we tackle first? (Combat Prototype, Breeding Algo, Project Setup)</p>
+                    <textarea id="nextSteps" name="nextSteps"></textarea>
+                </div>
+            </section>
+
+            <div class="actions">
+                <button type="button" class="btn-primary" onclick="exportAnswers()">Export Answers</button>
+                <button type="button" class="btn-secondary" onclick="clearForm()">Clear All</button>
+            </div>
+
+        </form>
+    </div>
+
+    <script>
+        function exportAnswers() {
+            const form = document.getElementById('techForm');
+            let output = "MONSTER BATTLER - TECHNICAL SPECS ANSWERS\n";
+            output += "=========================================\n\n";
+
+            const sections = form.querySelectorAll('section');
+            sections.forEach(section => {
+                const title = section.querySelector('h2').textContent;
+                output += `## ${title}\n\n`;
+
+                const groups = section.querySelectorAll('.form-group');
+                groups.forEach(group => {
+                    const label = group.querySelector('label').textContent;
+                    const textarea = group.querySelector('textarea');
+                    if (textarea && textarea.value.trim()) {
+                        output += `**${label}**\n${textarea.value.trim()}\n\n`;
+                    }
+                });
+            });
+
+            const blob = new Blob([output], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'monster_battler_specs.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+
+            alert('Answers exported to monster_battler_specs.txt');
+        }
+
+        function clearForm() {
+            if (confirm('Clear all answers?')) {
+                document.getElementById('techForm').reset();
+            }
+        }
+    </script>
+</body>
+
+</html>

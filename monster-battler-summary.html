@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monster Battler - Design Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0a0f;
+            --bg-card: #12121a;
+            --bg-card-hover: #1a1a25;
+            --accent-primary: #ff6b35;
+            --accent-secondary: #4ecdc4;
+            --accent-tertiary: #a855f7;
+            --text-primary: #e8e8e8;
+            --text-secondary: #a0a0a0;
+            --border-color: #2a2a3a;
+            --insect: #7cb342;
+            --mammal: #ff7043;
+            --reptilian: #5c6bc0;
+            --avian: #26c6da;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, rgba(255,107,53,0.1) 0%, rgba(78,205,196,0.1) 100%);
+            border-bottom: 2px solid var(--accent-primary);
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+        }
+
+        .tagline {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .vision-box {
+            background: linear-gradient(135deg, var(--bg-card), rgba(255,107,53,0.05));
+            border: 1px solid var(--accent-primary);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .vision-item {
+            text-align: center;
+            padding: 15px;
+        }
+
+        .vision-item h3 {
+            color: var(--accent-secondary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+
+        .vision-item p {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            color: var(--accent-primary);
+            margin: 40px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        h2::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--accent-secondary);
+            transform: rotate(45deg);
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--accent-secondary);
+            transform: translateY(-2px);
+        }
+
+        .card h3 {
+            color: var(--accent-secondary);
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .card p, .card li {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        .card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .card li {
+            padding: 5px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .card li::before {
+            content: '>';
+            position: absolute;
+            left: 0;
+            color: var(--accent-primary);
+            font-weight: bold;
+        }
+
+        .species-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .species-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 25px;
+            border-left: 4px solid;
+            transition: all 0.3s ease;
+        }
+
+        .species-card:hover {
+            transform: translateX(5px);
+        }
+
+        .species-card.insect { border-color: var(--insect); }
+        .species-card.mammal { border-color: var(--mammal); }
+        .species-card.reptilian { border-color: var(--reptilian); }
+        .species-card.avian { border-color: var(--avian); }
+
+        .species-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        .species-card.insect h3 { color: var(--insect); }
+        .species-card.mammal h3 { color: var(--mammal); }
+        .species-card.reptilian h3 { color: var(--reptilian); }
+        .species-card.avian h3 { color: var(--avian); }
+
+        .stat-bar {
+            display: flex;
+            align-items: center;
+            margin: 8px 0;
+            font-size: 0.9rem;
+        }
+
+        .stat-bar span {
+            width: 60px;
+            color: var(--text-secondary);
+        }
+
+        .stat-bar .bar {
+            flex: 1;
+            height: 8px;
+            background: var(--bg-dark);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .stat-bar .fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .gen-timeline {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 20px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gen-timeline::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 10%;
+            right: 10%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-secondary), var(--accent-primary), var(--accent-tertiary));
+            z-index: 0;
+        }
+
+        .gen-item {
+            text-align: center;
+            z-index: 1;
+            background: var(--bg-card);
+            padding: 10px 20px;
+            border-radius: 8px;
+        }
+
+        .gen-item .num {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .gen-item .desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 5px;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border-radius: 12px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: var(--bg-card);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background: rgba(255,107,53,0.1);
+            color: var(--accent-primary);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        td {
+            color: var(--text-secondary);
+        }
+
+        tr:hover td {
+            background: var(--bg-card-hover);
+        }
+
+        .controls-section {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 20px 0;
+        }
+
+        .control-row {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .control-row:last-child {
+            border-bottom: none;
+        }
+
+        .control-key {
+            background: linear-gradient(135deg, #2a2a3a, #1a1a25);
+            color: var(--accent-secondary);
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.85rem;
+            min-width: 120px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .control-desc {
+            margin-left: 20px;
+            color: var(--text-secondary);
+        }
+
+        .priority-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 20px 0;
+        }
+
+        /* Mobile Responsive Styles */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            header {
+                padding: 40px 15px;
+                margin-bottom: 25px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+                letter-spacing: 2px;
+            }
+
+            .tagline {
+                font-size: 1rem;
+            }
+
+            h2 {
+                font-size: 1.3rem;
+                margin: 30px 0 15px;
+            }
+
+            .vision-box {
+                padding: 20px;
+                gap: 15px;
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .vision-item {
+                padding: 10px;
+            }
+
+            .vision-item h3 {
+                font-size: 0.75rem;
+                letter-spacing: 1px;
+            }
+
+            .vision-item p {
+                font-size: 0.95rem;
+            }
+
+            .card-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .species-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .species-card {
+                padding: 20px;
+            }
+
+            .species-card:hover {
+                transform: none;
+            }
+
+            .gen-timeline {
+                flex-direction: column;
+                gap: 20px;
+                padding: 25px 20px;
+            }
+
+            .gen-timeline::before {
+                display: none;
+            }
+
+            .gen-item {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                gap: 15px;
+                padding: 15px;
+                border-left: 3px solid var(--accent-primary);
+            }
+
+            .gen-item .num {
+                font-size: 1.5rem;
+                min-width: 50px;
+            }
+
+            .gen-item .desc {
+                text-align: left;
+                margin-top: 0;
+            }
+
+            /* Table responsive */
+            .table-wrapper {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            table {
+                min-width: 500px;
+            }
+
+            th, td {
+                padding: 12px 10px;
+                font-size: 0.9rem;
+            }
+
+            .controls-section {
+                padding: 20px;
+            }
+
+            .control-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+                padding: 15px 0;
+            }
+
+            .control-key {
+                min-width: auto;
+                padding: 6px 12px;
+                font-size: 0.8rem;
+            }
+
+            .control-desc {
+                margin-left: 0;
+                font-size: 0.95rem;
+            }
+
+            .priority-section {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .priority-box {
+                padding: 20px;
+            }
+
+            .tbd-grid {
+                grid-template-columns: 1fr;
+            }
+
+            footer {
+                padding: 30px 15px;
+                margin-top: 40px;
+            }
+        }
+
+        /* Extra small screens */
+        @media (max-width: 400px) {
+            h1 {
+                font-size: 1.5rem;
+                letter-spacing: 1px;
+            }
+
+            .tagline {
+                font-size: 0.9rem;
+            }
+
+            h2 {
+                font-size: 1.15rem;
+            }
+
+            .vision-box {
+                grid-template-columns: 1fr;
+                padding: 15px;
+            }
+
+            .vision-item h3 {
+                font-size: 0.7rem;
+            }
+
+            .card h3 {
+                font-size: 1.1rem;
+            }
+
+            .species-card h3 {
+                font-size: 1.15rem;
+            }
+
+            .stat-bar span {
+                width: 45px;
+                font-size: 0.8rem;
+            }
+
+            .gen-item .num {
+                font-size: 1.3rem;
+            }
+
+            .gen-item .desc {
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Touch-friendly improvements */
+        @media (hover: none) {
+            .card:hover,
+            .species-card:hover {
+                transform: none;
+                background: var(--bg-card);
+                border-color: var(--border-color);
+            }
+
+            .card:active {
+                background: var(--bg-card-hover);
+            }
+
+            .species-card:active {
+                background: var(--bg-card-hover);
+            }
+        }
+
+        .priority-box {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 25px;
+        }
+
+        .priority-box.must-have {
+            border: 2px solid var(--accent-secondary);
+        }
+
+        .priority-box.cut-first {
+            border: 2px solid var(--accent-tertiary);
+        }
+
+        .priority-box h3 {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .priority-box.must-have h3 {
+            color: var(--accent-secondary);
+        }
+
+        .priority-box.cut-first h3 {
+            color: var(--accent-tertiary);
+        }
+
+        .priority-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+            color: var(--text-secondary);
+        }
+
+        .priority-num {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .must-have .priority-num {
+            background: rgba(78,205,196,0.2);
+            color: var(--accent-secondary);
+        }
+
+        .cut-first .priority-num {
+            background: rgba(168,85,247,0.2);
+            color: var(--accent-tertiary);
+        }
+
+        .tbd-section {
+            background: linear-gradient(135deg, var(--bg-card), rgba(168,85,247,0.05));
+            border: 1px dashed var(--accent-tertiary);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+
+        .tbd-section h3 {
+            color: var(--accent-tertiary);
+            margin-bottom: 15px;
+        }
+
+        .tbd-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+        }
+
+        .tbd-item {
+            color: var(--text-secondary);
+            padding: 8px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .tbd-item::before {
+            content: '?';
+            position: absolute;
+            left: 0;
+            color: var(--accent-tertiary);
+            font-weight: bold;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 60px;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        footer .ref {
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+
+        footer .ref span {
+            color: var(--accent-secondary);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Monster Battler</h1>
+        <p class="tagline">Real-Time Monster Breeding & Battle Arena</p>
+    </header>
+
+    <div class="container">
+        <div class="vision-box">
+            <div class="vision-item">
+                <h3>Core Fantasy</h3>
+                <p>Breed, Train, Battle</p>
+            </div>
+            <div class="vision-item">
+                <h3>Differentiator</h3>
+                <p>Fast-Paced Real-Time Combat</p>
+            </div>
+            <div class="vision-item">
+                <h3>Player Role</h3>
+                <p>Commander & Coach</p>
+            </div>
+            <div class="vision-item">
+                <h3>Target Playtime</h3>
+                <p>40-60 Hours</p>
+            </div>
+        </div>
+
+        <h2>Species</h2>
+        <div class="species-grid">
+            <div class="species-card insect">
+                <h3>Insect</h3>
+                <div class="stat-bar">
+                    <span>STR</span>
+                    <div class="bar"><div class="fill" style="width: 50%; background: var(--insect);"></div></div>
+                </div>
+                <div class="stat-bar">
+                    <span>INT</span>
+                    <div class="bar"><div class="fill" style="width: 30%; background: var(--insect);"></div></div>
+                </div>
+                <div class="stat-bar">
+                    <span>AGI</span>
+                    <div class="bar"><div class="fill" style="width: 85%; background: var(--insect);"></div></div>
+                </div>
+                <div class="stat-bar">
+                    <span>END</span>
+                    <div class="bar"><div class="fill" style="width: 50%; background: var(--insect);"></div></div>
+                </div>
+                <p style="margin-top: 10px; font-size: 0.9rem; color: var(--text-secondary);">Medium aggression</p>
+            </div>
+            <div class="species-card mammal">
+                <h3>Mammal</h3>
+                <div class="stat-bar">
+                    <span>STR</span>
+                    <div class="bar"><div class="fill" style="width: 70%; background: var(--mammal);"></div></div>
+                </div>
+                <div class="stat-bar">
+                    <span>INT</span>
+                    <div class="bar"><div class="fill" style="width: 90%; background: var(--mammal);"></div></div>
+                </div>
+                <div class="stat-bar">
+                    <span>AGI</span>
+                    <div class="bar"><div class="fill" style="width: 50%; background: var(--mammal);"></div></div>
+                </div>
+                <div class="stat-bar">
+                    <span>END</span>
+                    <div class="bar"><div class="fill" style="width: 60%; background: var(--mammal);"></div></div>
+                </div>
+                <p style="margin-top: 10px; font-size: 0.9rem; color: var(--text-secondary);">Medium aggression</p>
+            </div>
+            <div class="species-card reptilian">
+                <h3>Reptilian</h3>
+                <div class="stat-bar">
+                    <span>STR</span>
+                    <div class="bar"><div class="fill" style="width: 75%; background: var(--reptilian);"></div></div>
+                </div>
+                <div class="stat-bar">
+                    <span>INT</span>
+                    <div class="bar"><div class="fill" style="width: 35%; background: var(--reptilian);"></div></div>
+                </div>
+                <div class="stat-bar">
+                    <span>AGI</span>
+                    <div class="bar"><div class="fill" style="width: 45%; background: var(--reptilian);"></div></div>
+                </div>
+                <div class="stat-bar">
+                    <span>END</span>
+                    <div class="bar"><div class="fill" style="width: 90%; background: var(--reptilian);"></div></div>
+                </div>
+                <p style="margin-top: 10px; font-size: 0.9rem; color: var(--text-secondary);">High aggression</p>
+            </div>
+            <div class="species-card avian">
+                <h3>Avian</h3>
+                <div class="stat-bar">
+                    <span>STR</span>
+                    <div class="bar"><div class="fill" style="width: 45%; background: var(--avian);"></div></div>
+                </div>
+                <div class="stat-bar">
+                    <span>INT</span>
+                    <div class="bar"><div class="fill" style="width: 75%; background: var(--avian);"></div></div>
+                </div>
+                <div class="stat-bar">
+                    <span>AGI</span>
+                    <div class="bar"><div class="fill" style="width: 90%; background: var(--avian);"></div></div>
+                </div>
+                <div class="stat-bar">
+                    <span>END</span>
+                    <div class="bar"><div class="fill" style="width: 30%; background: var(--avian);"></div></div>
+                </div>
+                <p style="margin-top: 10px; font-size: 0.9rem; color: var(--text-secondary);">Low aggression | Flying: 50% melee dodge, +20% ranged damage taken</p>
+            </div>
+        </div>
+
+        <h2>Generations</h2>
+        <div class="gen-timeline">
+            <div class="gen-item">
+                <div class="num">G1</div>
+                <div class="desc">Real Animals<br>16 starters</div>
+            </div>
+            <div class="gen-item">
+                <div class="num">G2</div>
+                <div class="desc">Exotic Hybrids<br>Mixed features</div>
+            </div>
+            <div class="gen-item">
+                <div class="num">G3</div>
+                <div class="desc">Mythological<br>100 total</div>
+            </div>
+            <div class="gen-item">
+                <div class="num">G4</div>
+                <div class="desc">Deity-Tier<br>Secret 6+</div>
+            </div>
+        </div>
+        <div class="card" style="margin-top: 20px;">
+            <h3>Breeding System</h3>
+            <ul>
+                <li>Same-gen breeding within species creates next generation</li>
+                <li>Stats inherited via formula from parents</li>
+                <li>Moves can be inherited if child can learn them</li>
+                <li>Long cooldown between breeding sessions</li>
+                <li>Gen 4 created by cross-species Gen 3 breeding (e.g., Quetzalcoatl = Avian + Reptile)</li>
+            </ul>
+        </div>
+
+        <h2>Stats & Growth</h2>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Stat</th>
+                        <th>Affects</th>
+                        <th>Grows By</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>STR</strong></td>
+                        <td>HP, Power, Max Energy</td>
+                        <td>Attacking</td>
+                    </tr>
+                    <tr>
+                        <td><strong>INT</strong></td>
+                        <td>Special Power, Command Obedience, Move Learning</td>
+                        <td>Using abilities</td>
+                    </tr>
+                    <tr>
+                        <td><strong>AGI</strong></td>
+                        <td>Movement Speed, Reaction Time</td>
+                        <td>Moving around</td>
+                    </tr>
+                    <tr>
+                        <td><strong>END</strong></td>
+                        <td>HP, Energy Replenishment Rate</td>
+                        <td>Taking hits</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="card-grid">
+            <div class="card">
+                <h3>Birthmarks</h3>
+                <p>Random at birth. Affect personality, Core AI archetype, and stat growth modifiers (ranging from -20% to +20%).</p>
+            </div>
+            <div class="card">
+                <h3>Growth Decay</h3>
+                <p>No levels - stats grow from battle actions. Growth rate decays as stats increase. Lower gens hit ceiling faster.</p>
+            </div>
+        </div>
+
+        <h2>Combat System</h2>
+        <div class="card-grid">
+            <div class="card">
+                <h3>Battle Format</h3>
+                <ul>
+                    <li>100% Real-time combat</li>
+                    <li>1v1, 1v2, and 2v2 modes</li>
+                    <li>Player controls 2 monsters</li>
+                    <li>Top-down / 2.5D camera</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>Monster Autonomy</h3>
+                <ul>
+                    <li>Hidden obedience stat = f(INT, Temperament)</li>
+                    <li>Low INT = can't understand orders</li>
+                    <li>Low Temperament = won't obey</li>
+                    <li>Ignored commands follow Core AI</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>Move System</h3>
+                <ul>
+                    <li>8 slots: 4 basic + 4 special</li>
+                    <li>Physical, Magic, Buff, Debuff, Heal, AoE</li>
+                    <li>Energy regenerates (slows over time)</li>
+                    <li>Learn from: parents, stat thresholds, watching</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>Status Effects</h3>
+                <ul>
+                    <li>Poison / DoT</li>
+                    <li>Stun / Freeze</li>
+                    <li>Slow</li>
+                    <li>Blind / Accuracy debuff</li>
+                    <li>Burn</li>
+                </ul>
+            </div>
+        </div>
+
+        <h3 style="color: var(--accent-secondary); margin: 30px 0 15px;">Controls</h3>
+        <div class="controls-section">
+            <div class="control-row">
+                <div class="control-key">D-Pad</div>
+                <div class="control-desc">Stance orders: Aggressive / Defensive / Supportive / Passive</div>
+            </div>
+            <div class="control-row">
+                <div class="control-key">L1 / R1</div>
+                <div class="control-desc">Select Monster 1 / Monster 2, access move commands</div>
+            </div>
+            <div class="control-row">
+                <div class="control-key">A B X Y</div>
+                <div class="control-desc">Execute moves (while holding L1 or R1)</div>
+            </div>
+            <div class="control-row">
+                <div class="control-key">L1+L2 / R1+R2</div>
+                <div class="control-desc">Advanced options, combo commands, tactics</div>
+            </div>
+            <div class="control-row">
+                <div class="control-key">L2 / R2</div>
+                <div class="control-desc">Use items on monsters</div>
+            </div>
+        </div>
+        <div class="card" style="margin-top: 20px;">
+            <h3>Command Feedback</h3>
+            <p><span style="color: #4ade80;">Green flash</span> = Command accepted | <span style="color: #f87171;">Red flash</span> = Command ignored</p>
+            <p style="margin-top: 10px;">Hit stagger + screen shake + sound effects for impact feel</p>
+        </div>
+
+        <h2>Capture & Taming</h2>
+        <div class="card-grid">
+            <div class="card">
+                <h3>Tranquilize</h3>
+                <ul>
+                    <li>Monster must be below 25% HP</li>
+                    <li>50% success at 25% HP</li>
+                    <li>100% success at 5% HP or less</li>
+                    <li>Can wake up if battle continues</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>Carry Back</h3>
+                <ul>
+                    <li>Movement speed halved</li>
+                    <li>Can't use items in battle</li>
+                    <li>Death = lose the monster</li>
+                    <li>Wild monsters start with low temperament</li>
+                </ul>
+            </div>
+        </div>
+
+        <h2>World & Arena</h2>
+        <div class="card-grid">
+            <div class="card">
+                <h3>Island World</h3>
+                <ul>
+                    <li>4 themed regions (one per species)</li>
+                    <li>Start in Insect region</li>
+                    <li>~20 screens wilderness per region</li>
+                    <li>Caves and structures with bosses</li>
+                    <li>Legendary Gen 4 + Gen 3 secret battles</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>Arena System</h3>
+                <ul>
+                    <li>Ranks D through S per arena</li>
+                    <li>Bracket tournaments + ladder</li>
+                    <li>Rank B unlocks next area</li>
+                    <li>Rank S can skip areas</li>
+                    <li>No weight classes</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>Rewards</h3>
+                <ul>
+                    <li>Gold currency</li>
+                    <li>Items and ingredients</li>
+                    <li>Food for growth buffs</li>
+                    <li>Area access</li>
+                    <li>Possibly monsters from arena</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>Base</h3>
+                <ul>
+                    <li>Start with 6 monster capacity</li>
+                    <li>Upgradable to 20 max</li>
+                    <li>NPCs can move in (shops)</li>
+                    <li>Enhances monster happiness/growth</li>
+                </ul>
+            </div>
+        </div>
+
+        <h2>Scope & Priorities</h2>
+        <div class="priority-section">
+            <div class="priority-box must-have">
+                <h3>Must Have (v1)</h3>
+                <div class="priority-item">
+                    <div class="priority-num">1</div>
+                    <span>Breeding System</span>
+                </div>
+                <div class="priority-item">
+                    <div class="priority-num">2</div>
+                    <span>Combat (Autonomous AI + Real-time)</span>
+                </div>
+                <div class="priority-item">
+                    <div class="priority-num">3</div>
+                    <span>Arena Battles</span>
+                </div>
+            </div>
+            <div class="priority-box cut-first">
+                <h3>Cut First</h3>
+                <div class="priority-item">
+                    <div class="priority-num">1</div>
+                    <span>Base Building</span>
+                </div>
+                <div class="priority-item">
+                    <div class="priority-num">2</div>
+                    <span>Item Crafting</span>
+                </div>
+                <div class="priority-item">
+                    <div class="priority-num">3</div>
+                    <span>Food Creation</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="tbd-section">
+            <h3>To Be Determined</h3>
+            <div class="tbd-grid">
+                <div class="tbd-item">Monster lifespans / permanent death</div>
+                <div class="tbd-item">Day/night or seasons</div>
+                <div class="tbd-item">Damage type system</div>
+                <div class="tbd-item">Crafting balance</div>
+                <div class="tbd-item">Multiplayer functionality</div>
+                <div class="tbd-item">Currency name</div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Monster Battler - Design Document</p>
+            <p class="ref">Inspired by <span>Digimon World 1</span> and <span>Link to the Past</span></p>
+        </footer>
+    </div>
+</body>
+</html>

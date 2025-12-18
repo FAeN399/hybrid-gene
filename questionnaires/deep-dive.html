@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monster Battler - Deep Dive Questionnaire</title>
+    <style>
+        :root {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-tertiary: #21262d;
+            --border-color: #30363d;
+            --text-primary: #e6edf3;
+            --text-secondary: #8b949e;
+            --text-muted: #6e7681;
+            --accent-blue: #58a6ff;
+            --accent-purple: #a371f7;
+            --accent-orange: #f0883e;
+            --accent-green: #3fb950;
+            --accent-red: #f85149;
+            --accent-yellow: #d29922;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--bg-primary);
+            min-height: 100vh;
+        }
+
+        .container { max-width: 750px; margin: 0 auto; padding: 20px; }
+
+        nav { margin-bottom: 20px; text-align: center; }
+        nav a { color: var(--accent-blue); text-decoration: none; margin: 0 12px; font-size: 0.9rem; }
+        nav a:hover { text-decoration: underline; }
+
+        .header { text-align: center; padding: 30px 20px; margin-bottom: 20px; }
+        .header h1 { font-size: 1.8rem; margin-bottom: 8px; }
+        .header p { color: var(--text-secondary); font-size: 1rem; }
+
+        .progress-bar {
+            background: var(--bg-tertiary);
+            border-radius: 10px;
+            height: 8px;
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            background: linear-gradient(90deg, var(--accent-purple), var(--accent-blue));
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .section-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 25px;
+            justify-content: center;
+        }
+        .section-btn {
+            padding: 8px 14px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .section-btn:hover { border-color: var(--accent-blue); color: var(--accent-blue); }
+        .section-btn.active { background: rgba(88, 166, 255, 0.15); border-color: var(--accent-blue); color: var(--accent-blue); }
+        .section-btn.complete { background: rgba(63, 185, 80, 0.15); border-color: var(--accent-green); color: var(--accent-green); }
+
+        .form-section {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        .form-section.active { display: block; }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .section-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        .section-title { color: var(--text-primary); font-size: 1.2rem; font-weight: 600; }
+        .section-desc { color: var(--text-muted); font-size: 0.85rem; margin-top: 4px; }
+
+        .question-group { margin-bottom: 22px; }
+        .question-group:last-child { margin-bottom: 0; }
+
+        .question-label {
+            display: block;
+            color: var(--text-primary);
+            font-weight: 500;
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+        }
+        .question-hint {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            margin-bottom: 8px;
+            font-style: italic;
+        }
+
+        textarea, input[type="text"] {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            transition: border-color 0.2s;
+        }
+        textarea { min-height: 80px; resize: vertical; }
+        textarea:focus, input:focus { outline: none; border-color: var(--accent-purple); }
+        textarea::placeholder, input::placeholder { color: var(--text-muted); }
+
+        .option-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 10px;
+        }
+        .option-item { position: relative; }
+        .option-item input { position: absolute; opacity: 0; }
+        .option-item label {
+            display: block;
+            padding: 10px;
+            background: var(--bg-tertiary);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.85rem;
+        }
+        .option-item input:checked + label {
+            background: rgba(163, 113, 247, 0.15);
+            border-color: var(--accent-purple);
+            color: var(--accent-purple);
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-secondary { background: var(--bg-tertiary); color: var(--text-primary); border: 1px solid var(--border-color); }
+        .btn-primary { background: var(--accent-purple); color: #fff; }
+        .btn:hover { opacity: 0.9; }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .export-section {
+            background: var(--bg-secondary);
+            border: 1px solid var(--accent-green);
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+        .export-section h3 { color: var(--accent-green); margin-bottom: 15px; }
+
+        .btn-group { display: flex; gap: 10px; flex-wrap: wrap; }
+        .btn-export { background: var(--accent-green); color: #000; flex: 1; min-width: 140px; }
+
+        .preview-box {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 12px;
+            margin-top: 15px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--accent-green);
+            color: #000;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+        .footer { text-align: center; padding: 25px; color: var(--text-muted); font-size: 0.85rem; }
+        .footer a { color: var(--accent-blue); text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="./">All Questionnaires</a>
+            <a href="../blueprint.html">Blueprint</a>
+            <a href="../team.html">Join Team</a>
+        </nav>
+
+        <div class="header">
+            <h1>Deep Dive Questionnaire</h1>
+            <p>Fleshing out the finer details</p>
+        </div>
+
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+        <div class="section-nav" id="sectionNav"></div>
+
+        <!-- Section 1: Moves & Abilities -->
+        <div class="form-section active" id="section-1">
+            <div class="section-header">
+                <div class="section-icon" style="background: rgba(248, 81, 73, 0.2); color: var(--accent-red);">⚔️</div>
+                <div>
+                    <div class="section-title">Moves & Abilities</div>
+                    <div class="section-desc">How attacks and special moves work</div>
+                </div>
+            </div>
+
+            <div class="question-group">
+                <label class="question-label">How many move slots does each monster have?</label>
+                <div class="question-hint">You mentioned 8 equippable attacks (4 per shoulder button combo)</div>
+                <textarea id="q1-1" placeholder="e.g., 8 equipped at a time, but can learn more and swap them out at base..."></textarea>
+            </div>
+
+            <div class="question-group">
+                <label class="question-label">What move categories exist?</label>
+                <div class="question-hint">Physical, special, support, etc.</div>
+                <div class="option-grid" id="categoryGrid">
+                    <div class="option-item"><input type="checkbox" id="cat-physical"><label for="cat-physical">Physical</label></div>
+                    <div class="option-item"><input type="checkbox" id="cat-special"><label for="cat-special">Special/Magic</label></div>
+                    <div class="option-item"><input type="checkbox" id="cat-buff"><label for="cat-buff">Buffs</label></div>
+                    <div class="option-item"><input type="checkbox" id="cat-debuff"><label for="cat-debuff">Debuffs</label></div>
+                    <div class="option-item"><input type="checkbox" id="cat-heal"><label for="cat-heal">Healing</label></div>
+                    <div class="option-item"><input type="checkbox" id="cat-aoe"><label for="cat-aoe">AoE/Multi-hit</label></div>
+                </div>
+                <div class="add-custom" style="margin-top: 12px; display: flex; gap: 8px;">
+                    <input type="text" id="customCategoryInput" placeholder="Add custom category..." style="flex: 1;">
+                    <button type="button" class="btn btn-secondary" onclick="addCustomCategory()" style="padding: 8px 16px;">+ Add</button>
+                </div>
+            </div>
+
+            <div class="question-group">
+                <label class="question-label">Do moves have cooldowns, energy costs, or both?</label>
+                <textarea id="q1-2" placeholder="e.g., Energy pool that regenerates, stronger moves cost more..."></textarea>
+            </div>
+
+            <div class="question-group">
+                <label class="question-label">How do monsters learn new moves?</label>
+                <div class="question-hint">Level up, breeding inheritance, items, training?</div>
+                <textarea id="q1-3" placeholder="e.g., Monsters unlock moves at certain stat thresholds, plus breeding passes down..."></textarea>
+            </div>
+
+            <div class="question-group">
+                <label class="question-label">Are there combo moves between your two monsters?</label>
+                <div class="question-hint">You mentioned L1+L2/R1+R2 for special combos</div>
+                <textarea id="q1-4" placeholder="e.g., Certain move combinations create a powerful team attack..."></textarea>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" disabled>Previous</button>
+                <button class="btn btn-primary" onclick="nextSection()">Next: Monster AI</button>
+            </div>
+        </div>
+
+        <!-- Section 2: Monster AI -->
+        <div class="form-section" id="section-2">
+            <div class="section-header">
+                <div class="section-icon" style="background: rgba(163, 113, 247, 0.2); color: var(--accent-purple);">🧠</div>
+                <div>
+                    <div class="section-title">Monster AI & Behavior</div>
+                    <div class="section-desc">How monsters think and act on their own</div>
+                </div>
+            </div>
+
+            <div class="question-group">
+                <label class="question-label">What behaviors should low-INT monsters exhibit?</label>
+                <div class="question-hint">Ignore commands? Use random moves? Stand around?</div>
+                <textarea id="q2-1" placeholder="e.g., Sometimes ignores commands, picks suboptimal moves, slower reactions..."></textarea>
+            </div>
+
+            <div class="question-group">
+                <label class="question-label">What behaviors should high-INT monsters exhibit?</label>
+                <textarea id="q2-2" placeholder="e.g., Chains moves effectively, dodges well, responds to orders instantly..."></textarea>
+            </div>
+
+            <div class="question-group">
+                <label class="question-label">How does temperament affect battle behavior?</label>
+                <div class="question-hint">Aggressive temperament = more reckless? Calm = more defensive?</div>
+                <textarea id="q2-3" placeholder="e.g., High aggression monsters might overextend, calm ones wait for openings..."></textarea>
+            </div>
+
+            <div class="question-group">
+                <label class="question-label">Should monsters have "personalities" that affect their fighting style?</label>
+                <div class="question-hint">Beyond stats - actual behavior preferences</div>
+                <textarea id="q2-4" placeholder="e.g., Some monsters prefer ranged, some rush in, some protect their partner..."></textarea>
+            </div>
+
+            <div class="question-group">
+                <label class="question-label">Can monsters disobey when injured, scared, or angry?</label>
+                <textarea id="q2-5" placeholder="e.g., At low HP they might flee or go berserk, depends on temperament..."></textarea>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" onclick="prevSection()">Previous</button>
+                <button class="btn btn-primary" onclick="nextSection()">Next: Combat Details</button>
+            </div>
+        </div>
+
+        <!-- Section 3: Combat Details -->
+        <div class="form-section" id="section-3">
+            <div class="section-header">
+                <div class="section-icon" style="background: rgba(240, 136, 62, 0.2); color: var(--accent-orange);">💥</div>
+                <div>
+                    <div class="section-title">Combat Mechanics</div>
+                    <div class="section-desc">Damage, status effects, and battle flow</div>
+                </div>
+            </div>
+
+            <div class="question-group">
+                <label class="question-label">Are there damage types / elemental affinities?</label>
+                <div class="question-hint">Fire/Water/etc or species-based advantages?</div>
+                <textarea id="q3-1" placeholder="e.g., Each species has strengths/weaknesses against others..."></textarea>
+            </div>
+
+            <div class="question-group">
+                <label class="question-label">What status effects exist?</label>
+                <div class="option-grid" id="statusGrid">
+                    <div class="option-item"><input type="checkbox" id="status-poison"><label for="status-poison">Poison/DoT</label></div>
+                    <div class="option-item"><input type="checkbox" id="status-stun"><label for="status-stun">Stun/Freeze</label></div>
+                    <div class="option-item"><input type="checkbox" id="status-slow"><label for="status-slow">Slow</label></div>
+                    <div class="option-item"><input type="checkbox" id="status-blind"><label for="status-blind">Blind/Accuracy</label></div>
+                    <div class="option-item"><input type="checkbox" id="status-burn"><label for="status-burn">Burn</label></div>
+                    <div class="option-item"><input type="checkbox" id="status-confuse"><label for="status-confuse">Confusion</label></div>
+                </div>
+                <div class="add-custom" style="margin-top: 12px; display: flex; gap: 8px;">
+                    <input type="text" id="customStatusInput" placeholder="Add custom status effect..." style="flex: 1;">
+                    <button type="button" class="btn btn-secondary" onclick="addCustomItem('status')" style="padding: 8px 16px;">+ Add</button>
+                </div>
+            </div>
+
+            <div class="question-group">
+                <label class="question-label">Is there stagger, knockback, or knockdown?</label>
+                <div class="question-hint">Can monsters interrupt each other's attacks?</div>
+                <textarea id="q3-2" placeholder="e.g., Heavy hits cause stagger, can chain attacks during stagger window..."></textarea>
+            </div>
+
+            <div class="question-group">
+                <label class="question-label">How does targeting work in 2v2?</label>
+                <div class="question-hint">Lock-on? Proximity-based? Manual switching?</div>
+                <textarea id="q3-3" placeholder="e.g., Monsters auto-target closest enemy unless commanded otherwise..."></textarea>
+            </div>
+
+            <div class="question-group">
+                <label class="question-label">What ends a battle?</label>
+                <div class="question-hint">KO? Surrender? Time limit? Fleeing?</div>
+                <textarea id="q3-4" placeholder="e.g., When all enemy monsters hit 0 HP, or enemy trainer forfeits..."></textarea>
+            </div>
+
+            <div class="question-group">
+                <label class="question-label">What happens when a monster is KO'd mid-battle?</label>
+                <textarea id="q3-5" placeholder="e.g., Can swap in a reserve? Stays down until revived? Battle continues 1v2?"></textarea>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" onclick="prevSection()">Previous</button>
+                <button class="btn btn-primary" onclick="nextSection()">Next: Stats & Growth</button>
+            </div>
+        </div>
+
+        <!-- Section 4: Stats & Growth -->
+        <div class="form-section" id="section-4">
+            <div class="section-header">
+                <div class="section-icon" style="background: rgba(63, 185, 80, 0.2); color: var(--accent-green);">📈</div>
+                <div>
+                    <div class="section-title">Stats & Growth</div>
+                    <div class="section-desc">How monsters get stronger</div>
+                </div>
+            </div>
+
+            <div class="question-group">
+                <label class="question-label">What are all the stats?</label>
+                <div class="question-hint">You mentioned STR, INT, AGI, END - any others?</div>
+                <textarea id="q4-1" placeholder="e.g., STR (HP/Power), INT (Special/Commands), AGI (Speed), END (HP/Energy Regen)..."></textarea>
+            </div>
+
+            <div class="question-group">
+                <label class="question-label">Is there a level system or purely stat-based progression?</label>
+                <textarea id="q4-2" placeholder="e.g., No traditional levels, stats grow from actions taken in battle..."></textarea>
+            </div>
+
+            <div class="question-group">
+                <label class="question-label">Are there stat caps? Do they vary by species/generation?</label>
+                <textarea id="q4-3" placeholder="e.g., Each species has different max potentials, higher gens have higher caps..."></textarea>
+            </div>
+
+            <div class="question-group">
+                <label class="question-label">How do birthmarks affect growth?</label>
+                <div class="question-hint">Flat bonuses? Growth rate modifiers? Caps?</div>
+                <textarea id="q4-4" placeholder="e.g., Birthmarks give +10% growth in one stat, -5% in another..."></textarea>
+            </div>
+
+            <div class="question-group">
+                <label class="question-label">How does breeding calculate offspring stats?</label>
+                <div class="question-hint">Average? Random range? Weighted by parent dominance?</div>
+                <textarea id="q4-5" placeholder="e.g., Base stats are average of parents + random variance, birthmarks reroll..."></textarea>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" onclick="prevSection()">Previous</button>
+                <button class="btn btn-primary" onclick="nextSection()">Next: Species Details</button>
+            </div>
+        </div>
+
+        <!-- Section 5: Species Details -->
+        <div class="form-section" id="section-5">
+            <div class="section-header">
+                <div class="section-icon" style="background: rgba(88, 166, 255, 0.2); color: var(--accent-blue);">🦎</div>
+                <div>
+                    <div class="section-title">Species & Generations</div>
+                    <div class="section-desc">What makes each species unique</div>
+                </div>
+            </div>
+
+            <div class="question-group">
+                <label class="question-label">What's the Insect species like?</label>
+                <div class="question-hint">Stat tendencies, move types, personality, aesthetics</div>
+                <textarea id="q5-1" placeholder="e.g., High AGI, swarm tactics, poison moves, chitinous armor..."></textarea>
+            </div>
+
+            <div class="question-group">
+                <label class="question-label">What's the Mammal species like?</label>
+                <textarea id="q5-2" placeholder="e.g., Balanced stats, pack tactics, loyal temperaments..."></textarea>
+            </div>
+
+            <div class="question-group">
+                <label class="question-label">What's the Reptilian species like?</label>
+                <textarea id="q5-3" placeholder="e.g., High END, defensive, slow but powerful..."></textarea>
+            </div>
+
+            <div class="question-group">
+                <label class="question-label">What's the Avian species like?</label>
+                <textarea id="q5-4" placeholder="e.g., High AGI, aerial attacks, hit-and-run style..."></textarea>
+            </div>
+
+            <div class="question-group">
+                <label class="question-label">How do higher generations look/feel different?</label>
+                <div class="question-hint">Visual complexity? Size? Aura effects?</div>
+                <textarea id="q5-5" placeholder="e.g., Gen 2 are larger and more detailed, Gen 3 have glowing effects..."></textarea>
+            </div>
+
+            <div class="question-group">
+                <label class="question-label">Any ideas for the secret 4th gen inter-species hybrids?</label>
+                <textarea id="q5-6" placeholder="e.g., Insect+Reptile = armored beetle dragon, Mammal+Avian = gryphon..."></textarea>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" onclick="prevSection()">Previous</button>
+                <button class="btn btn-primary" onclick="nextSection()">Next: Capture & Taming</button>
+            </div>
+        </div>
+
+        <!-- Section 6: Capture & Taming -->
+        <div class="form-section" id="section-6">
+            <div class="section-header">
+                <div class="section-icon" style="background: rgba(210, 153, 34, 0.2); color: var(--accent-yellow);">🎯</div>
+                <div>
+                    <div class="section-title">Capture & Taming</div>
+                    <div class="section-desc">How wild monster capture works</div>
+                </div>
+            </div>
+
+            <div class="question-group">
+                <label class="question-label">How does tranquilizing work mechanically?</label>
+                <div class="question-hint">Item? Special move? Buildup meter?</div>
+                <textarea id="q6-1" placeholder="e.g., Use tranq darts that fill a meter, when full the monster is capturable..."></textarea>
+            </div>
+
+            <div class="question-group">
+                <label class="question-label">What determines capture success rate?</label>
+                <textarea id="q6-2" placeholder="e.g., Monster's remaining HP, its generation, rarity tier..."></textarea>
+            </div>
+
+            <div class="question-group">
+                <label class="question-label">How risky is the "carry back to base" mechanic?</label>
+                <div class="question-hint">Can you fight while carrying? Run faster? Timer?</div>
+                <textarea id="q6-3" placeholder="e.g., Player moves at half speed, can't fight, monster wakes up after 3 mins..."></textarea>
+            </div>
+
+            <div class="question-group">
+                <label class="question-label">Do captured wild monsters start with lower temperament?</label>
+                <textarea id="q6-4" placeholder="e.g., Wild captures start untamed, need training before they'll obey well..."></textarea>
+            </div>
+
+            <div class="question-group">
+                <label class="question-label">Are there legendary/unique wild monsters?</label>
+                <div class="question-hint">One-of-a-kind captures? Super rare spawns?</div>
+                <textarea id="q6-5" placeholder="e.g., Each area has one legendary boss that can be captured after defeating it..."></textarea>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" onclick="prevSection()">Previous</button>
+                <button class="btn btn-primary" onclick="nextSection()">Next: UI & Feel</button>
+            </div>
+        </div>
+
+        <!-- Section 7: UI & Feel -->
+        <div class="form-section" id="section-7">
+            <div class="section-header">
+                <div class="section-icon" style="background: rgba(163, 113, 247, 0.2); color: var(--accent-purple);">🎮</div>
+                <div>
+                    <div class="section-title">UI & Game Feel</div>
+                    <div class="section-desc">Player experience and interface</div>
+                </div>
+            </div>
+
+            <div class="question-group">
+                <label class="question-label">What info is shown during battle?</label>
+                <div class="option-grid" id="uiGrid">
+                    <div class="option-item"><input type="checkbox" id="ui-hp"><label for="ui-hp">HP Bars</label></div>
+                    <div class="option-item"><input type="checkbox" id="ui-energy"><label for="ui-energy">Energy/MP</label></div>
+                    <div class="option-item"><input type="checkbox" id="ui-status"><label for="ui-status">Status Icons</label></div>
+                    <div class="option-item"><input type="checkbox" id="ui-commands"><label for="ui-commands">Command Menu</label></div>
+                    <div class="option-item"><input type="checkbox" id="ui-cooldowns"><label for="ui-cooldowns">Move Cooldowns</label></div>
+                    <div class="option-item"><input type="checkbox" id="ui-minimap"><label for="ui-minimap">Battle Minimap</label></div>
+                </div>
+                <div class="add-custom" style="margin-top: 12px; display: flex; gap: 8px;">
+                    <input type="text" id="customUiInput" placeholder="Add custom UI element..." style="flex: 1;">
+                    <button type="button" class="btn btn-secondary" onclick="addCustomItem('ui')" style="padding: 8px 16px;">+ Add</button>
+                </div>
+            </div>
+
+            <div class="question-group">
+                <label class="question-label">What's the camera perspective during battle?</label>
+                <textarea id="q7-1" placeholder="e.g., Top-down like Digimon World, isometric, or side-scrolling?"></textarea>
+            </div>
+
+            <div class="question-group">
+                <label class="question-label">How does the player navigate the command menu quickly?</label>
+                <div class="question-hint">In real-time battles, speed matters</div>
+                <textarea id="q7-2" placeholder="e.g., Radial menu pops up when holding shoulder button, release to select..."></textarea>
+            </div>
+
+            <div class="question-group">
+                <label class="question-label">How do you indicate your monsters are listening/ignoring commands?</label>
+                <textarea id="q7-3" placeholder="e.g., Visual confirmation icon, different colored text, audio cues..."></textarea>
+            </div>
+
+            <div class="question-group">
+                <label class="question-label">What makes combat feel impactful?</label>
+                <div class="question-hint">Screen shake, hit stop, particles, sound?</div>
+                <textarea id="q7-4" placeholder="e.g., Brief hit pause, particle effects, impactful SFX..."></textarea>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" onclick="prevSection()">Previous</button>
+                <button class="btn btn-primary" onclick="nextSection()">Next: Economy</button>
+            </div>
+        </div>
+
+        <!-- Section 8: Economy -->
+        <div class="form-section" id="section-8">
+            <div class="section-header">
+                <div class="section-icon" style="background: rgba(210, 153, 34, 0.2); color: var(--accent-yellow);">💰</div>
+                <div>
+                    <div class="section-title">Economy & Rewards</div>
+                    <div class="section-desc">Money, items, and progression rewards</div>
+                </div>
+            </div>
+
+            <div class="question-group">
+                <label class="question-label">What's the main currency called?</label>
+                <input type="text" id="q8-1" placeholder="e.g., Gold, Credits, Crystals, Scales...">
+            </div>
+
+            <div class="question-group">
+                <label class="question-label">What can you buy with money?</label>
+                <div class="option-grid" id="buyGrid">
+                    <div class="option-item"><input type="checkbox" id="buy-items"><label for="buy-items">Battle Items</label></div>
+                    <div class="option-item"><input type="checkbox" id="buy-food"><label for="buy-food">Food/Growth</label></div>
+                    <div class="option-item"><input type="checkbox" id="buy-base"><label for="buy-base">Base Upgrades</label></div>
+                    <div class="option-item"><input type="checkbox" id="buy-cosmetic"><label for="buy-cosmetic">Cosmetics</label></div>
+                    <div class="option-item"><input type="checkbox" id="buy-moves"><label for="buy-moves">Move TMs</label></div>
+                    <div class="option-item"><input type="checkbox" id="buy-capture"><label for="buy-capture">Capture Tools</label></div>
+                </div>
+                <div class="add-custom" style="margin-top: 12px; display: flex; gap: 8px;">
+                    <input type="text" id="customBuyInput" placeholder="Add custom purchasable..." style="flex: 1;">
+                    <button type="button" class="btn btn-secondary" onclick="addCustomItem('buy')" style="padding: 8px 16px;">+ Add</button>
+                </div>
+            </div>
+
+            <div class="question-group">
+                <label class="question-label">How much do arena wins pay out relative to expenses?</label>
+                <textarea id="q8-2" placeholder="e.g., D-rank wins cover basic supplies, S-rank wins fund major upgrades..."></textarea>
+            </div>
+
+            <div class="question-group">
+                <label class="question-label">Are there rare/valuable drops from wild monsters?</label>
+                <textarea id="q8-3" placeholder="e.g., Monster parts for crafting, rare ingredients, sellable loot..."></textarea>
+            </div>
+
+            <div class="question-group">
+                <label class="question-label">Any thoughts on preventing grinding feeling tedious?</label>
+                <textarea id="q8-4" placeholder="e.g., Varied rewards, milestone bonuses, interesting side content..."></textarea>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" onclick="prevSection()">Previous</button>
+                <button class="btn btn-primary" onclick="nextSection()">Next: Final Thoughts</button>
+            </div>
+        </div>
+
+        <!-- Section 9: Final Thoughts -->
+        <div class="form-section" id="section-9">
+            <div class="section-header">
+                <div class="section-icon" style="background: rgba(63, 185, 80, 0.2); color: var(--accent-green);">✨</div>
+                <div>
+                    <div class="section-title">Final Thoughts</div>
+                    <div class="section-desc">Anything else on your mind</div>
+                </div>
+            </div>
+
+            <div class="question-group">
+                <label class="question-label">What's the one thing that MUST feel right for this game to work?</label>
+                <textarea id="q9-1" placeholder="e.g., The monsters need to feel alive and smart..."></textarea>
+            </div>
+
+            <div class="question-group">
+                <label class="question-label">Any features you're on the fence about?</label>
+                <textarea id="q9-2" placeholder="e.g., Not sure if permadeath adds tension or just frustration..."></textarea>
+            </div>
+
+            <div class="question-group">
+                <label class="question-label">What games should we study for reference?</label>
+                <textarea id="q9-3" placeholder="e.g., Digimon World 1, Monster Rancher 2, Siralim..."></textarea>
+            </div>
+
+            <div class="question-group">
+                <label class="question-label">Any other ideas, concerns, or random thoughts?</label>
+                <textarea id="q9-4" placeholder="Anything else that doesn't fit the other sections..."></textarea>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" onclick="prevSection()">Previous</button>
+                <button class="btn btn-primary" onclick="showExport()">Export Answers</button>
+            </div>
+        </div>
+
+        <!-- Export Section -->
+        <div class="export-section" id="exportSection" style="display: none;">
+            <h3>Export Your Answers</h3>
+            <div class="btn-group">
+                <button class="btn btn-export" onclick="copyToClipboard()">Copy to Clipboard</button>
+                <button class="btn btn-secondary" onclick="clearAll()">Start Over</button>
+            </div>
+            <div class="preview-box" id="preview"></div>
+        </div>
+
+        <div class="footer">
+            <p><a href="./">Back to All Questionnaires</a></p>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        const sections = ['Moves', 'AI', 'Combat', 'Stats', 'Species', 'Capture', 'UI', 'Economy', 'Final'];
+        let currentSection = 1;
+        const totalSections = 9;
+
+        function init() {
+            const nav = document.getElementById('sectionNav');
+            sections.forEach((name, i) => {
+                const btn = document.createElement('button');
+                btn.className = 'section-btn' + (i === 0 ? ' active' : '');
+                btn.textContent = name;
+                btn.onclick = () => goToSection(i + 1);
+                btn.id = `nav-${i + 1}`;
+                nav.appendChild(btn);
+            });
+            updateProgress();
+            loadFromStorage();
+        }
+
+        function goToSection(num) {
+            document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.section-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(`section-${num}`).classList.add('active');
+            document.getElementById(`nav-${num}`).classList.add('active');
+            currentSection = num;
+            updateProgress();
+            saveToStorage();
+        }
+
+        function nextSection() {
+            if (currentSection < totalSections) goToSection(currentSection + 1);
+        }
+
+        function prevSection() {
+            if (currentSection > 1) goToSection(currentSection - 1);
+        }
+
+        function updateProgress() {
+            const pct = (currentSection / totalSections) * 100;
+            document.getElementById('progressFill').style.width = pct + '%';
+        }
+
+        function showExport() {
+            document.getElementById('exportSection').style.display = 'block';
+            document.getElementById('preview').textContent = generateOutput();
+            document.getElementById('exportSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function generateOutput() {
+            let out = 'MONSTER BATTLER - DEEP DIVE ANSWERS\n';
+            out += '=====================================\n\n';
+
+            out += '## MOVES & ABILITIES\n\n';
+            out += 'Move slots: ' + (getVal('q1-1') || '-') + '\n';
+            out += 'Categories: ' + getCategoriesOutput() + '\n';
+            out += 'Cooldowns/Costs: ' + (getVal('q1-2') || '-') + '\n';
+            out += 'Learning moves: ' + (getVal('q1-3') || '-') + '\n';
+            out += 'Combo moves: ' + (getVal('q1-4') || '-') + '\n\n';
+
+            out += '## MONSTER AI & BEHAVIOR\n\n';
+            out += 'Low-INT behavior: ' + (getVal('q2-1') || '-') + '\n';
+            out += 'High-INT behavior: ' + (getVal('q2-2') || '-') + '\n';
+            out += 'Temperament effects: ' + (getVal('q2-3') || '-') + '\n';
+            out += 'Personalities: ' + (getVal('q2-4') || '-') + '\n';
+            out += 'Disobedience: ' + (getVal('q2-5') || '-') + '\n\n';
+
+            out += '## COMBAT MECHANICS\n\n';
+            out += 'Damage types: ' + (getVal('q3-1') || '-') + '\n';
+            out += 'Status effects: ' + getGridOutput('status', ['status-poison','status-stun','status-slow','status-blind','status-burn','status-confuse']) + '\n';
+            out += 'Stagger/knockback: ' + (getVal('q3-2') || '-') + '\n';
+            out += 'Targeting: ' + (getVal('q3-3') || '-') + '\n';
+            out += 'Battle end: ' + (getVal('q3-4') || '-') + '\n';
+            out += 'KO handling: ' + (getVal('q3-5') || '-') + '\n\n';
+
+            out += '## STATS & GROWTH\n\n';
+            out += 'All stats: ' + (getVal('q4-1') || '-') + '\n';
+            out += 'Level system: ' + (getVal('q4-2') || '-') + '\n';
+            out += 'Stat caps: ' + (getVal('q4-3') || '-') + '\n';
+            out += 'Birthmark effects: ' + (getVal('q4-4') || '-') + '\n';
+            out += 'Breeding formula: ' + (getVal('q4-5') || '-') + '\n\n';
+
+            out += '## SPECIES & GENERATIONS\n\n';
+            out += 'Insect species: ' + (getVal('q5-1') || '-') + '\n';
+            out += 'Mammal species: ' + (getVal('q5-2') || '-') + '\n';
+            out += 'Reptilian species: ' + (getVal('q5-3') || '-') + '\n';
+            out += 'Avian species: ' + (getVal('q5-4') || '-') + '\n';
+            out += 'Generation visuals: ' + (getVal('q5-5') || '-') + '\n';
+            out += '4th gen ideas: ' + (getVal('q5-6') || '-') + '\n\n';
+
+            out += '## CAPTURE & TAMING\n\n';
+            out += 'Tranq mechanics: ' + (getVal('q6-1') || '-') + '\n';
+            out += 'Capture success: ' + (getVal('q6-2') || '-') + '\n';
+            out += 'Carry risk: ' + (getVal('q6-3') || '-') + '\n';
+            out += 'Wild temperament: ' + (getVal('q6-4') || '-') + '\n';
+            out += 'Legendaries: ' + (getVal('q6-5') || '-') + '\n\n';
+
+            out += '## UI & GAME FEEL\n\n';
+            out += 'Battle UI: ' + getGridOutput('ui', ['ui-hp','ui-energy','ui-status','ui-commands','ui-cooldowns','ui-minimap']) + '\n';
+            out += 'Camera: ' + (getVal('q7-1') || '-') + '\n';
+            out += 'Command navigation: ' + (getVal('q7-2') || '-') + '\n';
+            out += 'Command feedback: ' + (getVal('q7-3') || '-') + '\n';
+            out += 'Impact feel: ' + (getVal('q7-4') || '-') + '\n\n';
+
+            out += '## ECONOMY & REWARDS\n\n';
+            out += 'Currency name: ' + (getVal('q8-1') || '-') + '\n';
+            out += 'Purchasables: ' + getGridOutput('buy', ['buy-items','buy-food','buy-base','buy-cosmetic','buy-moves','buy-capture']) + '\n';
+            out += 'Arena payouts: ' + (getVal('q8-2') || '-') + '\n';
+            out += 'Wild drops: ' + (getVal('q8-3') || '-') + '\n';
+            out += 'Anti-grind: ' + (getVal('q8-4') || '-') + '\n\n';
+
+            out += '## FINAL THOUGHTS\n\n';
+            out += 'Must feel right: ' + (getVal('q9-1') || '-') + '\n';
+            out += 'On the fence: ' + (getVal('q9-2') || '-') + '\n';
+            out += 'Reference games: ' + (getVal('q9-3') || '-') + '\n';
+            out += 'Other thoughts: ' + (getVal('q9-4') || '-') + '\n';
+
+            return out;
+        }
+
+        function getVal(id) {
+            const el = document.getElementById(id);
+            return el ? el.value.trim() : '';
+        }
+
+        function getChecked(ids) {
+            const checked = ids.filter(id => document.getElementById(id)?.checked)
+                .map(id => document.getElementById(id).nextElementSibling.textContent);
+            return checked.length ? checked.join(', ') : 'None selected';
+        }
+
+        let customCategoryCount = 0;
+
+        function addCustomCategory() {
+            const input = document.getElementById('customCategoryInput');
+            const name = input.value.trim();
+            if (!name) return;
+
+            customCategoryCount++;
+            const id = 'cat-custom-' + customCategoryCount;
+            const grid = document.getElementById('categoryGrid');
+
+            const div = document.createElement('div');
+            div.className = 'option-item custom-category';
+            div.innerHTML = `
+                <input type="checkbox" id="${id}" checked>
+                <label for="${id}">${name}</label>
+                <span class="remove-cat" onclick="removeCategory(this)" style="position:absolute;top:2px;right:6px;cursor:pointer;color:var(--accent-red);font-size:0.8rem;">&times;</span>
+            `;
+            div.style.position = 'relative';
+            grid.appendChild(div);
+
+            input.value = '';
+            saveToStorage();
+        }
+
+        function removeCategory(el) {
+            el.parentElement.remove();
+            saveToStorage();
+        }
+
+        const customCounts = { ui: 0, buy: 0, status: 0 };
+
+        function addCustomItem(type) {
+            const inputMap = { ui: 'customUiInput', buy: 'customBuyInput', status: 'customStatusInput' };
+            const gridMap = { ui: 'uiGrid', buy: 'buyGrid', status: 'statusGrid' };
+            const input = document.getElementById(inputMap[type]);
+            const name = input.value.trim();
+            if (!name) return;
+
+            customCounts[type]++;
+            const id = `${type}-custom-${customCounts[type]}`;
+            const grid = document.getElementById(gridMap[type]);
+
+            const div = document.createElement('div');
+            div.className = `option-item custom-${type}`;
+            div.innerHTML = `
+                <input type="checkbox" id="${id}" checked>
+                <label for="${id}">${name}</label>
+                <span class="remove-cat" onclick="removeCategory(this)" style="position:absolute;top:2px;right:6px;cursor:pointer;color:var(--accent-red);font-size:0.8rem;">&times;</span>
+            `;
+            div.style.position = 'relative';
+            grid.appendChild(div);
+
+            input.value = '';
+            saveToStorage();
+        }
+
+        function getCustomCategories() {
+            const customs = [];
+            document.querySelectorAll('.custom-category input:checked').forEach(cb => {
+                customs.push(cb.nextElementSibling.textContent);
+            });
+            return customs;
+        }
+
+        function getCustomItems(type) {
+            const customs = [];
+            document.querySelectorAll(`.custom-${type} input:checked`).forEach(cb => {
+                customs.push(cb.nextElementSibling.textContent);
+            });
+            return customs;
+        }
+
+        function getCategoriesOutput() {
+            const preset = ['cat-physical','cat-special','cat-buff','cat-debuff','cat-heal','cat-aoe']
+                .filter(id => document.getElementById(id)?.checked)
+                .map(id => document.getElementById(id).nextElementSibling.textContent);
+            const custom = getCustomCategories();
+            const all = [...preset, ...custom];
+            return all.length ? all.join(', ') : 'None selected';
+        }
+
+        function getGridOutput(type, presetIds) {
+            const preset = presetIds
+                .filter(id => document.getElementById(id)?.checked)
+                .map(id => document.getElementById(id).nextElementSibling.textContent);
+            const custom = getCustomItems(type);
+            const all = [...preset, ...custom];
+            return all.length ? all.join(', ') : 'None selected';
+        }
+
+        function copyToClipboard() {
+            const text = generateOutput();
+            navigator.clipboard.writeText(text).then(() => showToast('Copied!')).catch(() => {
+                const ta = document.createElement('textarea');
+                ta.value = text;
+                document.body.appendChild(ta);
+                ta.select();
+                document.execCommand('copy');
+                document.body.removeChild(ta);
+                showToast('Copied!');
+            });
+        }
+
+        function clearAll() {
+            if (confirm('Clear all answers?')) {
+                document.querySelectorAll('textarea, input[type="text"]').forEach(el => el.value = '');
+                document.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(el => el.checked = false);
+                document.querySelectorAll('.custom-category, .custom-ui, .custom-buy, .custom-status').forEach(el => el.remove());
+                customCategoryCount = 0;
+                customCounts.ui = 0;
+                customCounts.buy = 0;
+                customCounts.status = 0;
+                localStorage.removeItem('deepDiveData');
+                goToSection(1);
+                document.getElementById('exportSection').style.display = 'none';
+            }
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+
+        function saveToStorage() {
+            const data = {};
+            document.querySelectorAll('textarea, input[type="text"]').forEach(el => { if (el.id) data[el.id] = el.value; });
+            document.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(el => { if (el.id) data[el.id] = el.checked; });
+            data.currentSection = currentSection;
+            // Save custom categories
+            const customCats = [];
+            document.querySelectorAll('.custom-category').forEach(div => {
+                const cb = div.querySelector('input');
+                const label = div.querySelector('label');
+                if (cb && label) customCats.push({ name: label.textContent, checked: cb.checked });
+            });
+            data.customCategories = customCats;
+            // Save custom UI items
+            const customUi = [];
+            document.querySelectorAll('.custom-ui').forEach(div => {
+                const cb = div.querySelector('input');
+                const label = div.querySelector('label');
+                if (cb && label) customUi.push({ name: label.textContent, checked: cb.checked });
+            });
+            data.customUi = customUi;
+            // Save custom buy items
+            const customBuy = [];
+            document.querySelectorAll('.custom-buy').forEach(div => {
+                const cb = div.querySelector('input');
+                const label = div.querySelector('label');
+                if (cb && label) customBuy.push({ name: label.textContent, checked: cb.checked });
+            });
+            data.customBuy = customBuy;
+            // Save custom status effects
+            const customStatus = [];
+            document.querySelectorAll('.custom-status').forEach(div => {
+                const cb = div.querySelector('input');
+                const label = div.querySelector('label');
+                if (cb && label) customStatus.push({ name: label.textContent, checked: cb.checked });
+            });
+            data.customStatus = customStatus;
+            localStorage.setItem('deepDiveData', JSON.stringify(data));
+        }
+
+        function loadFromStorage() {
+            const saved = localStorage.getItem('deepDiveData');
+            if (saved) {
+                const data = JSON.parse(saved);
+                // Load custom categories first
+                if (data.customCategories) {
+                    data.customCategories.forEach(cat => {
+                        customCategoryCount++;
+                        const id = 'cat-custom-' + customCategoryCount;
+                        const grid = document.getElementById('categoryGrid');
+                        const div = document.createElement('div');
+                        div.className = 'option-item custom-category';
+                        div.innerHTML = `
+                            <input type="checkbox" id="${id}" ${cat.checked ? 'checked' : ''}>
+                            <label for="${id}">${cat.name}</label>
+                            <span class="remove-cat" onclick="removeCategory(this)" style="position:absolute;top:2px;right:6px;cursor:pointer;color:var(--accent-red);font-size:0.8rem;">&times;</span>
+                        `;
+                        div.style.position = 'relative';
+                        grid.appendChild(div);
+                    });
+                }
+                // Load custom UI items
+                if (data.customUi) {
+                    data.customUi.forEach(item => {
+                        customCounts.ui++;
+                        const id = 'ui-custom-' + customCounts.ui;
+                        const grid = document.getElementById('uiGrid');
+                        const div = document.createElement('div');
+                        div.className = 'option-item custom-ui';
+                        div.innerHTML = `
+                            <input type="checkbox" id="${id}" ${item.checked ? 'checked' : ''}>
+                            <label for="${id}">${item.name}</label>
+                            <span class="remove-cat" onclick="removeCategory(this)" style="position:absolute;top:2px;right:6px;cursor:pointer;color:var(--accent-red);font-size:0.8rem;">&times;</span>
+                        `;
+                        div.style.position = 'relative';
+                        grid.appendChild(div);
+                    });
+                }
+                // Load custom buy items
+                if (data.customBuy) {
+                    data.customBuy.forEach(item => {
+                        customCounts.buy++;
+                        const id = 'buy-custom-' + customCounts.buy;
+                        const grid = document.getElementById('buyGrid');
+                        const div = document.createElement('div');
+                        div.className = 'option-item custom-buy';
+                        div.innerHTML = `
+                            <input type="checkbox" id="${id}" ${item.checked ? 'checked' : ''}>
+                            <label for="${id}">${item.name}</label>
+                            <span class="remove-cat" onclick="removeCategory(this)" style="position:absolute;top:2px;right:6px;cursor:pointer;color:var(--accent-red);font-size:0.8rem;">&times;</span>
+                        `;
+                        div.style.position = 'relative';
+                        grid.appendChild(div);
+                    });
+                }
+                // Load custom status effects
+                if (data.customStatus) {
+                    data.customStatus.forEach(item => {
+                        customCounts.status++;
+                        const id = 'status-custom-' + customCounts.status;
+                        const grid = document.getElementById('statusGrid');
+                        const div = document.createElement('div');
+                        div.className = 'option-item custom-status';
+                        div.innerHTML = `
+                            <input type="checkbox" id="${id}" ${item.checked ? 'checked' : ''}>
+                            <label for="${id}">${item.name}</label>
+                            <span class="remove-cat" onclick="removeCategory(this)" style="position:absolute;top:2px;right:6px;cursor:pointer;color:var(--accent-red);font-size:0.8rem;">&times;</span>
+                        `;
+                        div.style.position = 'relative';
+                        grid.appendChild(div);
+                    });
+                }
+                Object.keys(data).forEach(key => {
+                    if (['customCategories', 'customUi', 'customBuy', 'customStatus'].includes(key)) return;
+                    const el = document.getElementById(key);
+                    if (el) {
+                        if (el.type === 'checkbox' || el.type === 'radio') el.checked = data[key];
+                        else el.value = data[key];
+                    }
+                });
+                if (data.currentSection) goToSection(data.currentSection);
+            }
+        }
+
+        document.addEventListener('input', saveToStorage);
+        document.getElementById('customCategoryInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') { e.preventDefault(); addCustomCategory(); }
+        });
+        document.getElementById('customUiInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') { e.preventDefault(); addCustomItem('ui'); }
+        });
+        document.getElementById('customBuyInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') { e.preventDefault(); addCustomItem('buy'); }
+        });
+        document.getElementById('customStatusInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') { e.preventDefault(); addCustomItem('status'); }
+        });
+        init();
+    </script>
+</body>
+</html>
