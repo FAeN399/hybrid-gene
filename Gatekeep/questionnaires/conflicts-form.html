@@ -432,29 +432,29 @@
             <div class="section">
                 <div class="section-header">
                     <span class="section-num">2</span>
-                    <span class="section-title">ID Registry & Breeding Mathematics</span>
+                    <span class="section-title">Move Inheritance Logic</span>
                 </div>
                 <div class="section-body">
                     <div class="conflict-box">
                         <div class="conflict-label">The Conflict</div>
-                        <div class="conflict-text">ID-Register allocates 34 slots for G2 (017-050), but breeding math requires 40 slots (4 species × 10 combinations each).</div>
+                        <div class="conflict-text">GDD says child inherits moves BOTH parents know (Intersection). Design Answers implies EITHER parent (Union).</div>
                     </div>
 
                     <div class="question">
-                        <label class="question-label">2.1 How should we handle G2 ID allocation?</label>
+                        <label class="question-label">2.1 Which inheritance logic should be used?</label>
                         <div class="options">
                             <label class="option">
-                                <input type="radio" name="q2_1" value="expand">
+                                <input type="radio" name="q2_1" value="intersection">
                                 <div class="option-content">
-                                    <span class="option-label">Expand to 017-060</span>
-                                    <span class="option-desc">Requires shifting G3, G4, and Debug IDs</span>
+                                    <span class="option-label">Intersection (BOTH parents)</span>
+                                    <span class="option-desc">Higher difficulty; requires strategic breeding lines</span>
                                 </div>
                             </label>
                             <label class="option">
-                                <input type="radio" name="q2_1" value="limit">
+                                <input type="radio" name="q2_1" value="union">
                                 <div class="option-content">
-                                    <span class="option-label">Limit G2 to 34</span>
-                                    <span class="option-desc">Some breeding combos produce same monster</span>
+                                    <span class="option-label">Union (EITHER parent)</span>
+                                    <span class="option-desc">Faster progression; easier "super-monsters"</span>
                                 </div>
                             </label>
                             <label class="option">
@@ -468,8 +468,8 @@
                     </div>
 
                     <div class="question">
-                        <label class="question-label">2.2 Additional notes on G2 count:</label>
-                        <textarea name="q2_2" placeholder="Any design reasons for limiting or expanding..."></textarea>
+                        <label class="question-label">2.2 Additional notes on move inheritance:</label>
+                        <textarea name="q2_2" placeholder="Any hybrid approach or special rules..."></textarea>
                     </div>
                 </div>
             </div>
@@ -478,52 +478,6 @@
             <div class="section">
                 <div class="section-header">
                     <span class="section-num">3</span>
-                    <span class="section-title">Move Inheritance Logic</span>
-                </div>
-                <div class="section-body">
-                    <div class="conflict-box">
-                        <div class="conflict-label">The Conflict</div>
-                        <div class="conflict-text">GDD says child inherits moves BOTH parents know (Intersection). Design Answers implies EITHER parent (Union).</div>
-                    </div>
-
-                    <div class="question">
-                        <label class="question-label">3.1 Which inheritance logic should be used?</label>
-                        <div class="options">
-                            <label class="option">
-                                <input type="radio" name="q3_1" value="intersection">
-                                <div class="option-content">
-                                    <span class="option-label">Intersection (BOTH parents)</span>
-                                    <span class="option-desc">Higher difficulty; requires strategic breeding lines</span>
-                                </div>
-                            </label>
-                            <label class="option">
-                                <input type="radio" name="q3_1" value="union">
-                                <div class="option-content">
-                                    <span class="option-label">Union (EITHER parent)</span>
-                                    <span class="option-desc">Faster progression; easier "super-monsters"</span>
-                                </div>
-                            </label>
-                            <label class="option">
-                                <input type="radio" name="q3_1" value="other">
-                                <div class="option-content">
-                                    <span class="option-label">Other</span>
-                                    <span class="option-desc">Specify in notes below</span>
-                                </div>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="question">
-                        <label class="question-label">3.2 Additional notes on move inheritance:</label>
-                        <textarea name="q3_2" placeholder="Any hybrid approach or special rules..."></textarea>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Section 4 -->
-            <div class="section">
-                <div class="section-header">
-                    <span class="section-num">4</span>
                     <span class="section-title">Combat Systems & Damage Categories</span>
                 </div>
                 <div class="section-body">
@@ -533,24 +487,24 @@
                     </div>
 
                     <div class="question">
-                        <label class="question-label">4.1 Should Melee/Ranged be official damage categories?</label>
+                        <label class="question-label">3.1 Should Melee/Ranged be official damage categories?</label>
                         <div class="options">
                             <label class="option">
-                                <input type="radio" name="q4_1" value="melee_ranged">
+                                <input type="radio" name="q3_1" value="melee_ranged">
                                 <div class="option-content">
                                     <span class="option-label">Yes, Melee/Ranged only</span>
                                     <span class="option-desc">Keep it simple, codify what exists</span>
                                 </div>
                             </label>
                             <label class="option">
-                                <input type="radio" name="q4_1" value="add_elemental">
+                                <input type="radio" name="q3_1" value="add_elemental">
                                 <div class="option-content">
                                     <span class="option-label">Yes, plus Elemental types</span>
                                     <span class="option-desc">Add fire, ice, etc. for more depth</span>
                                 </div>
                             </label>
                             <label class="option">
-                                <input type="radio" name="q4_1" value="remove">
+                                <input type="radio" name="q3_1" value="remove">
                                 <div class="option-content">
                                     <span class="option-label">No, remove from Flying trait</span>
                                     <span class="option-desc">Keep damage typeless as originally intended</span>
@@ -560,8 +514,8 @@
                     </div>
 
                     <div class="question">
-                        <label class="question-label">4.2 How should this interact with Physical/Special stats?</label>
-                        <textarea name="q4_2" placeholder="Describe the unified damage system..."></textarea>
+                        <label class="question-label">3.2 How should this interact with Physical/Special stats?</label>
+                        <textarea name="q3_2" placeholder="Describe the unified damage system..."></textarea>
                     </div>
                 </div>
             </div>
@@ -614,17 +568,13 @@ Date: ${date}
 1.1 Monster format: ${getRadio('q1_1')}
 1.2 Art team capabilities: ${getTextarea('q1_2')}
 
-## 2. ID Registry & Breeding
-2.1 G2 ID allocation: ${getRadio('q2_1')}
+## 2. Move Inheritance
+2.1 Inheritance logic: ${getRadio('q2_1')}
 2.2 Notes: ${getTextarea('q2_2')}
 
-## 3. Move Inheritance
-3.1 Inheritance logic: ${getRadio('q3_1')}
-3.2 Notes: ${getTextarea('q3_2')}
-
-## 4. Damage Categories
-4.1 Melee/Ranged categories: ${getRadio('q4_1')}
-4.2 Physical/Special interaction: ${getTextarea('q4_2')}
+## 3. Damage Categories
+3.1 Melee/Ranged categories: ${getRadio('q3_1')}
+3.2 Physical/Special interaction: ${getTextarea('q3_2')}
 `;
 
             document.getElementById('outputText').textContent = output;

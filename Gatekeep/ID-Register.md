@@ -9,8 +9,8 @@ Master allocation of numerical IDs to prevent collisions.
 | Range | Owner | Purpose |
 |-------|-------|---------|
 | 001-016 | Core | G1 Starters (4 per species) |
-| 017-050 | Core | G2 Monsters |
-| 051-100 | Core | G3 Monsters |
+| 017-040 | Core | G2 Monsters (24 total) |
+| 041-100 | Core | G3 Monsters |
 | 101-110 | Core | G4 Secret Monsters |
 | 900-999 | Debug | Test monsters (never ship) |
 
