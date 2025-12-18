@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hybrid Gene - Conflict Resolution Form</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0a0f;
+            --bg-card: #12121a;
+            --bg-hover: #1a1a24;
+            --bg-input: #0d0d12;
+            --border: #2a2a3a;
+            --text: #e0e0e0;
+            --text-muted: #8a8a9a;
+            --accent-orange: #ff6b35;
+            --accent-teal: #00d4aa;
+            --accent-purple: #8b5cf6;
+            --accent-yellow: #eab308;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text);
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .tag {
+            display: inline-block;
+            background: var(--accent-orange);
+            color: var(--bg-dark);
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            background: linear-gradient(90deg, var(--accent-orange), var(--accent-teal));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .overview {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.25rem;
+            margin-bottom: 2rem;
+        }
+
+        .overview p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .section {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .section-header {
+            background: var(--bg-hover);
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-num {
+            background: var(--accent-teal);
+            color: var(--bg-dark);
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            color: var(--text);
+        }
+
+        .section-body {
+            padding: 1.25rem;
+        }
+
+        .conflict-box {
+            background: var(--bg-input);
+            border-left: 3px solid var(--accent-yellow);
+            padding: 0.75rem 1rem;
+            margin-bottom: 1.25rem;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .conflict-label {
+            font-size: 0.75rem;
+            color: var(--accent-yellow);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.25rem;
+        }
+
+        .conflict-text {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .question {
+            margin-bottom: 1.25rem;
+        }
+
+        .question:last-child {
+            margin-bottom: 0;
+        }
+
+        .question-label {
+            font-weight: 600;
+            color: var(--accent-teal);
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .option {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: var(--bg-hover);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .option:hover {
+            border-color: var(--accent-teal);
+        }
+
+        .option input[type="radio"],
+        .option input[type="checkbox"] {
+            accent-color: var(--accent-teal);
+            width: 18px;
+            height: 18px;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .option-content {
+            flex: 1;
+        }
+
+        .option-label {
+            font-weight: 600;
+            color: var(--text);
+            display: block;
+        }
+
+        .option-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 80px;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.75rem;
+            color: var(--text);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.95rem;
+            resize: vertical;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent-teal);
+        }
+
+        textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        .responder-section {
+            background: var(--bg-card);
+            border: 1px solid var(--accent-orange);
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .responder-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            color: var(--accent-orange);
+            margin-bottom: 1rem;
+        }
+
+        .responder-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+
+        .field label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .field input {
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 0.6rem 0.75rem;
+            color: var(--text);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.95rem;
+        }
+
+        .field input:focus {
+            outline: none;
+            border-color: var(--accent-teal);
+        }
+
+        .actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        button {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--accent-teal);
+            color: var(--bg-dark);
+            font-weight: 700;
+        }
+
+        .btn-primary:hover {
+            background: #00b894;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: var(--bg-hover);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent-purple);
+        }
+
+        .output-section {
+            display: none;
+            margin-top: 2rem;
+        }
+
+        .output-section.visible {
+            display: block;
+        }
+
+        .output-box {
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .output-box pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: var(--text);
+            font-size: 0.85rem;
+            font-family: monospace;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border);
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 1rem; }
+            h1 { font-size: 1.4rem; }
+            .responder-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <span class="tag">INTERNAL</span>
+            <h1>System Integration & Conflict Resolution</h1>
+            <p class="subtitle">Development & Design Team | December 2025</p>
+        </header>
+
+        <div class="overview">
+            <p>During the recent audit of the <strong>Gatekeep</strong> documentation, several critical inconsistencies were identified. Resolving these conflicts is necessary to unblock production and ensure all team members are working from a single source of truth.</p>
+        </div>
+
+        <div class="responder-section">
+            <div class="responder-title">Responder Information</div>
+            <div class="responder-grid">
+                <div class="field">
+                    <label>Name / Discord Handle</label>
+                    <input type="text" id="responderName" placeholder="e.g., Dagyr">
+                </div>
+                <div class="field">
+                    <label>Date</label>
+                    <input type="date" id="responderDate">
+                </div>
+            </div>
+        </div>
+
+        <form id="conflictForm">
+            <!-- Section 1 -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-num">1</span>
+                    <span class="section-title">Technical Art Direction (MZ3D)</span>
+                </div>
+                <div class="section-body">
+                    <div class="conflict-box">
+                        <div class="conflict-label">The Conflict</div>
+                        <div class="conflict-text">MZ3D is listed as a core plugin (for 3D rendering), but Art Style remains "Open" and sprite standards are written for 2D placeholders.</div>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">1.1 What format for monsters?</label>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="q1_1" value="3d_models">
+                                <div class="option-content">
+                                    <span class="option-label">3D Models (.gltf)</span>
+                                    <span class="option-desc">Full 3D monsters made in Crocotile or similar</span>
+                                </div>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q1_1" value="2d_billboards">
+                                <div class="option-content">
+                                    <span class="option-label">2D Billboards</span>
+                                    <span class="option-desc">Sprites displayed in 3D environment</span>
+                                </div>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q1_1" value="mix">
+                                <div class="option-content">
+                                    <span class="option-label">Mix</span>
+                                    <span class="option-desc">3D environments, 2D monster sprites</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">1.2 Does the art team have tools/pipeline for 100+ monsters?</label>
+                        <textarea name="q1_2" placeholder="Describe current capabilities or needs..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 2 -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-num">2</span>
+                    <span class="section-title">ID Registry & Breeding Mathematics</span>
+                </div>
+                <div class="section-body">
+                    <div class="conflict-box">
+                        <div class="conflict-label">The Conflict</div>
+                        <div class="conflict-text">ID-Register allocates 34 slots for G2 (017-050), but breeding math requires 40 slots (4 species × 10 combinations each).</div>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">2.1 How should we handle G2 ID allocation?</label>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="q2_1" value="expand">
+                                <div class="option-content">
+                                    <span class="option-label">Expand to 017-060</span>
+                                    <span class="option-desc">Requires shifting G3, G4, and Debug IDs</span>
+                                </div>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q2_1" value="limit">
+                                <div class="option-content">
+                                    <span class="option-label">Limit G2 to 34</span>
+                                    <span class="option-desc">Some breeding combos produce same monster</span>
+                                </div>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q2_1" value="other">
+                                <div class="option-content">
+                                    <span class="option-label">Other</span>
+                                    <span class="option-desc">Specify in notes below</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">2.2 Additional notes on G2 count:</label>
+                        <textarea name="q2_2" placeholder="Any design reasons for limiting or expanding..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 3 -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-num">3</span>
+                    <span class="section-title">Move Inheritance Logic</span>
+                </div>
+                <div class="section-body">
+                    <div class="conflict-box">
+                        <div class="conflict-label">The Conflict</div>
+                        <div class="conflict-text">GDD says child inherits moves BOTH parents know (Intersection). Design Answers implies EITHER parent (Union).</div>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">3.1 Which inheritance logic should be used?</label>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="q3_1" value="intersection">
+                                <div class="option-content">
+                                    <span class="option-label">Intersection (BOTH parents)</span>
+                                    <span class="option-desc">Higher difficulty; requires strategic breeding lines</span>
+                                </div>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q3_1" value="union">
+                                <div class="option-content">
+                                    <span class="option-label">Union (EITHER parent)</span>
+                                    <span class="option-desc">Faster progression; easier "super-monsters"</span>
+                                </div>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q3_1" value="other">
+                                <div class="option-content">
+                                    <span class="option-label">Other</span>
+                                    <span class="option-desc">Specify in notes below</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">3.2 Additional notes on move inheritance:</label>
+                        <textarea name="q3_2" placeholder="Any hybrid approach or special rules..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 4 -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-num">4</span>
+                    <span class="section-title">Combat Systems & Damage Categories</span>
+                </div>
+                <div class="section-body">
+                    <div class="conflict-box">
+                        <div class="conflict-label">The Conflict</div>
+                        <div class="conflict-text">GDD lists Damage Types as "TBD," but the Avian Flying trait already uses Ranged vs Melee distinction.</div>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">4.1 Should Melee/Ranged be official damage categories?</label>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="q4_1" value="melee_ranged">
+                                <div class="option-content">
+                                    <span class="option-label">Yes, Melee/Ranged only</span>
+                                    <span class="option-desc">Keep it simple, codify what exists</span>
+                                </div>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q4_1" value="add_elemental">
+                                <div class="option-content">
+                                    <span class="option-label">Yes, plus Elemental types</span>
+                                    <span class="option-desc">Add fire, ice, etc. for more depth</span>
+                                </div>
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q4_1" value="remove">
+                                <div class="option-content">
+                                    <span class="option-label">No, remove from Flying trait</span>
+                                    <span class="option-desc">Keep damage typeless as originally intended</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">4.2 How should this interact with Physical/Special stats?</label>
+                        <textarea name="q4_2" placeholder="Describe the unified damage system..."></textarea>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div class="actions">
+            <button type="button" class="btn-secondary" onclick="clearForm()">Clear Form</button>
+            <button type="button" class="btn-primary" onclick="generateOutput()">Generate Summary</button>
+        </div>
+
+        <div id="outputSection" class="output-section">
+            <h3 style="color: var(--accent-teal); margin-bottom: 1rem; font-family: 'Orbitron', sans-serif;">Response Summary</h3>
+            <p style="color: var(--text-muted); margin-bottom: 1rem; font-size: 0.9rem;">Copy this and submit to the Gatekeeper:</p>
+            <div class="output-box">
+                <pre id="outputText"></pre>
+            </div>
+            <div class="actions">
+                <button type="button" class="btn-primary" onclick="copyOutput()">Copy to Clipboard</button>
+            </div>
+        </div>
+
+        <footer>
+            <p>Hybrid Gene | Gatekeep Integration Audit | The Gatekeeper prevents rework.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Set default date to today
+        document.getElementById('responderDate').valueAsDate = new Date();
+
+        function generateOutput() {
+            const name = document.getElementById('responderName').value || 'Anonymous';
+            const date = document.getElementById('responderDate').value || new Date().toISOString().split('T')[0];
+
+            const getRadio = (name) => {
+                const selected = document.querySelector(`input[name="${name}"]:checked`);
+                return selected ? selected.value : 'No response';
+            };
+
+            const getTextarea = (name) => {
+                const el = document.querySelector(`textarea[name="${name}"]`);
+                return el && el.value.trim() ? el.value.trim() : 'No additional notes';
+            };
+
+            const output = `# Conflict Resolution Response
+Responder: ${name}
+Date: ${date}
+
+## 1. Technical Art Direction
+1.1 Monster format: ${getRadio('q1_1')}
+1.2 Art team capabilities: ${getTextarea('q1_2')}
+
+## 2. ID Registry & Breeding
+2.1 G2 ID allocation: ${getRadio('q2_1')}
+2.2 Notes: ${getTextarea('q2_2')}
+
+## 3. Move Inheritance
+3.1 Inheritance logic: ${getRadio('q3_1')}
+3.2 Notes: ${getTextarea('q3_2')}
+
+## 4. Damage Categories
+4.1 Melee/Ranged categories: ${getRadio('q4_1')}
+4.2 Physical/Special interaction: ${getTextarea('q4_2')}
+`;
+
+            document.getElementById('outputText').textContent = output;
+            document.getElementById('outputSection').classList.add('visible');
+            document.getElementById('outputSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function copyOutput() {
+            const text = document.getElementById('outputText').textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Copied to clipboard!');
+            });
+        }
+
+        function clearForm() {
+            document.getElementById('conflictForm').reset();
+            document.getElementById('responderName').value = '';
+            document.getElementById('outputSection').classList.remove('visible');
+        }
+    </script>
+</body>
+</html>

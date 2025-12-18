@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 400">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a0f"/>
+      <stop offset="100%" style="stop-color:#12121a"/>
+    </linearGradient>
+    <linearGradient id="titleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#ff6b35"/>
+      <stop offset="100%" style="stop-color:#00d4aa"/>
+    </linearGradient>
+    <linearGradient id="arrowGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#ff6b35"/>
+      <stop offset="100%" style="stop-color:#00d4aa"/>
+    </linearGradient>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#00d4aa"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="400" fill="url(#bgGrad)"/>
+
+  <!-- Title -->
+  <text x="450" y="45" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="url(#titleGrad)">ASSET PIPELINE</text>
+  <text x="450" y="70" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#8a8a9a">Tile Creation → 3D Environment → Game</text>
+
+  <!-- Stage 1: Creation -->
+  <rect x="40" y="110" width="150" height="100" rx="12" fill="#12121a" stroke="#ff6b35" stroke-width="2"/>
+  <text x="115" y="145" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#ff6b35">CREATION</text>
+  <text x="115" y="170" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#e0e0e0">AI Generation</text>
+  <text x="115" y="188" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#e0e0e0">Hand-drawn</text>
+  <text x="115" y="206" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#8a8a9a">Midjourney / Aseprite</text>
+
+  <!-- Arrow 1 -->
+  <line x1="200" y1="160" x2="250" y2="160" stroke="url(#arrowGrad)" stroke-width="3" marker-end="url(#arrowhead)"/>
+
+  <!-- Stage 2: Tiles -->
+  <rect x="260" y="110" width="150" height="100" rx="12" fill="#12121a" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="335" y="145" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#8b5cf6">TILES</text>
+  <text x="335" y="170" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#e0e0e0">.png files</text>
+  <text x="335" y="188" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#e0e0e0">48x48 or 16x16</text>
+  <text x="335" y="206" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#8a8a9a">Seamless / RGBA</text>
+
+  <!-- Arrow 2 -->
+  <line x1="420" y1="160" x2="470" y2="160" stroke="url(#arrowGrad)" stroke-width="3" marker-end="url(#arrowhead)"/>
+
+  <!-- Stage 3: Crocotile -->
+  <rect x="480" y="110" width="150" height="100" rx="12" fill="#12121a" stroke="#3b82f6" stroke-width="2"/>
+  <text x="555" y="145" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#3b82f6">CROCOTILE 3D</text>
+  <text x="555" y="170" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#e0e0e0">Build 3D Environment</text>
+  <text x="555" y="188" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#e0e0e0">Export .gltf</text>
+  <text x="555" y="206" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#8a8a9a">$30 / Drew owns</text>
+
+  <!-- Arrow 3 -->
+  <line x1="640" y1="160" x2="690" y2="160" stroke="url(#arrowGrad)" stroke-width="3" marker-end="url(#arrowhead)"/>
+
+  <!-- Stage 4: MZ3D -->
+  <rect x="700" y="110" width="150" height="100" rx="12" fill="#12121a" stroke="#00d4aa" stroke-width="2"/>
+  <text x="775" y="145" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#00d4aa">MZ3D PLUGIN</text>
+  <text x="775" y="170" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#e0e0e0">Import .gltf</text>
+  <text x="775" y="188" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#e0e0e0">3D Rendering</text>
+  <text x="775" y="206" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#8a8a9a">$25 / Modified</text>
+
+  <!-- Final Arrow (down) -->
+  <line x1="775" y1="220" x2="775" y2="270" stroke="url(#arrowGrad)" stroke-width="3" marker-end="url(#arrowhead)"/>
+
+  <!-- Stage 5: Game -->
+  <rect x="625" y="280" width="300" height="80" rx="12" fill="#12121a" stroke="#ff6b35" stroke-width="3"/>
+  <text x="775" y="315" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="url(#titleGrad)">RPG MAKER MZ</text>
+  <text x="775" y="340" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#e0e0e0">Game Logic • Events • Database • Deploy</text>
+
+  <!-- File Types Legend -->
+  <rect x="40" y="280" width="200" height="80" rx="8" fill="#1a1a24" stroke="#2a2a3a"/>
+  <text x="140" y="305" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#8a8a9a">FILE FORMATS</text>
+  <text x="60" y="328" font-family="monospace" font-size="11" fill="#ff6b35">.png</text>
+  <text x="100" y="328" font-family="Arial, sans-serif" font-size="10" fill="#8a8a9a">Textures</text>
+  <text x="60" y="348" font-family="monospace" font-size="11" fill="#3b82f6">.gltf</text>
+  <text x="100" y="348" font-family="Arial, sans-serif" font-size="10" fill="#8a8a9a">3D Models</text>
+  <text x="155" y="328" font-family="monospace" font-size="11" fill="#00d4aa">.json</text>
+  <text x="195" y="328" font-family="Arial, sans-serif" font-size="10" fill="#8a8a9a">MZ Data</text>
+
+  <!-- Tools Legend -->
+  <rect x="260" y="280" width="200" height="80" rx="8" fill="#1a1a24" stroke="#2a2a3a"/>
+  <text x="360" y="305" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#8a8a9a">TOOLS</text>
+  <circle cx="280" cy="325" r="5" fill="#ff6b35"/>
+  <text x="295" y="330" font-family="Arial, sans-serif" font-size="10" fill="#e0e0e0">Midjourney / SD</text>
+  <circle cx="380" cy="325" r="5" fill="#8b5cf6"/>
+  <text x="395" y="330" font-family="Arial, sans-serif" font-size="10" fill="#e0e0e0">Aseprite</text>
+  <circle cx="280" cy="350" r="5" fill="#3b82f6"/>
+  <text x="295" y="355" font-family="Arial, sans-serif" font-size="10" fill="#e0e0e0">Crocotile 3D</text>
+  <circle cx="380" cy="350" r="5" fill="#00d4aa"/>
+  <text x="395" y="355" font-family="Arial, sans-serif" font-size="10" fill="#e0e0e0">MZ3D Plugin</text>
+</svg>

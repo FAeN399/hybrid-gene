@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sprites - Hybrid Gene Standards</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0a0f;
+            --bg-card: #12121a;
+            --bg-hover: #1a1a24;
+            --bg-code: #0d0d12;
+            --border: #2a2a3a;
+            --text: #e0e0e0;
+            --text-muted: #8a8a9a;
+            --accent-orange: #ff6b35;
+            --accent-teal: #00d4aa;
+            --accent-purple: #8b5cf6;
+            --accent-blue: #3b82f6;
+            --accent-yellow: #eab308;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text);
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            transition: color 0.2s;
+        }
+        .back-link:hover { color: var(--accent-teal); }
+
+        header {
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.2rem;
+            background: linear-gradient(90deg, var(--accent-orange), var(--accent-teal));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .meta {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .meta-label {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .meta-value {
+            color: var(--accent-teal);
+            font-weight: 600;
+        }
+
+        .status-badge {
+            background: var(--accent-yellow);
+            color: var(--bg-dark);
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        section {
+            margin-bottom: 3rem;
+        }
+
+        h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3rem;
+            color: var(--accent-teal);
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            color: var(--accent-purple);
+            margin: 1.5rem 0 0.75rem;
+        }
+
+        p { margin-bottom: 1rem; }
+
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+
+        th {
+            background: var(--bg-hover);
+            color: var(--accent-teal);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 2px solid var(--accent-teal);
+        }
+
+        td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+
+        tr:hover td {
+            background: var(--bg-card);
+        }
+
+        td:first-child {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-code);
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            color: var(--accent-orange);
+        }
+
+        pre {
+            background: var(--bg-code);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.25rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            font-size: 0.9rem;
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* Pending Decision Cards */
+        .decision-grid {
+            display: grid;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .decision-card {
+            background: var(--bg-card);
+            border: 2px solid var(--accent-yellow);
+            border-radius: 10px;
+            padding: 1.25rem;
+        }
+
+        .decision-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+        }
+
+        .decision-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            color: var(--text);
+        }
+
+        .decision-status {
+            background: var(--accent-yellow);
+            color: var(--bg-dark);
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 700;
+        }
+
+        .decision-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+        }
+
+        .option {
+            background: var(--bg-hover);
+            border: 1px solid var(--border);
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .info-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .info-card-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75rem;
+            color: var(--accent-teal);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-card-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .info-card-note {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        .info-card.tbd {
+            border-style: dashed;
+            border-color: var(--accent-yellow);
+        }
+
+        .info-card.tbd .info-card-value {
+            color: var(--accent-yellow);
+        }
+
+        ul {
+            margin: 0.75rem 0 0.75rem 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.4rem;
+        }
+
+        a {
+            color: var(--accent-teal);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .contact {
+            background: linear-gradient(135deg, var(--bg-card), rgba(255,107,53,0.08));
+            border: 1px solid var(--accent-orange);
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            margin-top: 2rem;
+        }
+
+        .contact strong {
+            color: var(--accent-orange);
+        }
+
+        .draft-notice {
+            background: linear-gradient(135deg, var(--bg-card), rgba(234,179,8,0.1));
+            border: 2px solid var(--accent-yellow);
+            border-radius: 10px;
+            padding: 1.25rem;
+            margin-bottom: 2rem;
+        }
+
+        .draft-notice-title {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--accent-yellow);
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .draft-notice p {
+            margin-bottom: 0;
+            color: var(--text-muted);
+        }
+
+        footer {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 1rem; }
+            h1 { font-size: 1.6rem; }
+            .meta { gap: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-link">&#8592; Back to Portal</a>
+
+        <header>
+            <h1>Sprites</h1>
+            <div class="meta">
+                <div class="meta-item">
+                    <span class="meta-label">Status</span>
+                    <span class="status-badge">DRAFT</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Owner</span>
+                    <span class="meta-value">Bear (Brian)</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Updated</span>
+                    <span class="meta-value">Dec 2025</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="draft-notice">
+            <div class="draft-notice-title">Decisions Pending</div>
+            <p>This document requires team decisions before specifications can be finalized. See pending decisions below.</p>
+        </div>
+
+        <section>
+            <h2>Overview</h2>
+            <p>Standards for monster sprites, character sprites, and animations for Hybrid Gene. Approach depends on whether we use 2D sprites, 3D models, or a hybrid approach with MZ3D.</p>
+        </section>
+
+        <section>
+            <h2>Pending Decisions</h2>
+            <div class="decision-grid">
+                <div class="decision-card">
+                    <div class="decision-header">
+                        <span class="decision-title">Sprite Style</span>
+                        <span class="decision-status">DECIDE</span>
+                    </div>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0;">What visual style should sprites use?</p>
+                    <div class="decision-options">
+                        <span class="option">Pixel Art</span>
+                        <span class="option">Hand-drawn</span>
+                        <span class="option">AI-assisted</span>
+                    </div>
+                </div>
+
+                <div class="decision-card">
+                    <div class="decision-header">
+                        <span class="decision-title">Sheet Format</span>
+                        <span class="decision-status">DECIDE</span>
+                    </div>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0;">Standard MZ sheets or custom format for MZ3D?</p>
+                    <div class="decision-options">
+                        <span class="option">Standard MZ</span>
+                        <span class="option">Custom Format</span>
+                    </div>
+                </div>
+
+                <div class="decision-card">
+                    <div class="decision-header">
+                        <span class="decision-title">Animation Frames</span>
+                        <span class="decision-status">DECIDE</span>
+                    </div>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0;">How many frames per direction for animations?</p>
+                    <div class="decision-options">
+                        <span class="option">4 frames</span>
+                        <span class="option">6 frames</span>
+                        <span class="option">8 frames</span>
+                    </div>
+                </div>
+
+                <div class="decision-card">
+                    <div class="decision-header">
+                        <span class="decision-title">Monster Display</span>
+                        <span class="decision-status">DECIDE</span>
+                    </div>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0;">How will monsters be displayed in the 3D world?</p>
+                    <div class="decision-options">
+                        <span class="option">2D Sprite Overlay</span>
+                        <span class="option">3D Models</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Placeholder Specs</h2>
+            <p style="color: var(--text-muted);">These specs assume standard 2D approach. Will be updated after decisions.</p>
+
+            <h3>Character Sprites (if 2D)</h3>
+            <div class="info-grid">
+                <div class="info-card">
+                    <div class="info-card-title">Size</div>
+                    <div class="info-card-value">48x48px</div>
+                    <div class="info-card-note">per frame (MZ standard)</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-card-title">Directions</div>
+                    <div class="info-card-value">4</div>
+                    <div class="info-card-note">down, left, right, up</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-card-title">Frames</div>
+                    <div class="info-card-value">3</div>
+                    <div class="info-card-note">per direction</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-card-title">Format</div>
+                    <div class="info-card-value">PNG-32</div>
+                    <div class="info-card-note">32-bit RGBA</div>
+                </div>
+            </div>
+
+            <h3>Monster Sprites</h3>
+            <div class="info-grid">
+                <div class="info-card tbd">
+                    <div class="info-card-title">Size</div>
+                    <div class="info-card-value">TBD</div>
+                </div>
+                <div class="info-card tbd">
+                    <div class="info-card-title">Animation</div>
+                    <div class="info-card-value">TBD</div>
+                </div>
+                <div class="info-card tbd">
+                    <div class="info-card-title">Format</div>
+                    <div class="info-card-value">TBD</div>
+                    <div class="info-card-note">PNG or 3D model</div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>File Naming Convention</h2>
+            <pre><code>[species]_[generation]_[name]_[state].png</code></pre>
+
+            <h3>Examples</h3>
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>Filename</th>
+                        <th>Species</th>
+                        <th>Gen</th>
+                        <th>State</th>
+                    </tr>
+                    <tr>
+                        <td><code>insect_g1_beetle_idle.png</code></td>
+                        <td>Insect</td>
+                        <td>G1</td>
+                        <td>Idle</td>
+                    </tr>
+                    <tr>
+                        <td><code>mammal_g2_wolfcat_attack.png</code></td>
+                        <td>Mammal</td>
+                        <td>G2</td>
+                        <td>Attack</td>
+                    </tr>
+                    <tr>
+                        <td><code>reptilian_g3_drake_ko.png</code></td>
+                        <td>Reptilian</td>
+                        <td>G3</td>
+                        <td>KO</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h3>Valid Values</h3>
+            <p><strong>Species:</strong> <code>insect</code> <code>mammal</code> <code>reptilian</code> <code>avian</code></p>
+            <p><strong>Generations:</strong> <code>g1</code> <code>g2</code> <code>g3</code> <code>g4</code></p>
+            <p><strong>States:</strong> <code>idle</code> <code>attack</code> <code>hit</code> <code>ko</code> <code>special</code></p>
+        </section>
+
+        <section>
+            <h2>Folder Structure</h2>
+            <pre><code>Hybrid-Gene/
+├── img/
+│   ├── characters/        # Player, NPCs
+│   ├── enemies/           # Wild monster displays
+│   ├── sv_actors/         # Side-view battle sprites (if used)
+│   └── sv_enemies/        # Side-view enemy sprites (if used)
+└── models/
+    └── monsters/          # .gltf monster models (if 3D)</code></pre>
+        </section>
+
+        <section>
+            <h2>Tools</h2>
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>Tool</th>
+                        <th>Cost</th>
+                        <th>Purpose</th>
+                    </tr>
+                    <tr>
+                        <td>Aseprite</td>
+                        <td>$20</td>
+                        <td>Pixel art, animation</td>
+                    </tr>
+                    <tr>
+                        <td>AI (Midjourney/SD)</td>
+                        <td>Varies</td>
+                        <td>Base sprite generation</td>
+                    </tr>
+                    <tr>
+                        <td>Blender</td>
+                        <td>Free</td>
+                        <td>3D models (if needed)</td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+
+        <section>
+            <h2>Resources</h2>
+            <ul>
+                <li><a href="https://forums.rpgmakerweb.com" target="_blank">RPG Maker MZ Sprite Standards</a></li>
+                <li><a href="https://www.aseprite.org/" target="_blank">Aseprite</a></li>
+            </ul>
+        </section>
+
+        <div class="contact">
+            <strong>Bear (Brian)</strong> manages sprite assets. Contact for sprite questions.
+        </div>
+
+        <footer>
+            <p>Hybrid Gene Standards &copy; 2025</p>
+        </footer>
+    </div>
+</body>
+</html>

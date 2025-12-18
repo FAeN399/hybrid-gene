@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plugins - Hybrid Gene Standards</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0a0f;
+            --bg-card: #12121a;
+            --bg-hover: #1a1a24;
+            --bg-code: #0d0d12;
+            --border: #2a2a3a;
+            --text: #e0e0e0;
+            --text-muted: #8a8a9a;
+            --accent-orange: #ff6b35;
+            --accent-teal: #00d4aa;
+            --accent-purple: #8b5cf6;
+            --accent-blue: #3b82f6;
+            --accent-yellow: #eab308;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text);
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            transition: color 0.2s;
+        }
+        .back-link:hover { color: var(--accent-teal); }
+
+        header {
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.2rem;
+            background: linear-gradient(90deg, var(--accent-orange), var(--accent-teal));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .meta {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .meta-label {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .meta-value {
+            color: var(--accent-teal);
+            font-weight: 600;
+        }
+
+        .status-badge {
+            background: var(--accent-yellow);
+            color: var(--bg-dark);
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        section {
+            margin-bottom: 3rem;
+        }
+
+        h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3rem;
+            color: var(--accent-teal);
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            color: var(--accent-purple);
+            margin: 1.5rem 0 0.75rem;
+        }
+
+        p { margin-bottom: 1rem; }
+
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+
+        th {
+            background: var(--bg-hover);
+            color: var(--accent-teal);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 2px solid var(--accent-teal);
+        }
+
+        td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+
+        tr:hover td {
+            background: var(--bg-card);
+        }
+
+        td:first-child {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-code);
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            color: var(--accent-orange);
+        }
+
+        pre {
+            background: var(--bg-code);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.25rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            font-size: 0.9rem;
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* Plugin Card */
+        .plugin-hero {
+            background: linear-gradient(135deg, var(--bg-card), rgba(0,212,170,0.1));
+            border: 2px solid var(--accent-teal);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .plugin-hero-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .plugin-hero-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            color: var(--accent-teal);
+        }
+
+        .plugin-hero-badge {
+            background: var(--accent-teal);
+            color: var(--bg-dark);
+            padding: 0.3rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .plugin-hero-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+        }
+
+        .plugin-meta-item {
+            text-align: center;
+            padding: 0.75rem;
+            background: var(--bg-hover);
+            border-radius: 8px;
+        }
+
+        .plugin-meta-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .plugin-meta-value {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-top: 0.25rem;
+        }
+
+        /* Feature Grid */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 0.75rem;
+            margin: 1rem 0;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: var(--bg-card);
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .feature-check {
+            color: var(--accent-teal);
+            font-size: 1.2rem;
+        }
+
+        .feature-name {
+            font-size: 0.95rem;
+        }
+
+        /* Custom Plugin Cards */
+        .custom-plugins {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .custom-plugin {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.25rem;
+        }
+
+        .custom-plugin-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.95rem;
+            color: var(--accent-purple);
+            margin-bottom: 0.75rem;
+        }
+
+        .custom-plugin ul {
+            list-style: none;
+            margin: 0;
+        }
+
+        .custom-plugin li {
+            padding: 0.35rem 0;
+            padding-left: 1rem;
+            position: relative;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .custom-plugin li::before {
+            content: '•';
+            color: var(--accent-purple);
+            position: absolute;
+            left: 0;
+        }
+
+        /* Load Order */
+        .load-order {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.25rem;
+        }
+
+        .load-order ol {
+            margin: 0;
+            padding-left: 0;
+            list-style: none;
+            counter-reset: step;
+        }
+
+        .load-order li {
+            counter-increment: step;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .load-order li:last-child {
+            border-bottom: none;
+        }
+
+        .load-order li::before {
+            content: counter(step);
+            background: var(--accent-teal);
+            color: var(--bg-dark);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .load-order li.tbd::before {
+            background: var(--border);
+            color: var(--text-muted);
+        }
+
+        .load-order .plugin-name {
+            font-weight: 600;
+        }
+
+        .load-order .plugin-name.tbd {
+            color: var(--text-muted);
+        }
+
+        ul {
+            margin: 0.75rem 0 0.75rem 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.4rem;
+        }
+
+        a {
+            color: var(--accent-teal);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .contact {
+            background: linear-gradient(135deg, var(--bg-card), rgba(255,107,53,0.08));
+            border: 1px solid var(--accent-orange);
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            margin-top: 2rem;
+        }
+
+        .contact strong {
+            color: var(--accent-orange);
+        }
+
+        footer {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 1rem; }
+            h1 { font-size: 1.6rem; }
+            .meta { gap: 1rem; }
+            .plugin-hero-title { font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-link">&#8592; Back to Portal</a>
+
+        <header>
+            <h1>Plugins</h1>
+            <div class="meta">
+                <div class="meta-item">
+                    <span class="meta-label">Status</span>
+                    <span class="status-badge">DRAFT</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Owner</span>
+                    <span class="meta-value">Drew (Dagyr)</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Updated</span>
+                    <span class="meta-value">Dec 2025</span>
+                </div>
+            </div>
+        </header>
+
+        <section>
+            <h2>Core Plugin</h2>
+
+            <div class="plugin-hero">
+                <div class="plugin-hero-header">
+                    <span class="plugin-hero-title">MZ3D (Modified)</span>
+                    <span class="plugin-hero-badge">OWNED</span>
+                </div>
+                <div class="plugin-hero-meta">
+                    <div class="plugin-meta-item">
+                        <div class="plugin-meta-label">Author</div>
+                        <div class="plugin-meta-value">CutieVirus</div>
+                    </div>
+                    <div class="plugin-meta-item">
+                        <div class="plugin-meta-label">Cost</div>
+                        <div class="plugin-meta-value">$25</div>
+                    </div>
+                    <div class="plugin-meta-item">
+                        <div class="plugin-meta-label">Owner</div>
+                        <div class="plugin-meta-value">Drew</div>
+                    </div>
+                    <div class="plugin-meta-item">
+                        <div class="plugin-meta-label">Source</div>
+                        <div class="plugin-meta-value"><a href="https://cutievirus.itch.io/mz3d" target="_blank">itch.io</a></div>
+                    </div>
+                </div>
+            </div>
+
+            <h3>MZ3D Features</h3>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <span class="feature-check">&#10003;</span>
+                    <span class="feature-name">GLTF/GLB Import</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-check">&#10003;</span>
+                    <span class="feature-name">Wall Culling</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-check">&#10003;</span>
+                    <span class="feature-name">Camera Rotation</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-check">&#10003;</span>
+                    <span class="feature-name">Dynamic Shadows</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-check">&#10003;</span>
+                    <span class="feature-name">Point Lights</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-check">&#10003;</span>
+                    <span class="feature-name">Directional Light</span>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Plugin Requirements</h2>
+
+            <h3>Must Have</h3>
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>Plugin</th>
+                        <th>Purpose</th>
+                        <th>Status</th>
+                    </tr>
+                    <tr>
+                        <td>MZ3D</td>
+                        <td>3D rendering</td>
+                        <td style="color: var(--accent-teal);">&#10003; Owned</td>
+                    </tr>
+                    <tr>
+                        <td>Real-time Battle</td>
+                        <td>Combat system</td>
+                        <td style="color: var(--accent-yellow);">TBD</td>
+                    </tr>
+                    <tr>
+                        <td>Monster AI</td>
+                        <td>Autonomy</td>
+                        <td style="color: var(--accent-yellow);">TBD</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h3>Nice to Have</h3>
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>Plugin</th>
+                        <th>Purpose</th>
+                        <th>Status</th>
+                    </tr>
+                    <tr>
+                        <td>QoL Improvements</td>
+                        <td>UX enhancements</td>
+                        <td style="color: var(--text-muted);">TBD</td>
+                    </tr>
+                    <tr>
+                        <td>Save Enhancement</td>
+                        <td>Data management</td>
+                        <td style="color: var(--text-muted);">TBD</td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+
+        <section>
+            <h2>Custom Plugins (Planned)</h2>
+            <div class="custom-plugins">
+                <div class="custom-plugin">
+                    <div class="custom-plugin-title">HG_Breeding</div>
+                    <ul>
+                        <li>Parent stat inheritance</li>
+                        <li>Generation progression</li>
+                        <li>Birthmark assignment</li>
+                        <li>Cooldown management</li>
+                    </ul>
+                </div>
+                <div class="custom-plugin">
+                    <div class="custom-plugin-title">HG_MonsterAI</div>
+                    <ul>
+                        <li>Core AI behaviors</li>
+                        <li>Obedience calculation</li>
+                        <li>Command interpretation</li>
+                        <li>INT/Temperament checks</li>
+                    </ul>
+                </div>
+                <div class="custom-plugin">
+                    <div class="custom-plugin-title">HG_Capture</div>
+                    <ul>
+                        <li>Tranquilize mechanics</li>
+                        <li>Carry state</li>
+                        <li>Wake chance</li>
+                    </ul>
+                </div>
+                <div class="custom-plugin">
+                    <div class="custom-plugin-title">HG_Growth</div>
+                    <ul>
+                        <li>Action-based stat growth</li>
+                        <li>Diminishing returns</li>
+                        <li>Generation ceilings</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Plugin Load Order</h2>
+            <div class="load-order">
+                <ol>
+                    <li><span class="plugin-name">Core (MZ default)</span></li>
+                    <li><span class="plugin-name">MZ3D</span></li>
+                    <li class="tbd"><span class="plugin-name tbd">HG_Battle</span></li>
+                    <li class="tbd"><span class="plugin-name tbd">HG_MonsterAI</span></li>
+                    <li class="tbd"><span class="plugin-name tbd">HG_Breeding</span></li>
+                    <li class="tbd"><span class="plugin-name tbd">HG_Growth</span></li>
+                    <li class="tbd"><span class="plugin-name tbd">HG_Capture</span></li>
+                </ol>
+            </div>
+        </section>
+
+        <section>
+            <h2>File Structure</h2>
+            <pre><code>Hybrid-Gene/
+└── js/
+    └── plugins/
+        ├── MZ3D.js
+        ├── HG_Battle.js      (custom)
+        ├── HG_MonsterAI.js   (custom)
+        ├── HG_Breeding.js    (custom)
+        ├── HG_Growth.js      (custom)
+        └── HG_Capture.js     (custom)</code></pre>
+        </section>
+
+        <section>
+            <h2>Resources</h2>
+            <ul>
+                <li><a href="https://cutievirus.com/docs/mz3d/" target="_blank">MZ3D Documentation</a></li>
+                <li><a href="https://forums.rpgmakerweb.com" target="_blank">RPG Maker MZ Plugin Help</a></li>
+            </ul>
+        </section>
+
+        <div class="contact">
+            <strong>Drew (Dagyr)</strong> manages plugins. Contact for plugin questions.
+        </div>
+
+        <footer>
+            <p>Hybrid Gene Standards &copy; 2025</p>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tilesets & Maps - Hybrid Gene Standards</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0a0f;
+            --bg-card: #12121a;
+            --bg-hover: #1a1a24;
+            --bg-code: #0d0d12;
+            --border: #2a2a3a;
+            --text: #e0e0e0;
+            --text-muted: #8a8a9a;
+            --accent-orange: #ff6b35;
+            --accent-teal: #00d4aa;
+            --accent-purple: #8b5cf6;
+            --accent-blue: #3b82f6;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text);
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Navigation */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            transition: color 0.2s;
+        }
+        .back-link:hover { color: var(--accent-teal); }
+
+        /* Header */
+        header {
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.2rem;
+            background: linear-gradient(90deg, var(--accent-orange), var(--accent-teal));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .meta {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .meta-label {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .meta-value {
+            color: var(--accent-teal);
+            font-weight: 600;
+        }
+
+        .status-badge {
+            background: var(--accent-teal);
+            color: var(--bg-dark);
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        /* Sections */
+        section {
+            margin-bottom: 3rem;
+        }
+
+        h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3rem;
+            color: var(--accent-teal);
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            color: var(--accent-purple);
+            margin: 1.5rem 0 0.75rem;
+        }
+
+        p { margin-bottom: 1rem; }
+
+        /* Tables */
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+
+        th {
+            background: var(--bg-hover);
+            color: var(--accent-teal);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 2px solid var(--accent-teal);
+        }
+
+        td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+
+        tr:hover td {
+            background: var(--bg-card);
+        }
+
+        td:first-child {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        /* Code */
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-code);
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            color: var(--accent-orange);
+        }
+
+        pre {
+            background: var(--bg-code);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.25rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            font-size: 0.9rem;
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* Pipeline Visual */
+        .pipeline {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .pipeline-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .pipeline-step {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .step-num {
+            width: 28px;
+            height: 28px;
+            background: var(--accent-teal);
+            color: var(--bg-dark);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+
+        .step-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .step-tool {
+            background: var(--bg-hover);
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-weight: 600;
+            color: var(--text);
+            min-width: 120px;
+        }
+
+        .step-arrow {
+            color: var(--accent-teal);
+            font-size: 1.2rem;
+        }
+
+        .step-output {
+            color: var(--accent-orange);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+        }
+
+        .pipeline-connector {
+            width: 28px;
+            display: flex;
+            justify-content: center;
+            padding: 0.25rem 0;
+        }
+
+        .connector-line {
+            width: 2px;
+            height: 20px;
+            background: linear-gradient(var(--accent-teal), var(--accent-orange));
+        }
+
+        /* Info Cards */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .info-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .info-card-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75rem;
+            color: var(--accent-teal);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-card-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .info-card-note {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        /* Lists */
+        ul {
+            margin: 0.75rem 0 0.75rem 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.4rem;
+        }
+
+        /* Checklist */
+        .checklist {
+            list-style: none;
+            margin-left: 0;
+            background: var(--bg-card);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .checklist li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .checklist li:last-child {
+            border-bottom: none;
+        }
+
+        .checkbox {
+            width: 18px;
+            height: 18px;
+            border: 2px solid var(--accent-teal);
+            border-radius: 4px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        /* Links */
+        a {
+            color: var(--accent-teal);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Contact */
+        .contact {
+            background: linear-gradient(135deg, var(--bg-card), rgba(255,107,53,0.08));
+            border: 1px solid var(--accent-orange);
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            margin-top: 2rem;
+        }
+
+        .contact strong {
+            color: var(--accent-orange);
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 1rem; }
+            h1 { font-size: 1.6rem; }
+            .meta { gap: 1rem; }
+            .step-content { flex-wrap: wrap; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-link">&#8592; Back to Portal</a>
+
+        <header>
+            <h1>Tilesets & Maps</h1>
+            <div class="meta">
+                <div class="meta-item">
+                    <span class="meta-label">Status</span>
+                    <span class="status-badge">ACTIVE</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Owner</span>
+                    <span class="meta-value">Drew (Dagyr)</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Updated</span>
+                    <span class="meta-value">Dec 2025</span>
+                </div>
+            </div>
+        </header>
+
+        <section>
+            <h2>Tech Stack</h2>
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>Layer</th>
+                        <th>Tool</th>
+                        <th>Purpose</th>
+                    </tr>
+                    <tr>
+                        <td>Game Engine</td>
+                        <td>RPG Maker MZ</td>
+                        <td>Game logic, events, database</td>
+                    </tr>
+                    <tr>
+                        <td>3D Plugin</td>
+                        <td>MZ3D (modified)</td>
+                        <td>3D rendering, camera, lighting</td>
+                    </tr>
+                    <tr>
+                        <td>3D Modeling</td>
+                        <td>Crocotile 3D</td>
+                        <td>Build 3D maps from 2D tiles</td>
+                    </tr>
+                    <tr>
+                        <td>Tile Creation</td>
+                        <td>Aseprite / AI</td>
+                        <td>Create base tile textures</td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+
+        <section>
+            <h2>Asset Pipeline</h2>
+            <div class="pipeline">
+                <div class="pipeline-steps">
+                    <div class="pipeline-step">
+                        <span class="step-num">1</span>
+                        <div class="step-content">
+                            <span class="step-tool">AI / Hand-drawn</span>
+                            <span class="step-arrow">&#8594;</span>
+                            <span class="step-output">.png (48x48 or 16x16)</span>
+                        </div>
+                    </div>
+                    <div class="pipeline-connector"><div class="connector-line"></div></div>
+                    <div class="pipeline-step">
+                        <span class="step-num">2</span>
+                        <div class="step-content">
+                            <span class="step-tool">Crocotile 3D</span>
+                            <span class="step-arrow">&#8594;</span>
+                            <span class="step-output">.gltf / .glb</span>
+                        </div>
+                    </div>
+                    <div class="pipeline-connector"><div class="connector-line"></div></div>
+                    <div class="pipeline-step">
+                        <span class="step-num">3</span>
+                        <div class="step-content">
+                            <span class="step-tool">MZ3D Plugin</span>
+                            <span class="step-arrow">&#8594;</span>
+                            <span class="step-output">3D Render</span>
+                        </div>
+                    </div>
+                    <div class="pipeline-connector"><div class="connector-line"></div></div>
+                    <div class="pipeline-step">
+                        <span class="step-num">4</span>
+                        <div class="step-content">
+                            <span class="step-tool">RPG Maker MZ</span>
+                            <span class="step-arrow">&#8594;</span>
+                            <span class="step-output">Game</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Tile Specifications</h2>
+
+            <h3>Base Tiles</h3>
+            <div class="info-grid">
+                <div class="info-card">
+                    <div class="info-card-title">Primary Size</div>
+                    <div class="info-card-value">16x16px</div>
+                    <div class="info-card-note">Crocotile native (recommended)</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-card-title">Alt Size</div>
+                    <div class="info-card-value">48x48px</div>
+                    <div class="info-card-note">MZ default (16×3 scale)</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-card-title">Format</div>
+                    <div class="info-card-value">PNG-32</div>
+                    <div class="info-card-note">32-bit RGBA</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-card-title">Requirements</div>
+                    <div class="info-card-value">Seamless</div>
+                    <div class="info-card-note">+ Transparency</div>
+                </div>
+            </div>
+
+            <h3>Crocotile 3D Settings</h3>
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>Property</th>
+                        <th>Value</th>
+                    </tr>
+                    <tr>
+                        <td>Unit Scale</td>
+                        <td>1 unit = 16 pixels</td>
+                    </tr>
+                    <tr>
+                        <td>Export Format</td>
+                        <td><code>.gltf</code> or <code>.glb</code></td>
+                    </tr>
+                    <tr>
+                        <td>Texture Mode</td>
+                        <td>Pixel-perfect (no filtering)</td>
+                    </tr>
+                    <tr>
+                        <td>Y-Up</td>
+                        <td>Yes (MZ3D default)</td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+
+        <section>
+            <h2>MZ3D Capabilities</h2>
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Status</th>
+                    </tr>
+                    <tr>
+                        <td>GLTF Import</td>
+                        <td style="color: var(--accent-teal);">&#10003; Supported</td>
+                    </tr>
+                    <tr>
+                        <td>Wall Culling</td>
+                        <td style="color: var(--accent-teal);">&#10003; Supported</td>
+                    </tr>
+                    <tr>
+                        <td>Camera Rotation</td>
+                        <td style="color: var(--accent-teal);">&#10003; Supported</td>
+                    </tr>
+                    <tr>
+                        <td>Dynamic Shadows</td>
+                        <td style="color: var(--accent-teal);">&#10003; Supported</td>
+                    </tr>
+                    <tr>
+                        <td>Point Lights</td>
+                        <td style="color: var(--accent-teal);">&#10003; Supported</td>
+                    </tr>
+                    <tr>
+                        <td>Directional Light</td>
+                        <td style="color: var(--accent-teal);">&#10003; Supported</td>
+                    </tr>
+                    <tr>
+                        <td>Weather Effects</td>
+                        <td style="color: var(--text-muted);">Via MZ default</td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+
+        <section>
+            <h2>AI Tile Generation</h2>
+
+            <h3>Google Gemini (Nano Banana / Nano Banana Pro)</h3>
+            <p>Using Gemini's image generation for seamless pixel art tiles.</p>
+            <pre><code>Create a seamless 16x16 pixel art grass tile for a top-down RPG game.
+The tile should be tileable with no visible seams when repeated.</code></pre>
+            <ul>
+                <li>Gemini 2.5 Flash (Nano Banana) generates up to <code>1024px</code></li>
+                <li>Gemini 3 Pro (Nano Banana Pro) generates up to <code>4096px</code></li>
+                <li>Use iterative refinement to adjust tile details</li>
+                <li>Request "seamless tiled pattern" for tileable output</li>
+                <li>Supports pixel art style requests</li>
+                <li>Clean up in Aseprite before use</li>
+            </ul>
+
+            <h3>Resources</h3>
+            <ul>
+                <li><a href="https://gemini.google/overview/image-generation/" target="_blank">Nano Banana Pro - Gemini AI Image Generator</a></li>
+                <li><a href="https://ai.google.dev/gemini-api/docs/image-generation" target="_blank">Gemini API Image Generation Docs</a></li>
+            </ul>
+        </section>
+
+        <section id="naming">
+            <h2>File Naming Convention</h2>
+            <pre><code>[region]_[type]_[description].png</code></pre>
+
+            <h3>Examples</h3>
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>Filename</th>
+                        <th>Region</th>
+                        <th>Type</th>
+                    </tr>
+                    <tr>
+                        <td><code>insect_ground_grass.png</code></td>
+                        <td>Insect</td>
+                        <td>Ground</td>
+                    </tr>
+                    <tr>
+                        <td><code>mammal_wall_stone.png</code></td>
+                        <td>Mammal</td>
+                        <td>Wall</td>
+                    </tr>
+                    <tr>
+                        <td><code>reptilian_floor_sand.png</code></td>
+                        <td>Reptilian</td>
+                        <td>Floor</td>
+                    </tr>
+                    <tr>
+                        <td><code>avian_platform_cloud.png</code></td>
+                        <td>Avian</td>
+                        <td>Platform</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h3>Valid Regions</h3>
+            <p><code>insect</code> <code>mammal</code> <code>reptilian</code> <code>avian</code> <code>shared</code> <code>arena</code></p>
+        </section>
+
+        <section>
+            <h2>Folder Structure</h2>
+            <pre><code>Hybrid-Gene/
+├── img/
+│   ├── tilesets/          # Raw 2D tiles for reference
+│   └── parallaxes/        # Pre-rendered backgrounds
+├── models/
+│   ├── maps/              # .gltf map files
+│   └── objects/           # .gltf props/decorations
+└── data/
+    └── MapInfos.json      # MZ map data</code></pre>
+        </section>
+
+        <section>
+            <h2>Tools & Costs</h2>
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>Tool</th>
+                        <th>Cost</th>
+                        <th>Owner</th>
+                    </tr>
+                    <tr>
+                        <td>Crocotile 3D</td>
+                        <td>$30</td>
+                        <td style="color: var(--accent-teal);">Drew &#10003;</td>
+                    </tr>
+                    <tr>
+                        <td>MZ3D Plugin</td>
+                        <td>$25</td>
+                        <td style="color: var(--accent-teal);">Drew &#10003;</td>
+                    </tr>
+                    <tr>
+                        <td>RPG Maker MZ</td>
+                        <td>$80</td>
+                        <td>&#8212;</td>
+                    </tr>
+                    <tr>
+                        <td>Aseprite</td>
+                        <td>$20</td>
+                        <td>&#8212;</td>
+                    </tr>
+                    <tr>
+                        <td>Gemini (Nano Banana)</td>
+                        <td>Free / API</td>
+                        <td>&#8212;</td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+
+        <section>
+            <h2>Workflow Checklist</h2>
+            <ul class="checklist">
+                <li><span class="checkbox"></span> Create or generate base tiles (48x48 or 16x16)</li>
+                <li><span class="checkbox"></span> Import tileset into Crocotile 3D</li>
+                <li><span class="checkbox"></span> Build 3D map geometry</li>
+                <li><span class="checkbox"></span> Set up lighting in scene</li>
+                <li><span class="checkbox"></span> Export as .gltf</li>
+                <li><span class="checkbox"></span> Import into MZ3D</li>
+                <li><span class="checkbox"></span> Configure collisions in RPG Maker MZ</li>
+                <li><span class="checkbox"></span> Add events and triggers</li>
+                <li><span class="checkbox"></span> Test in-game</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Resources</h2>
+            <ul>
+                <li><a href="https://crocotile3d.com/" target="_blank">Crocotile 3D</a> - $30</li>
+                <li><a href="https://www.crocotile3d.com/howto.html" target="_blank">Crocotile Documentation</a></li>
+                <li><a href="https://cutievirus.itch.io/mz3d" target="_blank">MZ3D Plugin</a> - $25</li>
+                <li><a href="https://cutievirus.com/docs/mz3d/" target="_blank">MZ3D Documentation</a></li>
+                <li><a href="https://ai.google.dev/gemini-api/docs/image-generation" target="_blank">Gemini Image Generation API</a></li>
+            </ul>
+        </section>
+
+        <div class="contact">
+            <strong>Drew (Dagyr)</strong> manages 3D pipeline. Contact for Crocotile/MZ3D questions.
+        </div>
+
+        <footer>
+            <p>Hybrid Gene Standards &copy; 2025</p>
+        </footer>
+    </div>
+</body>
+</html>

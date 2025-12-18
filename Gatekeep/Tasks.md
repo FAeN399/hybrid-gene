@@ -19,11 +19,11 @@ Active work assignments and status.
 ## Active Tasks
 
 ### Engine Selection
-**Status**: BLOCKED
+**Status**: DONE
 **Assigned**: —
-**Blocked by**: `Open-Questions.md` → Engine/Framework decision
+**Blocked by**: —
 **Standards**: N/A
-**Notes**: Cannot begin implementation without engine choice.
+**Notes**: RPG Maker MZ selected. December 2025.
 
 ---
 
@@ -48,9 +48,9 @@ Active work assignments and status.
 ### Tileset Creation
 **Status**: BLOCKED
 **Assigned**: —
-**Blocked by**: Engine choice, `Standards/Tilesets.md`
+**Blocked by**: `Standards/Tilesets.md`
 **Standards**: Need tile dimensions, layering rules, palette
-**Notes**: 4 region themes required.
+**Notes**: 4 region themes required. Engine: RPG Maker MZ + MZ3D.
 
 ---
 

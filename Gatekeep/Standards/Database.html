@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database - Hybrid Gene Standards</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0a0f;
+            --bg-card: #12121a;
+            --bg-hover: #1a1a24;
+            --bg-code: #0d0d12;
+            --border: #2a2a3a;
+            --text: #e0e0e0;
+            --text-muted: #8a8a9a;
+            --accent-orange: #ff6b35;
+            --accent-teal: #00d4aa;
+            --accent-purple: #8b5cf6;
+            --accent-blue: #3b82f6;
+            --accent-yellow: #eab308;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text);
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            transition: color 0.2s;
+        }
+        .back-link:hover { color: var(--accent-teal); }
+
+        header {
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.2rem;
+            background: linear-gradient(90deg, var(--accent-orange), var(--accent-teal));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .meta {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .meta-label {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .meta-value {
+            color: var(--accent-teal);
+            font-weight: 600;
+        }
+
+        .status-badge {
+            background: var(--accent-yellow);
+            color: var(--bg-dark);
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        section {
+            margin-bottom: 3rem;
+        }
+
+        h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3rem;
+            color: var(--accent-teal);
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            color: var(--accent-purple);
+            margin: 1.5rem 0 0.75rem;
+        }
+
+        p { margin-bottom: 1rem; }
+
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+
+        th {
+            background: var(--bg-hover);
+            color: var(--accent-teal);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 2px solid var(--accent-teal);
+        }
+
+        td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+
+        tr:hover td {
+            background: var(--bg-card);
+        }
+
+        td:first-child {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-code);
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            color: var(--accent-orange);
+        }
+
+        pre {
+            background: var(--bg-code);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.25rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            font-size: 0.85rem;
+            color: var(--text);
+            line-height: 1.5;
+        }
+
+        .code-key { color: var(--accent-purple); }
+        .code-type { color: var(--accent-teal); }
+        .code-string { color: var(--accent-orange); }
+        .code-comment { color: var(--text-muted); }
+
+        /* Data Structure Cards */
+        .structure-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            margin: 1.5rem 0;
+            overflow: hidden;
+        }
+
+        .structure-header {
+            background: var(--bg-hover);
+            padding: 0.75rem 1.25rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .structure-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            color: var(--accent-teal);
+        }
+
+        .structure-body {
+            padding: 1.25rem;
+        }
+
+        /* Species Grid */
+        .species-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .species-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.25rem;
+            text-align: center;
+        }
+
+        .species-card.insect { border-color: var(--accent-teal); }
+        .species-card.mammal { border-color: var(--accent-blue); }
+        .species-card.reptilian { border-color: var(--accent-orange); }
+        .species-card.avian { border-color: var(--accent-purple); }
+
+        .species-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .species-card.insect .species-name { color: var(--accent-teal); }
+        .species-card.mammal .species-name { color: var(--accent-blue); }
+        .species-card.reptilian .species-name { color: var(--accent-orange); }
+        .species-card.avian .species-name { color: var(--accent-purple); }
+
+        .species-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.25rem 0.5rem;
+            background: var(--bg-hover);
+            border-radius: 4px;
+        }
+
+        .stat-label { color: var(--text-muted); }
+        .stat-value { font-weight: 600; }
+        .stat-high { color: var(--accent-teal); }
+        .stat-low { color: var(--accent-orange); }
+
+        .species-trait {
+            margin-top: 0.75rem;
+            padding: 0.5rem;
+            background: var(--bg-hover);
+            border-radius: 6px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Formula Cards */
+        .formula-grid {
+            display: grid;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .formula-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+        }
+
+        .formula-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            color: var(--accent-purple);
+            margin-bottom: 0.5rem;
+        }
+
+        .formula-code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--accent-teal);
+            background: var(--bg-code);
+            padding: 0.75rem;
+            border-radius: 6px;
+        }
+
+        ul {
+            margin: 0.75rem 0 0.75rem 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.4rem;
+        }
+
+        a {
+            color: var(--accent-teal);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 1rem; }
+            h1 { font-size: 1.6rem; }
+            .meta { gap: 1rem; }
+            .species-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-link">&#8592; Back to Portal</a>
+
+        <header>
+            <h1>Database</h1>
+            <div class="meta">
+                <div class="meta-item">
+                    <span class="meta-label">Status</span>
+                    <span class="status-badge">DRAFT</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Engine</span>
+                    <span class="meta-value">RPG Maker MZ</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Updated</span>
+                    <span class="meta-value">Dec 2025</span>
+                </div>
+            </div>
+        </header>
+
+        <section>
+            <h2>Overview</h2>
+            <p>Data structure standards for monsters, moves, items, and game systems in Hybrid Gene. These structures map to RPG Maker MZ's database with custom extensions for breeding, growth, and AI systems.</p>
+        </section>
+
+        <section>
+            <h2>Data Structures</h2>
+
+            <div class="structure-card">
+                <div class="structure-header">
+                    <span class="structure-title">Monster</span>
+                </div>
+                <div class="structure-body">
+<pre><code>{
+  <span class="code-key">id</span>: <span class="code-type">Number</span>,
+  <span class="code-key">name</span>: <span class="code-type">String</span>,
+  <span class="code-key">species</span>: <span class="code-string">"insect"</span> | <span class="code-string">"mammal"</span> | <span class="code-string">"reptilian"</span> | <span class="code-string">"avian"</span>,
+  <span class="code-key">generation</span>: <span class="code-type">1</span> | <span class="code-type">2</span> | <span class="code-type">3</span> | <span class="code-type">4</span>,
+
+  <span class="code-key">birthmark</span>: {
+    <span class="code-key">personality</span>: <span class="code-type">String</span>,
+    <span class="code-key">coreAI</span>: <span class="code-string">"aggressive"</span> | <span class="code-string">"defensive"</span> | <span class="code-string">"supportive"</span> | <span class="code-string">"evasive"</span>,
+    <span class="code-key">statModifiers</span>: { str, int, agi, end }  <span class="code-comment">// -0.2 to +0.2</span>
+  },
+
+  <span class="code-key">stats</span>: { str, int, agi, end },
+  <span class="code-key">derivedStats</span>: { hp, maxHp, energy, maxEnergy, energyRegen, moveSpeed },
+  <span class="code-key">moves</span>: [ <span class="code-comment">4 basic, 4 special</span> ],
+  <span class="code-key">temperament</span>: <span class="code-type">Number</span>,  <span class="code-comment">// 0-100</span>
+  <span class="code-key">obedience</span>: <span class="code-type">Number</span>,    <span class="code-comment">// hidden, calculated</span>
+  <span class="code-key">parents</span>: [<span class="code-type">MonsterId</span>, <span class="code-type">MonsterId</span>] | <span class="code-type">null</span>
+}</code></pre>
+                </div>
+            </div>
+
+            <div class="structure-card">
+                <div class="structure-header">
+                    <span class="structure-title">Move</span>
+                </div>
+                <div class="structure-body">
+<pre><code>{
+  <span class="code-key">id</span>: <span class="code-type">Number</span>,
+  <span class="code-key">name</span>: <span class="code-type">String</span>,
+  <span class="code-key">category</span>: <span class="code-string">"physical"</span> | <span class="code-string">"magic"</span> | <span class="code-string">"buff"</span> | <span class="code-string">"debuff"</span> | <span class="code-string">"heal"</span> | <span class="code-string">"aoe"</span>,
+  <span class="code-key">energyCost</span>: <span class="code-type">Number</span>,
+  <span class="code-key">cooldown</span>: <span class="code-type">Number</span>,     <span class="code-comment">// seconds</span>
+  <span class="code-key">damage</span>: <span class="code-type">Number</span>,       <span class="code-comment">// base multiplier</span>
+  <span class="code-key">effects</span>: [<span class="code-type">EffectId</span>],
+  <span class="code-key">range</span>: <span class="code-type">Number</span>,
+  <span class="code-key">aoe</span>: <span class="code-type">Number</span> | <span class="code-type">null</span>
+}</code></pre>
+                </div>
+            </div>
+
+            <div class="structure-card">
+                <div class="structure-header">
+                    <span class="structure-title">Birthmark</span>
+                </div>
+                <div class="structure-body">
+<pre><code>{
+  <span class="code-key">id</span>: <span class="code-type">Number</span>,
+  <span class="code-key">name</span>: <span class="code-type">String</span>,
+  <span class="code-key">personality</span>: <span class="code-type">String</span>,
+  <span class="code-key">coreAI</span>: <span class="code-string">"aggressive"</span> | <span class="code-string">"defensive"</span> | <span class="code-string">"supportive"</span> | <span class="code-string">"evasive"</span>,
+  <span class="code-key">statModifiers</span>: {
+    <span class="code-key">str</span>: <span class="code-type">Number</span>,  <span class="code-comment">// -0.2 to +0.2</span>
+    <span class="code-key">int</span>: <span class="code-type">Number</span>,
+    <span class="code-key">agi</span>: <span class="code-type">Number</span>,
+    <span class="code-key">end</span>: <span class="code-type">Number</span>
+  }
+}</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Species</h2>
+            <div class="species-grid">
+                <div class="species-card insect">
+                    <div class="species-name">Insect</div>
+                    <div class="species-stats">
+                        <div class="stat-item"><span class="stat-label">STR</span><span class="stat-value">Med</span></div>
+                        <div class="stat-item"><span class="stat-label">INT</span><span class="stat-value stat-low">Low</span></div>
+                        <div class="stat-item"><span class="stat-label">AGI</span><span class="stat-value stat-high">High</span></div>
+                        <div class="stat-item"><span class="stat-label">END</span><span class="stat-value">Med</span></div>
+                    </div>
+                    <div class="species-trait">No special trait</div>
+                </div>
+
+                <div class="species-card mammal">
+                    <div class="species-name">Mammal</div>
+                    <div class="species-stats">
+                        <div class="stat-item"><span class="stat-label">STR</span><span class="stat-value">Med</span></div>
+                        <div class="stat-item"><span class="stat-label">INT</span><span class="stat-value stat-high">High</span></div>
+                        <div class="stat-item"><span class="stat-label">AGI</span><span class="stat-value">Med</span></div>
+                        <div class="stat-item"><span class="stat-label">END</span><span class="stat-value">Med</span></div>
+                    </div>
+                    <div class="species-trait">No special trait</div>
+                </div>
+
+                <div class="species-card reptilian">
+                    <div class="species-name">Reptilian</div>
+                    <div class="species-stats">
+                        <div class="stat-item"><span class="stat-label">STR</span><span class="stat-value stat-high">High</span></div>
+                        <div class="stat-item"><span class="stat-label">INT</span><span class="stat-value stat-low">Low</span></div>
+                        <div class="stat-item"><span class="stat-label">AGI</span><span class="stat-value stat-low">Low</span></div>
+                        <div class="stat-item"><span class="stat-label">END</span><span class="stat-value stat-high">High</span></div>
+                    </div>
+                    <div class="species-trait">No special trait</div>
+                </div>
+
+                <div class="species-card avian">
+                    <div class="species-name">Avian</div>
+                    <div class="species-stats">
+                        <div class="stat-item"><span class="stat-label">STR</span><span class="stat-value stat-low">Low</span></div>
+                        <div class="stat-item"><span class="stat-label">INT</span><span class="stat-value stat-high">High</span></div>
+                        <div class="stat-item"><span class="stat-label">AGI</span><span class="stat-value stat-high">High</span></div>
+                        <div class="stat-item"><span class="stat-label">END</span><span class="stat-value stat-low">Low</span></div>
+                    </div>
+                    <div class="species-trait">Flying: 50% melee dodge, +20% ranged dmg taken</div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Generation Roster</h2>
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>Gen</th>
+                        <th>Count</th>
+                        <th>Type</th>
+                        <th>Examples</th>
+                    </tr>
+                    <tr>
+                        <td style="color: var(--accent-teal);">G1</td>
+                        <td>16</td>
+                        <td>Real animals</td>
+                        <td>Beetle, Wolf, Lizard, Hawk</td>
+                    </tr>
+                    <tr>
+                        <td style="color: var(--accent-blue);">G2</td>
+                        <td>~30</td>
+                        <td>Exotic hybrids</td>
+                        <td>TBD</td>
+                    </tr>
+                    <tr>
+                        <td style="color: var(--accent-purple);">G3</td>
+                        <td>~50</td>
+                        <td>Mythological</td>
+                        <td>TBD</td>
+                    </tr>
+                    <tr>
+                        <td style="color: var(--accent-orange);">G4</td>
+                        <td>6+</td>
+                        <td>Deity-tier secrets</td>
+                        <td>Cross-species only</td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+
+        <section>
+            <h2>Formulas</h2>
+            <div class="formula-grid">
+                <div class="formula-card">
+                    <div class="formula-name">Obedience Calculation</div>
+                    <div class="formula-code">obedience = baseObedience + (INT * 0.4) + (Temperament * 0.6)</div>
+                </div>
+                <div class="formula-card">
+                    <div class="formula-name">Stat Inheritance (Breeding)</div>
+                    <div class="formula-code">childStat = (parent1.stat + parent2.stat) / 2 * (0.8 + random(0.4))</div>
+                </div>
+                <div class="formula-card">
+                    <div class="formula-name">Stat Growth (Action-based)</div>
+                    <div class="formula-code">gain = baseGain * birthmarkModifier * decayMultiplier</div>
+                </div>
+                <div class="formula-card">
+                    <div class="formula-name">Growth Decay</div>
+                    <div class="formula-code">decayMultiplier = 1 / (1 + stat / decayThreshold)</div>
+                </div>
+            </div>
+
+            <h3>Decay Thresholds by Generation</h3>
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>Gen</th>
+                        <th>Threshold</th>
+                        <th>Notes</th>
+                    </tr>
+                    <tr>
+                        <td>G1</td>
+                        <td>50</td>
+                        <td>Hits ceiling fastest</td>
+                    </tr>
+                    <tr>
+                        <td>G2</td>
+                        <td>75</td>
+                        <td>&#8212;</td>
+                    </tr>
+                    <tr>
+                        <td>G3</td>
+                        <td>100</td>
+                        <td>&#8212;</td>
+                    </tr>
+                    <tr>
+                        <td>G4</td>
+                        <td>150</td>
+                        <td>Highest potential</td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+
+        <section>
+            <h2>RPG Maker MZ Mapping</h2>
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>MZ Tab</th>
+                        <th>Hybrid Gene Use</th>
+                    </tr>
+                    <tr>
+                        <td>Actors</td>
+                        <td>Monster templates</td>
+                    </tr>
+                    <tr>
+                        <td>Classes</td>
+                        <td>Species definitions</td>
+                    </tr>
+                    <tr>
+                        <td>Skills</td>
+                        <td>Moves</td>
+                    </tr>
+                    <tr>
+                        <td>Items</td>
+                        <td>Battle items, capture items</td>
+                    </tr>
+                    <tr>
+                        <td>Enemies</td>
+                        <td>Wild monster encounters</td>
+                    </tr>
+                    <tr>
+                        <td>States</td>
+                        <td>Status effects</td>
+                    </tr>
+                    <tr>
+                        <td>Animations</td>
+                        <td>Attack/effect visuals</td>
+                    </tr>
+                    <tr>
+                        <td>Common Events</td>
+                        <td>Game systems</td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+
+        <section>
+            <h2>File Structure</h2>
+            <pre><code>Hybrid-Gene/
+└── data/
+    ├── Actors.json       # Monster templates
+    ├── Classes.json      # Species
+    ├── Skills.json       # Moves
+    ├── Items.json        # Items
+    ├── Enemies.json      # Wild monsters
+    ├── States.json       # Status effects
+    └── System.json       # Game config</code></pre>
+        </section>
+
+        <section>
+            <h2>Naming Conventions</h2>
+            <pre><code>[TYPE]_[SPECIES]_[GEN]_[NAME]</code></pre>
+            <h3>Examples</h3>
+            <ul>
+                <li><code>MON_INSECT_G1_BEETLE</code></li>
+                <li><code>MON_MAMMAL_G2_WOLFCAT</code></li>
+                <li><code>MOVE_PHYSICAL_BITE</code></li>
+                <li><code>MOVE_MAGIC_FIREBALL</code></li>
+            </ul>
+        </section>
+
+        <footer>
+            <p>Hybrid Gene Standards &copy; 2025</p>
+        </footer>
+    </div>
+</body>
+</html>

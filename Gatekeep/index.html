@@ -3,18 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hybrid Gene - Documentation</title>
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <title>Hybrid Gene - Documentation Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-dark: #0a0a0f;
             --bg-card: #12121a;
-            --accent-primary: #ff6b35;
-            --accent-secondary: #4ecdc4;
-            --accent-tertiary: #a855f7;
-            --text-primary: #e8e8e8;
-            --text-secondary: #a0a0a0;
-            --border-color: #2a2a3a;
+            --bg-hover: #1a1a24;
+            --border: #2a2a3a;
+            --text: #e0e0e0;
+            --text-muted: #8a8a9a;
+            --accent-orange: #ff6b35;
+            --accent-teal: #00d4aa;
+            --accent-purple: #8b5cf6;
+            --accent-blue: #3b82f6;
         }
 
         * {
@@ -26,127 +28,305 @@
         body {
             font-family: 'Rajdhani', sans-serif;
             background: var(--bg-dark);
-            color: var(--text-primary);
+            color: var(--text);
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 40px 20px;
+            line-height: 1.6;
         }
 
         .container {
-            max-width: 800px;
-            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
             text-align: center;
+            padding: 3rem 0;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 3rem;
         }
 
         h1 {
             font-family: 'Orbitron', sans-serif;
-            font-size: 4rem;
-            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            font-size: 3rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, var(--accent-orange), var(--accent-teal));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 6px;
+            margin-bottom: 0.5rem;
+            letter-spacing: 4px;
         }
 
         .tagline {
-            font-size: 1.4rem;
-            color: var(--text-secondary);
-            margin-bottom: 60px;
+            color: var(--text-muted);
+            font-size: 1.3rem;
             letter-spacing: 2px;
         }
 
-        .nav-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-            margin-bottom: 60px;
-        }
-
-        .nav-card {
-            background: var(--bg-card);
-            border: 2px solid var(--border-color);
-            border-radius: 16px;
-            padding: 30px 25px;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .nav-card:hover {
-            border-color: var(--accent-secondary);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 40px rgba(78, 205, 196, 0.15);
-        }
-
-        .nav-card.primary {
-            border-color: var(--accent-primary);
-            background: linear-gradient(135deg, var(--bg-card), rgba(255,107,53,0.1));
-        }
-
-        .nav-card.primary:hover {
-            border-color: var(--accent-primary);
-            box-shadow: 0 10px 40px rgba(255, 107, 53, 0.2);
-        }
-
-        .nav-icon {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-        }
-
-        .nav-card h2 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.1rem;
-            color: var(--text-primary);
-            margin-bottom: 8px;
-            letter-spacing: 1px;
-        }
-
-        .nav-card p {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            line-height: 1.4;
-        }
-
-        .features {
+        .features-bar {
             display: flex;
             justify-content: center;
-            gap: 40px;
+            gap: 2rem;
             flex-wrap: wrap;
-            margin-bottom: 60px;
+            margin-top: 1.5rem;
         }
 
-        .feature {
+        .feature-item {
             text-align: center;
         }
 
         .feature-label {
-            font-size: 0.8rem;
-            color: var(--accent-secondary);
+            font-size: 0.75rem;
+            color: var(--accent-teal);
             text-transform: uppercase;
             letter-spacing: 2px;
-            margin-bottom: 5px;
         }
 
         .feature-value {
-            font-size: 1.1rem;
-            color: var(--text-primary);
+            font-size: 1rem;
+            color: var(--text);
             font-weight: 600;
         }
 
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .nav-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+            display: block;
+        }
+
+        .nav-card:hover {
+            border-color: var(--accent-teal);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 212, 170, 0.15);
+        }
+
+        .nav-card.primary {
+            border-color: var(--accent-orange);
+            border-width: 2px;
+            background: linear-gradient(135deg, var(--bg-card), rgba(255,107,53,0.08));
+        }
+
+        .nav-card.primary:hover {
+            border-color: var(--accent-orange);
+            box-shadow: 0 8px 24px rgba(255, 107, 53, 0.2);
+        }
+
+        .nav-card.action {
+            border-color: var(--accent-purple);
+            border-width: 2px;
+            background: linear-gradient(135deg, var(--bg-card), rgba(139,92,246,0.08));
+        }
+
+        .nav-card.action:hover {
+            border-color: var(--accent-purple);
+            box-shadow: 0 8px 24px rgba(139, 92, 246, 0.2);
+        }
+
+        .nav-card.action .card-title {
+            color: var(--accent-purple);
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .card-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .section {
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            color: var(--accent-teal);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, var(--accent-teal), transparent);
+        }
+
+        .standards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .standard-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.2s ease;
+        }
+
+        .standard-card:hover {
+            background: var(--bg-hover);
+            border-color: var(--accent-purple);
+        }
+
+        .standard-card .title {
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 0.25rem;
+        }
+
+        .standard-card .desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .quick-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .quick-link {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            color: var(--text);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .quick-link:hover {
+            background: var(--bg-hover);
+            border-color: var(--accent-purple);
+        }
+
+        .quick-link.external::after {
+            content: ' ↗';
+            color: var(--text-muted);
+        }
+
+        .status-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .status-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .status-badge {
+            background: var(--accent-orange);
+            color: var(--bg-dark);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .team-member {
+            text-align: center;
+            padding: 1rem 0.5rem;
+            background: var(--bg-hover);
+            border-radius: 8px;
+            border: 1px solid transparent;
+        }
+
+        .team-member .name {
+            font-weight: 600;
+            color: var(--text);
+            font-size: 0.95rem;
+        }
+
+        .team-member .role {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .team-member.admin {
+            border-color: var(--accent-orange);
+        }
+
+        .team-member.admin .name {
+            color: var(--accent-orange);
+        }
+
+        .pipeline-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .pipeline-section object,
+        .pipeline-section img {
+            max-width: 100%;
+            height: auto;
+            margin-top: 1rem;
+        }
+
+        .pipeline-fallback {
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
         footer {
-            color: var(--text-secondary);
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
             font-size: 0.9rem;
         }
 
         footer a {
-            color: var(--accent-secondary);
+            color: var(--accent-teal);
             text-decoration: none;
         }
 
@@ -155,75 +335,165 @@
         }
 
         @media (max-width: 600px) {
-            h1 {
-                font-size: 2.5rem;
-                letter-spacing: 3px;
+            .container {
+                padding: 1rem;
             }
+
+            h1 {
+                font-size: 2rem;
+                letter-spacing: 2px;
+            }
+
             .tagline {
                 font-size: 1.1rem;
             }
+
             .nav-grid {
                 grid-template-columns: 1fr;
             }
-            .features {
-                gap: 25px;
+
+            .features-bar {
+                gap: 1rem;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Hybrid Gene</h1>
-        <p class="tagline">Breed. Train. Battle.</p>
+        <header>
+            <h1>HYBRID GENE</h1>
+            <p class="tagline">Breed. Train. Battle.</p>
+            <div class="features-bar">
+                <div class="feature-item">
+                    <div class="feature-label">Combat</div>
+                    <div class="feature-value">Real-Time</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-label">Monsters</div>
+                    <div class="feature-value">100+</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-label">Species</div>
+                    <div class="feature-value">4 Types</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-label">Generations</div>
+                    <div class="feature-value">G1 → G4</div>
+                </div>
+            </div>
+        </header>
 
-        <div class="nav-grid">
-            <a href="monster-battler-summary.html" class="nav-card primary">
-                <span class="nav-icon">&#9876;</span>
-                <h2>Game Overview</h2>
-                <p>Visual design summary with species, stats, and core mechanics</p>
+        <!-- Main Navigation -->
+        <section class="nav-grid">
+            <a href="task-board.html" class="nav-card primary">
+                <div class="card-icon">&#9881;</div>
+                <div class="card-title">TASK BOARD</div>
+                <div class="card-desc">Claim tasks, track progress, coordinate development</div>
             </a>
 
             <a href="docs/HybridGene-GDD.html" class="nav-card">
-                <span class="nav-icon">&#9998;</span>
-                <h2>Design Document</h2>
-                <p>Full GDD with vision, systems, and scope priorities</p>
+                <div class="card-icon">&#128214;</div>
+                <div class="card-title">GAME DESIGN</div>
+                <div class="card-desc">GDD - Vision, mechanics, systems overview</div>
             </a>
 
             <a href="docs/HybridGene-TechSpec.html" class="nav-card">
-                <span class="nav-icon">&#9881;</span>
-                <h2>Technical Spec</h2>
-                <p>Data structures, formulas, and implementation details</p>
+                <div class="card-icon">&#128736;</div>
+                <div class="card-title">TECHNICAL SPEC</div>
+                <div class="card-desc">Data structures, algorithms, implementation</div>
             </a>
 
-            <a href="task-board.html" class="nav-card">
-                <span class="nav-icon">&#9744;</span>
-                <h2>Task Board</h2>
-                <p>Claim tasks and coordinate development work</p>
+            <a href="questionnaires/conflicts-form.html" class="nav-card action">
+                <div class="card-icon">&#9888;</div>
+                <div class="card-title">RESOLVE CONFLICTS</div>
+                <div class="card-desc">4 decisions needed - fill out and submit</div>
             </a>
-        </div>
+        </section>
 
-        <div class="features">
-            <div class="feature">
-                <div class="feature-label">Combat</div>
-                <div class="feature-value">Real-Time</div>
+        <!-- Standards Section -->
+        <section class="section">
+            <h2 class="section-title">STANDARDS</h2>
+            <div class="standards-grid">
+                <a href="Standards/Tilesets-Maps.html" class="standard-card">
+                    <div class="title">Tilesets & Maps</div>
+                    <div class="desc">Crocotile 3D + MZ3D pipeline</div>
+                </a>
+                <a href="Standards/Sprites.html" class="standard-card">
+                    <div class="title">Sprites</div>
+                    <div class="desc">Monster sprites, animations</div>
+                </a>
+                <a href="Standards/Plugins.html" class="standard-card">
+                    <div class="title">Plugins</div>
+                    <div class="desc">MZ plugins, configuration</div>
+                </a>
+                <a href="Standards/Database.html" class="standard-card">
+                    <div class="title">Database</div>
+                    <div class="desc">Monsters, moves, stats</div>
+                </a>
             </div>
-            <div class="feature">
-                <div class="feature-label">Monsters</div>
-                <div class="feature-value">100+</div>
-            </div>
-            <div class="feature">
-                <div class="feature-label">Species</div>
-                <div class="feature-value">4 Types</div>
-            </div>
-            <div class="feature">
-                <div class="feature-label">Generations</div>
-                <div class="feature-value">G1 - G4</div>
-            </div>
-        </div>
+        </section>
 
-        <footer>
-            <p><a href="https://github.com/FAeN399/hybrid-gene">GitHub Repository</a> | <a href="https://arcsolaire.com">Crescent Sun</a></p>
-        </footer>
+        <!-- Quick Reference -->
+        <section class="section">
+            <h2 class="section-title">QUICK REFERENCE</h2>
+            <div class="quick-links">
+                <a href="visuals/pipeline.svg" class="quick-link">Pipeline Flow</a>
+                <a href="visuals/tech-stack.svg" class="quick-link">Tech Stack</a>
+                <a href="team.svg" class="quick-link">Team Roster</a>
+                <a href="https://github.com/FAeN399/hybrid-gene" class="quick-link external" target="_blank">GitHub</a>
+                <a href="monster-battler-summary.html" class="quick-link">Visual Summary</a>
+                <a href="Standards/Tilesets-Maps.html#naming" class="quick-link">Naming Conventions</a>
+            </div>
+        </section>
+
+        <!-- Project Status -->
+        <section class="section">
+            <div class="status-section">
+                <div class="status-header">
+                    <h2 class="section-title" style="margin-bottom: 0; flex: 1;">PROJECT STATUS</h2>
+                    <span class="status-badge">PRE-PRODUCTION</span>
+                </div>
+                <p style="color: var(--text-muted); margin-bottom: 1rem;">Design phase complete. Building documentation and asset standards before implementation.</p>
+
+                <h3 style="color: var(--accent-teal); font-size: 0.9rem; margin-bottom: 0.5rem; letter-spacing: 1px;">TEAM</h3>
+                <div class="team-grid">
+                    <div class="team-member admin">
+                        <div class="name">Dagyr</div>
+                        <div class="role">Programming / Main</div>
+                    </div>
+                    <div class="team-member admin">
+                        <div class="name">Volition</div>
+                        <div class="role">Documentation</div>
+                    </div>
+                    <div class="team-member">
+                        <div class="name">Ruvian</div>
+                        <div class="role">Contributor</div>
+                    </div>
+                    <div class="team-member">
+                        <div class="name">Bear</div>
+                        <div class="role">Sprite Assets</div>
+                    </div>
+                    <div class="team-member">
+                        <div class="name">CureThree</div>
+                        <div class="role">Lighting</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pipeline Preview -->
+        <section class="section">
+            <div class="pipeline-section">
+                <h2 class="section-title" style="justify-content: center;">ASSET PIPELINE</h2>
+                <object data="visuals/pipeline.svg" type="image/svg+xml">
+                    <p class="pipeline-fallback">Pipeline visualization - see visuals/pipeline.svg</p>
+                </object>
+            </div>
+        </section>
     </div>
+
+    <footer>
+        <p>Hybrid Gene &copy; 2025 | <a href="https://arcsolaire.com">Crescent Sun</a></p>
+    </footer>
 </body>
 </html>
