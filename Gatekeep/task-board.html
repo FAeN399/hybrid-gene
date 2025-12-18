@@ -91,6 +91,18 @@
         .task-link.task-2 { border-left: 4px solid var(--accent-teal); }
         .task-link.task-3 { border-left: 4px solid var(--accent-purple); }
         .task-link.task-4 { border-left: 4px solid var(--accent-blue); }
+        .task-link.create-task {
+            border: 2px dashed var(--border-color);
+            border-left: 4px solid var(--accent-teal);
+            background: transparent;
+        }
+        .task-link.create-task:hover {
+            border-color: var(--accent-teal);
+            background: rgba(0, 212, 170, 0.05);
+        }
+        .task-link.create-task h3 {
+            color: var(--accent-teal);
+        }
 
         .task-link h3 {
             font-family: 'Orbitron', monospace;
@@ -404,6 +416,89 @@
                 <h3>Task 4</h3>
                 <p>Database Structure Planning</p>
                 <span class="status" id="status4">OPEN</span>
+            </div>
+            <div class="task-link create-task" onclick="showCreateTask()">
+                <h3>+ Create Task</h3>
+                <p>Add a new task</p>
+            </div>
+        </div>
+
+        <!-- Create Task Section -->
+        <div class="task-section" id="createTask">
+            <div class="task-header">
+                <h2>Create New Task</h2>
+                <button class="back-btn" onclick="showNav()">Back to Tasks</button>
+            </div>
+
+            <form id="createForm" onsubmit="createNewTask(event)">
+                <div class="form-group">
+                    <label for="newTaskTitle">Task Title</label>
+                    <input type="text" id="newTaskTitle" placeholder="e.g. Audio Implementation Planning" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="newTaskName">Your Name</label>
+                        <input type="text" id="newTaskName" placeholder="Enter your name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="newTaskRole">Role</label>
+                        <select id="newTaskRole">
+                            <option value="Lead">Lead</option>
+                            <option value="Support">Support</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="newTaskStatus">Status</label>
+                        <select id="newTaskStatus">
+                            <option value="ASSIGNED">ASSIGNED</option>
+                            <option value="ACTIVE">ACTIVE</option>
+                            <option value="PAUSED">PAUSED</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="newTaskTimeline">Timeline</label>
+                        <select id="newTaskTimeline">
+                            <option value="1 week">1 week</option>
+                            <option value="2 weeks">2 weeks</option>
+                            <option value="1 month">1 month</option>
+                            <option value="TBD">TBD</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="newTaskPlan">Your Plan</label>
+                    <textarea id="newTaskPlan" placeholder="What's your approach? What will you do?"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Deliverables</label>
+                    <p class="hint">Add what you plan to deliver</p>
+                    <div class="deliverables-section">
+                        <div class="deliverable-input-row">
+                            <input type="text" id="newTaskDeliverable" placeholder="Add a deliverable...">
+                            <button type="button" class="add-btn" onclick="addNewTaskDeliverable()">+ Add</button>
+                        </div>
+                        <div class="deliverable-list" id="newTaskDeliverableList"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="newTaskNotes">Notes</label>
+                    <textarea id="newTaskNotes" class="small" placeholder="Blockers, questions, dependencies..."></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">Create Task</button>
+            </form>
+
+            <div class="output-section" id="createOutput">
+                <h3>Generated Markdown</h3>
+                <div class="output-box" id="createOutputBox"></div>
+                <button class="copy-btn" onclick="copyCreateOutput()">Copy to Clipboard</button>
             </div>
         </div>
 
@@ -720,16 +815,120 @@
             4: []
         };
 
+        // New task deliverables
+        let newTaskDeliverables = [];
+        let taskCounter = 4;
+
         function showTask(taskNum) {
             document.getElementById('taskNav').style.display = 'none';
             document.querySelectorAll('.task-section').forEach(s => s.classList.remove('active'));
             document.getElementById('task' + taskNum).classList.add('active');
         }
 
+        function showCreateTask() {
+            document.getElementById('taskNav').style.display = 'none';
+            document.querySelectorAll('.task-section').forEach(s => s.classList.remove('active'));
+            document.getElementById('createTask').classList.add('active');
+        }
+
         function showNav() {
             document.querySelectorAll('.task-section').forEach(s => s.classList.remove('active'));
             document.getElementById('taskNav').style.display = 'grid';
         }
+
+        function addNewTaskDeliverable() {
+            const input = document.getElementById('newTaskDeliverable');
+            const text = input.value.trim();
+            if (!text) return;
+
+            newTaskDeliverables.push({ text, done: false });
+            input.value = '';
+            renderNewTaskDeliverables();
+        }
+
+        function removeNewTaskDeliverable(index) {
+            newTaskDeliverables.splice(index, 1);
+            renderNewTaskDeliverables();
+        }
+
+        function toggleNewTaskDeliverable(index) {
+            newTaskDeliverables[index].done = !newTaskDeliverables[index].done;
+        }
+
+        function renderNewTaskDeliverables() {
+            const list = document.getElementById('newTaskDeliverableList');
+            list.innerHTML = '';
+
+            newTaskDeliverables.forEach((d, i) => {
+                const item = document.createElement('div');
+                item.className = 'deliverable-item';
+                item.innerHTML = `
+                    <input type="checkbox" ${d.done ? 'checked' : ''} onchange="toggleNewTaskDeliverable(${i})">
+                    <span>${d.text}</span>
+                    <button type="button" class="remove-btn" onclick="removeNewTaskDeliverable(${i})">x</button>
+                `;
+                list.appendChild(item);
+            });
+        }
+
+        function createNewTask(event) {
+            event.preventDefault();
+
+            const title = document.getElementById('newTaskTitle').value;
+            const name = document.getElementById('newTaskName').value;
+            const role = document.getElementById('newTaskRole').value;
+            const status = document.getElementById('newTaskStatus').value;
+            const timeline = document.getElementById('newTaskTimeline').value;
+            const plan = document.getElementById('newTaskPlan').value;
+            const notes = document.getElementById('newTaskNotes').value;
+
+            taskCounter++;
+
+            // Generate markdown
+            let markdown = `## Task ${taskCounter}: ${title}\n\n`;
+            markdown += `**Status**: ${status}\n`;
+            markdown += `**Assigned**: ${name}${role === 'Support' ? ' (Support)' : ''}\n`;
+            markdown += `**Timeline**: ${timeline}\n\n`;
+
+            if (plan) {
+                markdown += `### Plan\n${plan}\n\n`;
+            }
+
+            if (newTaskDeliverables.length > 0) {
+                markdown += `### Deliverables\n`;
+                newTaskDeliverables.forEach(d => {
+                    markdown += `- [${d.done ? 'x' : ' '}] ${d.text}\n`;
+                });
+                markdown += '\n';
+            }
+
+            if (notes) {
+                markdown += `### Notes\n${notes}\n`;
+            }
+
+            markdown += `\n---\n*Created: ${new Date().toLocaleDateString()}*`;
+
+            // Show output
+            document.getElementById('createOutputBox').textContent = markdown;
+            document.getElementById('createOutput').classList.add('active');
+        }
+
+        function copyCreateOutput() {
+            const text = document.getElementById('createOutputBox').textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = event.target;
+                btn.textContent = 'Copied!';
+                setTimeout(() => btn.textContent = 'Copy to Clipboard', 2000);
+            });
+        }
+
+        // Enter key for new task deliverable
+        document.getElementById('newTaskDeliverable').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                addNewTaskDeliverable();
+            }
+        });
 
         function addDeliverable(taskNum) {
             const input = document.getElementById('newDeliverable' + taskNum);
