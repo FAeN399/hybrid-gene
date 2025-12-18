@@ -42,31 +42,32 @@ Active development roles and assignments.
 
 ---
 
-## Task 2: Sprite Collections
+## Task 2: Sprite Implementation Planning
 
 **Status**: OPEN
 **Assigned**: —
 **Support**: —
 
 ### Scope
-- Monster sprites (100+ creatures across 4 generations)
-- Character sprites (player, NPCs, arena masters)
-- Animation frames for combat actions
-- Battler graphics for combat system
+- Research sprite workflow for RPG Maker MZ
+- Define art style direction (pixel art vs. hand-drawn)
+- Evaluate asset sources (custom vs. commissions vs. generators)
+- Test sprite sheet format with sample character
+- Document animation frame requirements
 
 ### Deliverables
-- [ ] G1 monster sprites (16 real animals, 4 per species)
-- [ ] G2 monster sprites (exotic hybrids)
-- [ ] G3 monster sprites (mythological)
-- [ ] G4 monster sprites (6+ deity-tier secrets)
-- [ ] Player/NPC character sheets
-- [ ] Attack/ability animations
-- [ ] Status effect visual indicators
+- [ ] Art style decision document
+- [ ] Asset source strategy (create, commission, or mix)
+- [ ] Sample sprite test (1 monster proof-of-concept)
+- [ ] MZ sprite sheet format guide (dimensions, frames)
+- [ ] Animation requirements per creature type
+- [ ] Tool recommendations for sprite creation
+- [ ] Create `Standards/Sprites.md` with finalized specs
 
 ### Skills Needed
-- Pixel art / sprite animation
-- Consistency across 100+ designs
-- Understanding of MZ sprite sheet format
+- RPG Maker MZ sprite understanding
+- Research / evaluation
+- Basic art for testing concepts
 
 ---
 
