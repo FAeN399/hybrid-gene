@@ -2,7 +2,7 @@
 ## Game Design Document
 
 **Version**: 1.0
-**Last Updated**: December 2024
+**Last Updated**: December 2025
 **Status**: Pre-Production
 
 ---

@@ -105,16 +105,17 @@ Decisions pending resolution.
 ## Technical Decisions
 
 ### Engine/Framework
-**Status**: Open
+**Status**: DECIDED
 **Priority**: High
 **Options**:
-1. **Godot** - Free, 2D strong, GDScript or C#
-2. **Unity** - Industry standard, C#, asset store
-3. **Custom** - Full control, more work
-4. **RPG Maker MZ** - Fast prototyping, limited for real-time combat
+1. Godot - Free, 2D strong, GDScript or C#
+2. Unity - Industry standard, C#, asset store
+3. Custom - Full control, more work
+4. **RPG Maker MZ** - Fast prototyping, plugin ecosystem
 
-**Decision**:
-**Date**:
+**Decision**: RPG Maker MZ
+**Date**: December 2025
+**Notes**: Real-time combat will require plugins (VisuStella or custom). See Gemini's workflow doc for team collaboration setup.
 
 ---
 
@@ -150,4 +151,4 @@ Decisions pending resolution.
 
 ---
 
-*Last reviewed: December 2024*
+*Last reviewed: December 2025*

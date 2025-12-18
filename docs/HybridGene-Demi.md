@@ -326,4 +326,4 @@ Feel ←→ Autonomy
 **Hybrid Gene**
 *A game about raising creatures with opinions.*
 
-*Last touched: December 2024*
+*Last touched: December 2025*

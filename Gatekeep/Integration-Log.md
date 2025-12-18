@@ -20,7 +20,7 @@ Record of all merges and significant changes.
 
 ## Log
 
-### 2024-12-18 - Initial Documentation
+### 2025-12-18 - Initial Documentation
 **Branch**: main (initial commit)
 **Author**: Gatekeeper
 **Files Changed**: 19
@@ -30,7 +30,7 @@ Record of all merges and significant changes.
 
 ---
 
-### 2024-12-18 - GitHub Pages Landing
+### 2025-12-18 - GitHub Pages Landing
 **Branch**: main
 **Author**: Gatekeeper
 **Files Changed**: 1 (index.html)

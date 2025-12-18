@@ -1,16 +1,23 @@
 # Gatekeep
 
-Integration management and quality control hub.
+Task coordination and standards documentation.
 
 ---
 
 ## Purpose
 
-The Gatekeeper ensures:
-- No ID collisions between team members
-- Clean merges into main branch
-- Feature completeness before integration
-- Consistent quality standards
+**Document before you build.**
+
+Gatekeep ensures team members work in compatible ways by defining standards BEFORE work begins. If a task doesn't have documentation here, it shouldn't be started.
+
+---
+
+## How It Works
+
+1. **Task identified** — Someone wants to work on tilesets, monsters, UI, etc.
+2. **Standards documented** — Gatekeep file created defining specs, formats, conventions
+3. **Task assigned** — Work can begin with clear guidelines
+4. **Updates logged** — Any changes to standards go through Gatekeep
 
 ---
 
@@ -18,21 +25,32 @@ The Gatekeeper ensures:
 
 | File | Purpose |
 |------|---------|
-| `ID-Register.md` | Master list of assigned ID ranges |
-| `Integration-Log.md` | Record of merges and changes |
-| `Checklist.md` | QA verification checklist |
-| `Open-Questions.md` | TBD decisions tracker |
+| `Tasks.md` | Active tasks and assignments |
+| `Standards/` | How-to documentation for each system |
+| `ID-Register.md` | Master ID allocation |
+| `Open-Questions.md` | Decisions pending resolution |
 
 ---
 
-## Workflow
+## Standards Index
 
-1. Feature branch submitted for review
-2. Gatekeeper verifies ID compliance
-3. Checklist passes
-4. Merge to dev/main
-5. Log the integration
+Before working on any system, check for its standards doc:
+
+- `Standards/Tilesets.md` — Tile dimensions, layering, naming
+- `Standards/Monsters.md` — Sprite specs, animation frames, naming
+- `Standards/Audio.md` — Formats, volumes, naming conventions
+- `Standards/UI.md` — Colors, fonts, component specs
+- `Standards/Data.md` — JSON structure, file organization
 
 ---
 
-*The Gatekeeper is the bottleneck by design.*
+## Rules
+
+1. **No standards = No work** — Don't start without documentation
+2. **One source of truth** — Gatekeep is the authority
+3. **Update before deviating** — Change the doc first, then the work
+4. **Ask if unclear** — Ambiguity causes incompatibility
+
+---
+
+*The Gatekeeper prevents rework.*

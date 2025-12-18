@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Request - Hybrid Gene Gatekeep</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0a0f;
+            --bg-card: #12121a;
+            --bg-input: #1a1a25;
+            --accent-primary: #ff6b35;
+            --accent-secondary: #4ecdc4;
+            --accent-tertiary: #a855f7;
+            --text-primary: #e8e8e8;
+            --text-secondary: #a0a0a0;
+            --border-color: #2a2a3a;
+            --success: #4ade80;
+            --warning: #fbbf24;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, var(--bg-card), rgba(255,107,53,0.05));
+            border: 1px solid var(--accent-primary);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .info-box p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .info-box strong {
+            color: var(--accent-primary);
+        }
+
+        form {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+
+        label .required {
+            color: var(--accent-primary);
+        }
+
+        label .hint {
+            font-weight: 400;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            display: block;
+            margin-top: 4px;
+        }
+
+        input[type="text"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 14px 16px;
+            background: var(--bg-input);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--accent-secondary);
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%234ecdc4' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+        }
+
+        select option {
+            background: var(--bg-dark);
+            color: var(--text-primary);
+        }
+
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 15px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .checkbox-item:hover {
+            border-color: var(--accent-secondary);
+        }
+
+        .checkbox-item input {
+            display: none;
+        }
+
+        .checkbox-item input:checked + .checkmark {
+            background: var(--accent-secondary);
+            border-color: var(--accent-secondary);
+        }
+
+        .checkbox-item input:checked + .checkmark::after {
+            display: block;
+        }
+
+        .checkmark {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border-color);
+            border-radius: 4px;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .checkmark::after {
+            content: '';
+            display: none;
+            position: absolute;
+            left: 6px;
+            top: 2px;
+            width: 5px;
+            height: 10px;
+            border: solid var(--bg-dark);
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+
+        .checkbox-label {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .priority-group {
+            display: flex;
+            gap: 15px;
+        }
+
+        .priority-option {
+            flex: 1;
+            text-align: center;
+        }
+
+        .priority-option input {
+            display: none;
+        }
+
+        .priority-option label {
+            display: block;
+            padding: 12px;
+            background: var(--bg-input);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .priority-option input:checked + label {
+            border-color: var(--accent-secondary);
+            background: rgba(78, 205, 196, 0.1);
+        }
+
+        .priority-option.high input:checked + label {
+            border-color: var(--accent-primary);
+            background: rgba(255, 107, 53, 0.1);
+        }
+
+        .priority-option.low input:checked + label {
+            border-color: var(--accent-tertiary);
+            background: rgba(168, 85, 247, 0.1);
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--accent-primary), #ff8c5a);
+            border: none;
+            border-radius: 8px;
+            color: var(--bg-dark);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(255, 107, 53, 0.3);
+        }
+
+        .output-section {
+            margin-top: 40px;
+            display: none;
+        }
+
+        .output-section.visible {
+            display: block;
+        }
+
+        .output-section h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            color: var(--accent-secondary);
+            margin-bottom: 15px;
+        }
+
+        .output-box {
+            background: var(--bg-card);
+            border: 1px solid var(--accent-secondary);
+            border-radius: 8px;
+            padding: 20px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            white-space: pre-wrap;
+            color: var(--text-secondary);
+            position: relative;
+        }
+
+        .btn-copy {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 8px 16px;
+            background: var(--accent-secondary);
+            border: none;
+            border-radius: 6px;
+            color: var(--bg-dark);
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        .btn-copy:hover {
+            background: var(--accent-primary);
+        }
+
+        .btn-copy.copied {
+            background: var(--success);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: var(--accent-secondary);
+            text-decoration: none;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.5rem; }
+            form { padding: 20px; }
+            .priority-group { flex-direction: column; }
+            .checkbox-group { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Task Request</h1>
+            <p class="subtitle">Submit work for documentation and assignment</p>
+        </header>
+
+        <div class="info-box">
+            <p><strong>How this works:</strong> Submit your task request here. The Gatekeeper will create standards documentation before assigning work. This prevents team members from working in incompatible ways.</p>
+        </div>
+
+        <form id="taskForm">
+            <div class="form-group">
+                <label>
+                    Task Name <span class="required">*</span>
+                    <span class="hint">Short, descriptive title</span>
+                </label>
+                <input type="text" id="taskName" required placeholder="e.g., Insect Region Tileset">
+            </div>
+
+            <div class="form-group">
+                <label>
+                    Category <span class="required">*</span>
+                </label>
+                <select id="category" required>
+                    <option value="">Select category...</option>
+                    <option value="Art - Tilesets">Art - Tilesets</option>
+                    <option value="Art - Monsters">Art - Monsters</option>
+                    <option value="Art - UI">Art - UI</option>
+                    <option value="Art - Effects">Art - Effects</option>
+                    <option value="Audio - Music">Audio - Music</option>
+                    <option value="Audio - SFX">Audio - SFX</option>
+                    <option value="Code - Combat">Code - Combat</option>
+                    <option value="Code - Breeding">Code - Breeding</option>
+                    <option value="Code - AI">Code - AI</option>
+                    <option value="Code - UI">Code - UI</option>
+                    <option value="Code - Systems">Code - Systems</option>
+                    <option value="Design - Monsters">Design - Monsters</option>
+                    <option value="Design - Moves">Design - Moves</option>
+                    <option value="Design - Balance">Design - Balance</option>
+                    <option value="Design - Levels">Design - Levels</option>
+                    <option value="Writing - Dialogue">Writing - Dialogue</option>
+                    <option value="Writing - Lore">Writing - Lore</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>
+                    Description <span class="required">*</span>
+                    <span class="hint">What needs to be done? Be specific.</span>
+                </label>
+                <textarea id="description" required placeholder="Describe the task, what it involves, and what the end result should be..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>
+                    Standards Needed
+                    <span class="hint">What documentation is required before starting?</span>
+                </label>
+                <div class="checkbox-group">
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="standards" value="File format specs">
+                        <span class="checkmark"></span>
+                        <span class="checkbox-label">File formats</span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="standards" value="Naming conventions">
+                        <span class="checkmark"></span>
+                        <span class="checkbox-label">Naming rules</span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="standards" value="Dimensions/sizes">
+                        <span class="checkmark"></span>
+                        <span class="checkbox-label">Dimensions</span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="standards" value="Color palette">
+                        <span class="checkmark"></span>
+                        <span class="checkbox-label">Color palette</span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="standards" value="ID allocation">
+                        <span class="checkmark"></span>
+                        <span class="checkbox-label">ID allocation</span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="standards" value="Data structure">
+                        <span class="checkmark"></span>
+                        <span class="checkbox-label">Data structure</span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="standards" value="Code patterns">
+                        <span class="checkmark"></span>
+                        <span class="checkbox-label">Code patterns</span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="standards" value="Other (specify in notes)">
+                        <span class="checkmark"></span>
+                        <span class="checkbox-label">Other</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>
+                    Dependencies / Blockers
+                    <span class="hint">What must be decided or completed first?</span>
+                </label>
+                <textarea id="blockers" placeholder="e.g., Needs engine selection, art style decision, etc."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Priority</label>
+                <div class="priority-group">
+                    <div class="priority-option high">
+                        <input type="radio" name="priority" id="high" value="High">
+                        <label for="high">High</label>
+                    </div>
+                    <div class="priority-option">
+                        <input type="radio" name="priority" id="medium" value="Medium" checked>
+                        <label for="medium">Medium</label>
+                    </div>
+                    <div class="priority-option low">
+                        <input type="radio" name="priority" id="low" value="Low">
+                        <label for="low">Low</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>
+                    Requested By <span class="required">*</span>
+                </label>
+                <input type="text" id="requestedBy" required placeholder="Your name">
+            </div>
+
+            <div class="form-group">
+                <label>
+                    Additional Notes
+                    <span class="hint">References, examples, constraints, questions</span>
+                </label>
+                <textarea id="notes" placeholder="Any other information that would help document this task..."></textarea>
+            </div>
+
+            <button type="submit" class="btn-submit">Generate Task Request</button>
+        </form>
+
+        <div class="output-section" id="outputSection">
+            <h2>Task Request Output</h2>
+            <div class="output-box" id="outputBox">
+                <button class="btn-copy" id="copyBtn">Copy</button>
+                <pre id="outputText"></pre>
+            </div>
+            <p style="margin-top: 15px; color: var(--text-secondary); font-size: 0.9rem;">
+                Copy this and add to <code>Gatekeep/Tasks.md</code> or send to the Gatekeeper.
+            </p>
+        </div>
+
+        <footer>
+            <p><a href="../index.html">Back to Hybrid Gene</a> | <a href="Tasks.md">View Tasks</a></p>
+        </footer>
+    </div>
+
+    <script>
+        document.getElementById('taskForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const taskName = document.getElementById('taskName').value;
+            const category = document.getElementById('category').value;
+            const description = document.getElementById('description').value;
+            const blockers = document.getElementById('blockers').value || 'None identified';
+            const priority = document.querySelector('input[name="priority"]:checked').value;
+            const requestedBy = document.getElementById('requestedBy').value;
+            const notes = document.getElementById('notes').value;
+
+            const standardsChecked = [];
+            document.querySelectorAll('input[name="standards"]:checked').forEach(cb => {
+                standardsChecked.push(cb.value);
+            });
+            const standards = standardsChecked.length > 0 ? standardsChecked.join(', ') : 'TBD';
+
+            const today = new Date().toISOString().split('T')[0];
+
+            const output = `### ${taskName}
+**Status**: BLOCKED
+**Category**: ${category}
+**Priority**: ${priority}
+**Requested By**: ${requestedBy}
+**Date**: ${today}
+
+**Description**:
+${description}
+
+**Standards Required**:
+${standards}
+
+**Blocked By**:
+${blockers}
+
+**Notes**:
+${notes || 'None'}
+
+---`;
+
+            document.getElementById('outputText').textContent = output;
+            document.getElementById('outputSection').classList.add('visible');
+
+            // Scroll to output
+            document.getElementById('outputSection').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        document.getElementById('copyBtn').addEventListener('click', function() {
+            const text = document.getElementById('outputText').textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                this.textContent = 'Copied!';
+                this.classList.add('copied');
+                setTimeout(() => {
+                    this.textContent = 'Copy';
+                    this.classList.remove('copied');
+                }, 2000);
+            });
+        });
+    </script>
+</body>
+</html>
