@@ -14,29 +14,31 @@ Active development roles and assignments.
 
 ---
 
-## Task 1: Tilesets & Maps
+## Task 1: Tileset Implementation Planning
 
 **Status**: OPEN
 **Assigned**: —
 **Support**: —
 
 ### Scope
-- Create tilesets for 4 regions (Insect, Mammal, Reptilian, Avian)
-- Build world maps (~20 screens per region)
-- Design caves, structures, arena interiors
-- Follow `Standards/Tilesets.md` (48x48px, MZ format)
+- Research tileset workflow for RPG Maker MZ
+- Evaluate asset sources (custom art vs. asset packs vs. RTP)
+- Define pipeline from concept to in-engine
+- Test auto-tile format with sample tiles
+- Document process for future asset creation
 
 ### Deliverables
-- [ ] A1-A5 tilesets per region (ground, water, walls)
-- [ ] B-E tilesets per region (objects, decorations)
-- [ ] Overworld maps (80+ screens total)
-- [ ] Interior maps (arenas, caves, buildings)
-- [ ] Passability settings documented
+- [ ] Workflow document (how tiles go from idea to MZ)
+- [ ] Asset source decision (create, buy, or mix)
+- [ ] Sample tileset test (1 region proof-of-concept)
+- [ ] Tool recommendations (Aseprite, Photoshop, etc.)
+- [ ] Template files for each tileset type (A1-E)
+- [ ] Update `Standards/Tilesets.md` with finalized process
 
 ### Skills Needed
-- Pixel art (48x48 tile creation)
-- RPG Maker MZ map editor
-- Understanding of auto-tile format
+- RPG Maker MZ tileset understanding
+- Research / evaluation
+- Basic pixel art for testing
 
 ---
 
